@@ -1,17 +1,18 @@
-OBJECTS=priorityqueue.o
-CDFLAGS=
-CC=gcc
+SOURCES.c = main.c priorityqueue.c linkedlist.c
+INCLUDES = priorityqueue.h linkedlist.h
+CFLAGS = -g -std=c99
+SLIBS = 
+PROGRAM = main
 
-all: priorityqueue
+OBJECTS= $(SOURCES.c:.c=.o)
 
-priorityqueue.o: priorityqueue.c priorityqueue.h
-	gcc -c priorityqueue.c
+all: $(PROGRAM)
 
-priorityqueue: priorityqueue.o
-	gcc -o priorityqueue priorityqueue.o
+$(PROGRAM): $(INCLUDES) $(OBJECTS)
+	$(LINK.c) -o $@ $(OBJECTS) $(SLIBS)
 
 clean:
-	rm $(OBJECTS)
+	rm -f $(PROGRAM) $(OBJECTS)
 
 help:
 	@echo Type "make all" to build
