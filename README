@@ -1,6 +1,15 @@
 Make a heap library.
 Make src, lib, bin, and tests folder
 Edit Makefile
+Testing Library: Check (http://check.sourceforge.net/)
+Makefile tutorials:
+ * http://www.cs.cf.ac.uk/Dave/C/node35.html
+ * http://sunsite.ualberta.ca/Documentation/Gnu/make-3.79/html_chapter/make_3.html
+ * http://www.cs.umd.edu/class/fall2002/cmsc214/Tutorial/makefile.html
+ * http://web.mit.edu/gnu/doc/html/make_toc.html#SEC15
+ * http://www.cprogramming.com/tutorial/makefiles_continued.html
+ * http://stackoverflow.com/questions/1139271/makefiles-with-source-files-in-different-directories
+ * http://www.gnu.org/s/hello/manual/make/Phony-Targets.html
 
 a-star-search/
 	README
