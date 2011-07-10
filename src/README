@@ -1,0 +1,32 @@
+Make a heap library.
+Make src, lib, bin, and tests folder
+Edit Makefile
+
+a-star-search/
+	README
+	Makefile
+	src/
+		Makefile
+		lib/
+			Makefile
+			priorityqueue.c
+			priorityqueue.h
+			heap.c
+			heap.h
+			a_star_search.h
+			a_star_search.c
+		fifteen-puzzle/
+			Makefile
+			fifteen_puzzle.h
+			fifteen_puzzle.c
+	tests/
+		lib/
+			Makefile
+			test_priorityqueue
+			test_heap
+			test_a_star_search
+		fifteen-puzzle/
+			Makefile
+			test_fifteen_puzzle
+	bin/
+		fifteen_puzzle_solver

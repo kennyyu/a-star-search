@@ -1,18 +1,17 @@
-SOURCES.c = main.c priorityqueue.c linkedlist.c
-INCLUDES = priorityqueue.h linkedlist.h
-CFLAGS = -g -std=c99
-SLIBS = 
-PROGRAM = main
+SOURCE = src
+TESTS = tests
 
-OBJECTS= $(SOURCES.c:.c=.o)
+all: $(SOURCE) $(TESTS)
+	$(MAKE) -C $(SOURCE) all
+	$(MAKE) -C $(TESTS) all
 
-all: $(PROGRAM)
-
-$(PROGRAM): $(INCLUDES) $(OBJECTS)
-	$(LINK.c) -o $@ $(OBJECTS) $(SLIBS)
-
+check: $(TESTS)
+	$(MAKE) -C $(TESTS) check
+	
 clean:
-	rm -f $(PROGRAM) $(OBJECTS)
+	$(MAKE) -C $(SOURCE) clean
+	$(MAKE) -C $(TESTS) clean
 
 help:
-	@echo Type "make all" to build
+	@echo "make" or "make all" to build src and tests
+	@echo "make check" to run tests
