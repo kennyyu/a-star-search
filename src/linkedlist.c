@@ -118,6 +118,21 @@ void *list_get_next(linkedlist list, void *item) {
 	return NULL;
 }
 
+void *list_get(linkedlist list, int index) {
+	if (!list)
+		return NULL;
+	if (!list->size)
+		return NULL;
+	if ((index < 0) || (index >= list->size))
+		return NULL;
+	
+	_list_node current = list->head;
+	for (int i = 0; i < index; i++) {
+		current = current->next;
+	}
+	return current->data;
+}
+
 void **list_to_array(linkedlist list) {
 	if (!list || list->size == 0)
 		return NULL;
@@ -233,27 +248,82 @@ int list_add_next(linkedlist list, void *after, void *item) {
 void *list_remove_first(linkedlist list) {
 	if (!list)
 		return NULL;
-		
-	/* list is empty */
 	if (!list->head)
 		return NULL;	
 	
 	void *item = list->head->data;
+	
+	/* check if only one item in list */
+	if (list->head == list->tail)
+		list->tail = list->head->next;
 	list->head = list->head->next;
-	list->head->prev = NULL;
+	
+	/* check if the new head is NULL */
+	if (list->head)
+		list->head->prev = NULL;
+	list->size--;
 	return item;
 }
 
 void *list_remove_last(linkedlist list) {
 	if (!list)
 		return NULL;
-		
-	/* list is empty */
 	if (!list->tail)
 		return NULL;	
 	
 	void *item = list->tail->data;
+
+	/* check if only one item in list */
+	if (list->head == list->tail)
+		list->head = list->tail->prev;
 	list->tail = list->tail->prev;
-	list->tail->next = NULL;
+	
+	/* check if the new head is NULL */
+	if (list->tail)
+		list->tail->next = NULL;
+	list->size--;
 	return item;
 }
+
+int list_remove(linkedlist list, void *item) {
+	if (!list)
+		return ERROR_LIST_IS_NULL;
+	if (!item)
+		return ERROR_LIST_ITEM_IS_NULL;
+	if (list->size == 0)
+		return ERROR_LIST_IS_EMPTY;
+	
+	_list_node current = list->head;
+	while (current) {
+		if (current->data == item) {
+			if (current->prev) {
+				current->prev->next = current->next;
+			} else {
+				/* current is the first item in the list */
+				if (list->tail == list->head) {
+					/* current is the only item in the list */
+					list->tail = current->next;
+				}
+				list->head = current->next;
+			}
+			if (current->next) {
+				current->next->prev = current->prev;
+			} else {
+				/* current is the last item in the list */
+				if (list->tail == list->head) {
+					/* current is the only item in the list */
+					list->head = current->prev;
+				}
+				list->tail = current->prev;
+			}
+			list->size--;
+			return SUCCESS_LIST;
+		}
+		current = current->next;
+	}
+	
+	return ERROR_LIST_ITEM_NOT_FOUND;
+}
+
+
+

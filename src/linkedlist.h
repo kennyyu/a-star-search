@@ -80,6 +80,12 @@ void *list_get_last(linkedlist);
 void *list_get_next(linkedlist, void *);
 
 /*
+ * Returns a pointer to the given index in the list. If the list is NULL, the
+ * list is empty, or if the index is out of bounds, return NULL.
+ */
+void *list_get(linkedlist, int);
+
+/*
  * Returns an array of pointers to the items in the list. They will be
  * returned in the order in which they were added, respecting add_first and
  * add_last. The length of the array will be the size of the array. If the
