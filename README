@@ -1,7 +1,5 @@
-Make a heap library.
-Make src, lib, bin, and tests folder
-Edit Makefile
 Testing Library: Check (http://check.sourceforge.net/)
+
 Makefile tutorials:
  * http://www.cs.cf.ac.uk/Dave/C/node35.html
  * http://sunsite.ualberta.ca/Documentation/Gnu/make-3.79/html_chapter/make_3.html
@@ -14,28 +12,34 @@ Makefile tutorials:
 a-star-search/
 	README
 	Makefile
-	src/
-		Makefile
-		lib/
+	lib/
+		src/
 			Makefile
 			priorityqueue.c
 			priorityqueue.h
 			heap.c
 			heap.h
+			linkedlist.c
+			linkedlist.h
+			queue.c
+			queue.h
+			stack.c
+			stack.h
+		tests/
+			Makefile
+			check_linkedlist.c
+			check_priorityqueue.c
+			check_heap.c
+			check_stack.c
+			check_queue.c
+	fifteen-puzzle/
+		src/
+			Makefile
 			a_star_search.h
 			a_star_search.c
-		fifteen-puzzle/
-			Makefile
 			fifteen_puzzle.h
 			fifteen_puzzle.c
-	tests/
-		lib/
+		tests/
 			Makefile
-			test_priorityqueue
-			test_heap
-			test_a_star_search
-		fifteen-puzzle/
-			Makefile
-			test_fifteen_puzzle
-	bin/
-		fifteen_puzzle_solver
+			test_a_star_search.c
+			test_fifteen_puzzle.c
