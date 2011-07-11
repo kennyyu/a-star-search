@@ -41,5 +41,5 @@ a-star-search/
 			fifteen_puzzle.c
 		tests/
 			Makefile
-			test_a_star_search.c
-			test_fifteen_puzzle.c
+			check_a_star_search.c
+			check_fifteen_puzzle.c
