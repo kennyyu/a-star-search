@@ -1,14 +1,5 @@
 Testing Library: Check (http://check.sourceforge.net/)
 
-Makefile tutorials:
- * http://www.cs.cf.ac.uk/Dave/C/node35.html
- * http://sunsite.ualberta.ca/Documentation/Gnu/make-3.79/html_chapter/make_3.html
- * http://www.cs.umd.edu/class/fall2002/cmsc214/Tutorial/makefile.html
- * http://web.mit.edu/gnu/doc/html/make_toc.html#SEC15
- * http://www.cprogramming.com/tutorial/makefiles_continued.html
- * http://stackoverflow.com/questions/1139271/makefiles-with-source-files-in-different-directories
- * http://www.gnu.org/s/hello/manual/make/Phony-Targets.html
-
 a-star-search/
 	README
 	Makefile
@@ -43,3 +34,40 @@ a-star-search/
 			Makefile
 			check_a_star_search.c
 			check_fifteen_puzzle.c
+			
+==========================
+REFERENCES
+==========================
+
+Makefile tutorials:
+ * http://www.cs.cf.ac.uk/Dave/C/node35.html
+ * http://sunsite.ualberta.ca/Documentation/Gnu/make-3.79/html_chapter/make_3.html
+ * http://www.cs.umd.edu/class/fall2002/cmsc214/Tutorial/makefile.html
+ * http://web.mit.edu/gnu/doc/html/make_toc.html#SEC15
+ * http://www.cprogramming.com/tutorial/makefiles_continued.html
+ * http://stackoverflow.com/questions/1139271/makefiles-with-source-files-in-different-directories
+ * http://www.gnu.org/s/hello/manual/make/Phony-Targets.html
+
+C iterators:
+ * http://pine.cs.yale.edu/pinewiki/C/Iterators
+
+C arrays:
+ * http://c-faq.com/~scs/cclass/int/sx5.html
+
+C function pointers:
+ * http://www.java2s.com/Tutorial/Cpp/0140__Function/Usetypedeftodefineafunctiontypeforfunctionpointer.htm
+ * http://www.newty.de/fpt/fpt.html#r_value
+
+Common C errors:
+ * http://www.drpaulcarter.com/cs/common-c-errors.php
+
+C error handling:
+ * http://en.wikibooks.org/wiki/C_Programming/Error_handling
+ * http://stackoverflow.com/questions/385975/error-handling-in-c-code
+
+C Enums:
+ * http://gnuvince.wordpress.com/2009/09/08/enums-in-c/
+ * http://msdn.microsoft.com/en-us/library/whbyts4t.aspx
+
+Dereferencing Void Pointers
+ * http://forums.devshed.com/c-programming-42/dereference-void-pointer-229122.html

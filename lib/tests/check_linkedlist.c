@@ -397,7 +397,7 @@ END_TEST
 Suite *list_suite(void) {
   Suite *s = suite_create("LinkedList");
 
-  /* Core test case */
+  /* test constructors and destructors */
   TCase *tc_init = tcase_create("Intialize");
   tcase_add_checked_fixture(tc_init, setup, teardown);
   tcase_add_test(tc_init, test_list_create);

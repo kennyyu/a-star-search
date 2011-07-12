@@ -2,14 +2,23 @@ CC = gcc
 CFLAGS = -g -std=c99 -Wall
 SLIBS = -lcheck
 SRC = ../src
-INCLUDES = linkedlist.h
-OBJECTS = check_linkedlist.o
-TESTS = check_linkedlist
+INCLUDES = linkedlist.h queue.h stack.h
+OBJECTS = check_linkedlist.o check_queue.o check_stack.o
+TESTS = check_linkedlist check_queue check_stack
 
 %.o : %.c $(INCLUDES)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-check_%: check_%.o $(SRC)/%.o
+#check_%: check_%.o $(SRC)/%.o
+#	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
+	
+check_linkedlist: check_linkedlist.o $(SRC)/linkedlist.o
+	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
+	
+check_queue: check_queue.o $(SRC)/queue.o $(SRC)/linkedlist.o
+	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
+
+check_stack: check_stack.o $(SRC)/stack.o $(SRC)/linkedlist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
 all: $(TESTS)

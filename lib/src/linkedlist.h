@@ -18,7 +18,7 @@ typedef enum list_error_numbers
 	ERROR_LIST_ITEM_NOT_FOUND = -3,
 	ERROR_LIST_ITEM_IS_NULL = -4,
 	ERROR_LIST_MALLOC_FAIL = -5
-} list_error;
+} list_error_numbers;
 
 /* 
  * Initialize a linkedlist and returns a pointer to the list. If there is not
