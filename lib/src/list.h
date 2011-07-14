@@ -74,7 +74,7 @@ void *list_get(list, int);
  * returned in the order in which they were added, respecting add_first and
  * add_last. The length of the array will be the size of the array. If the
  * list is NULL, this returns NULL. If the length is 0, this returns
- * NULL.
+ * NULL. If malloc fails, this also returns NULL.
  */
 void **list_to_array(list);
 

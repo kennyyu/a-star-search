@@ -116,6 +116,8 @@ void **list_to_array(list li) {
 		return NULL;
 		
 	void **items = malloc(li->size * sizeof(void *));
+	if (!items)
+		return NULL;
 	int counter = 0;
 	_list_node current = li->head;
 	while (current) {

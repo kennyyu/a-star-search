@@ -30,15 +30,17 @@ list list_create() {
 void list_free(list li) {
 	if (!li)
 		return;
-
 	for (int i = 0; i < li->size; i++)
 		free(li->data[i]);
 	free(li->data);
 	free(li);
 }
 
-/* resize the array by doubling it's current array_size */
+/* resize the array by doubling it's current array_size. returns NULL if
+ * the list is NULL or if malloc fails */
 list _list_resize(list li) {
+	if (!li)
+		return NULL;
 	int new_array_size = li->array_size * 2;
 	void **new_data = malloc(sizeof(void *) * new_array_size);
 	if (!new_data)
@@ -74,4 +76,44 @@ int list_contains(list li, void *item) {
 			return 1;
 	}
 	return 0;
+}
+ 
+void *list_get_first(list li) {
+	if (!li)
+		return NULL;
+	if (!li->size)
+		return NULL;
+	return li->data[0];
+}
+
+void *list_get_last(list li) {
+	if (!li)
+		return NULL;
+	if (!li->size)
+		return NULL;
+	return li->data[li->size - 1];
+}
+
+void *list_get(list li, int index) {
+	if (!li)
+		return NULL;
+	if (!li->size)
+		return NULL;
+	if (index < 0 || index >= li->size)
+		return NULL;
+	return li->data[index];
+}
+
+void **list_to_array(list li) {
+	if (!li)
+		return NULL;
+	if (!li->size)
+		return NULL;
+	
+	void **items = malloc(sizeof(void *) * li->size);
+	if (!items)
+		return NULL;
+	for (int i = 0; i < li->size; i++)
+		items[i] = li->data[i];
+	return items;
 }
