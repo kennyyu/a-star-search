@@ -286,6 +286,54 @@ START_TEST (test_add_next) {
 }
 END_TEST
 
+START_TEST (test_set) {
+	int error;
+	int *item;
+	int *nums[3];
+	for (int i = 0; i < 3; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	linkedlist list = NULL;
+
+	error = list_add_next(list, nums[0], nums[1]);
+	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
+	fail_unless(list_size(list) == ERROR_LIST_IS_NULL, 
+							"Size incorrect after adding to NULL list");
+
+	list = list_create();
+	fail_if(!list, "list_create failed.");
+	
+	for (int i = 0; i < 3; i++) {
+		error = list_add_last(list, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
+		fail_unless(list_size(list) == (i+1), "Size incorrect after add_last");
+		item = (int *) list_get_first(list);
+		fail_unless(*item == 0, "Wrong item in first position");	
+		item = (int *) list_get_last(list);
+		fail_unless(*item == i, "Wrong item in last position");
+		fail_unless(list_contains(list, nums[i]), "Error in list_contains");
+	}
+	
+	error = list_set(list, 3, nums[0]);
+	fail_unless(error == ERROR_LIST_OUT_OF_BOUNDS);
+	error = list_set(list, -1, nums[0]);
+	fail_unless(error == ERROR_LIST_OUT_OF_BOUNDS);
+	
+	for (int i = 0; i < 3; i++) {
+		error = list_set(list, i, nums[0]);
+		fail_unless(error == SUCCESS_LIST, "Error setting ith position");
+		item = (int *) list_get(list, i);
+		fail_unless(*item == 0, "Wrong item after setting");
+	}
+	
+	for (int i = 0; i < 3; i++)
+		free(nums[i]);
+	list_free(list);	
+}
+END_TEST
+
 START_TEST (test_remove_first) {
 	int error;
 	int *item;
@@ -416,6 +464,7 @@ Suite *list_suite(void) {
   tcase_add_test(tc_adders, test_add_first);
   tcase_add_test(tc_adders, test_add_last);
 	tcase_add_test(tc_adders, test_add_next);
+	tcase_add_test(tc_adders, test_set);
   suite_add_tcase(s, tc_adders);	
 
 	/* test removers */

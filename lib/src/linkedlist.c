@@ -245,6 +245,21 @@ int list_add_next(linkedlist list, void *after, void *item) {
 	return ERROR_LIST_ITEM_NOT_FOUND;
 }
 
+int list_set(linkedlist list, int index, void *item) {
+	if (!list)
+		return ERROR_LIST_IS_NULL;
+	if (!item)
+		return ERROR_LIST_ITEM_IS_NULL;
+	if (index < 0 || index >= list->size)
+		return ERROR_LIST_OUT_OF_BOUNDS;
+	
+	_list_node current = list->head;
+	for (int i = 0; i < index; i++)
+		current = current->next;
+	current->data = item;
+	return SUCCESS_LIST;
+}
+
 void *list_remove_first(linkedlist list) {
 	if (!list)
 		return NULL;

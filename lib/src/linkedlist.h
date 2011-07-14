@@ -17,7 +17,8 @@ typedef enum list_error_numbers
 	ERROR_LIST_IS_EMPTY = -2,
 	ERROR_LIST_ITEM_NOT_FOUND = -3,
 	ERROR_LIST_ITEM_IS_NULL = -4,
-	ERROR_LIST_MALLOC_FAIL = -5
+	ERROR_LIST_MALLOC_FAIL = -5,
+	ERROR_LIST_OUT_OF_BOUNDS = -6
 } list_error_numbers;
 
 /* 
@@ -114,6 +115,14 @@ int list_add_last(linkedlist, void *);
  * this returns ERROR_LIST_ITEM_IS_NULL.
  */
 int list_add_next(linkedlist, void *, void *);
+
+/*
+ * Given an index position i, this sets the i-th element of the list to the
+ * item. If i < 0 or i >= size, then this returns ERROR_LIST_OUT_OF_BOUNDS. 
+ * If linkedlist is NULL, returns ERROR_LIST_IS_NULL. If the item is NULL, 
+ * returns ERROR_LIST_ITEM_IS_NULL. On success, returns SUCCESS_LIST.
+ */
+int list_set(linkedlist, int, void *);
 
 /* 
  * Removes the item from the list. If the item is not found, this returns
