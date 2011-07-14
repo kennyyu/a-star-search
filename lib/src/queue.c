@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "queue.h"
-#include "linkedlist.h"
+#include "list.h"
 
 /* 
  * We cast a linkedlist pointer into a queue pointer. This allows us to use
@@ -15,19 +15,19 @@ queue queue_create() {
 }
 
 void queue_free(queue qu) {
-	list_free((linkedlist) qu);
+	list_free((list) qu);
 }
 
 int queue_size(queue qu) {
 	if (!qu)
 		return ERROR_QUEUE_IS_NULL;
-	return list_size((linkedlist) qu);
+	return list_size((list) qu);
 }
 
 int queue_is_empty(queue qu) {
 	if (!qu)
 		return ERROR_QUEUE_IS_NULL;
-	return list_is_empty((linkedlist) qu);
+	return list_is_empty((list) qu);
 }
 
 int queue_contains(queue qu, void *item) {
@@ -35,11 +35,11 @@ int queue_contains(queue qu, void *item) {
 		return ERROR_QUEUE_IS_NULL;
 	if (!item)
 		return ERROR_QUEUE_ITEM_IS_NULL;
-	return list_contains((linkedlist) qu, item);
+	return list_contains((list) qu, item);
 }
 
 void *queue_peek(queue qu) {
-	return list_get_first((linkedlist) qu);
+	return list_get_first((list) qu);
 }
 
 int queue_enqueue(queue qu, void *item) {
@@ -48,12 +48,12 @@ int queue_enqueue(queue qu, void *item) {
 	if (!item)
 		return ERROR_QUEUE_ITEM_IS_NULL;
 		
-	int error = list_add_last((linkedlist) qu, item);
+	int error = list_add_last((list) qu, item);
 	if (error == ERROR_LIST_MALLOC_FAIL)
 		return ERROR_QUEUE_MALLOC_FAIL;
 	return SUCCESS_QUEUE;
 }
 
 void *queue_dequeue(queue qu) {
-	return list_remove_first((linkedlist) qu);
+	return list_remove_first((list) qu);
 }

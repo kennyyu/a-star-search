@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "linkedlist.h"
+#include "list.h"
 #include "priorityqueue.h"
 #include "queue.h"
 #include "stack.h"

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linkedlist.h"
+#include "list.h"
 
 /* Internal. Do not use. */
 struct _list_node {
@@ -10,29 +10,29 @@ struct _list_node {
 }; 
 typedef struct _list_node *_list_node;	
 
-/* we alias linkedlist to be a pointer to this struct */
-struct linkedlist {
+/* we alias list to be a pointer to this struct */
+struct list {
 	_list_node head;
 	_list_node tail;
 	int size;
 };
 
-linkedlist list_create() {
-	linkedlist list = malloc(sizeof(struct linkedlist));
+list list_create() {
+	list li = malloc(sizeof(struct list));
 	/* if malloc returned NULL, also return NULL */
-	if (!list)
+	if (!li)
 		return NULL;
-	list->head = NULL;
-	list->tail = NULL;
-	list->size = 0;
-	return list;
+	li->head = NULL;
+	li->tail = NULL;
+	li->size = 0;
+	return li;
 }
 
-void list_free(linkedlist list) {
-	if (!list)
+void list_free(list li) {
+	if (!li)
 		return;
 	
-	_list_node current = list->head;
+	_list_node current = li->head;
 	while (current) {
 		if (!current->next) {
 			/* current is the last node */
@@ -43,28 +43,28 @@ void list_free(linkedlist list) {
 			free(current->prev);
 		}
 	}
-	free(list);
+	free(li);
 }
 
-int list_size(linkedlist list) {
-	if (!list)
+int list_size(list li) {
+	if (!li)
 		return ERROR_LIST_IS_NULL;
- 	return list->size;
+ 	return li->size;
 }
 
-int list_is_empty(linkedlist list) {
-	if (!list)
+int list_is_empty(list li) {
+	if (!li)
 		return ERROR_LIST_IS_NULL;
-	return list_size(list) == 0;
+	return list_size(li) == 0;
 }
 
-int list_contains(linkedlist list, void *item) {
-	if (!list)
+int list_contains(list li, void *item) {
+	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
 		return ERROR_LIST_ITEM_IS_NULL;
 	
-	_list_node current = list->head;
+	_list_node current = li->head;
 	while (current) {
 		if (item == current->data) 
 			return 1;
@@ -74,33 +74,33 @@ int list_contains(linkedlist list, void *item) {
 	return 0;
 }
 
-void *list_get_first(linkedlist list) {
-	if (!list)
+void *list_get_first(list li) {
+	if (!li)
 		return NULL;
 		
 	/* list is empty */
-	if (!list->head)
+	if (!li->head)
 		return NULL;	
 		
-	return list->head->data;
+	return li->head->data;
 }
 
-void *list_get_last(linkedlist list) {
-	if (!list)
+void *list_get_last(list li) {
+	if (!li)
 		return NULL;
 	
 	/* list is empty */
-	if (!list->tail)
+	if (!li->tail)
 		return NULL;
 		
-	return list->tail->data;
+	return li->tail->data;
 }
 
-void *list_get_next(linkedlist list, void *item) {
-	if (!list)
+void *list_get_next(list li, void *item) {
+	if (!li)
 		return NULL;
 	
-	_list_node current = list->head;
+	_list_node current = li->head;
 	while (current) {
 		if (item == current->data) {
 			if (!current->next) {
@@ -118,28 +118,28 @@ void *list_get_next(linkedlist list, void *item) {
 	return NULL;
 }
 
-void *list_get(linkedlist list, int index) {
-	if (!list)
+void *list_get(list li, int index) {
+	if (!li)
 		return NULL;
-	if (!list->size)
+	if (!li->size)
 		return NULL;
-	if ((index < 0) || (index >= list->size))
+	if ((index < 0) || (index >= li->size))
 		return NULL;
 	
-	_list_node current = list->head;
+	_list_node current = li->head;
 	for (int i = 0; i < index; i++) {
 		current = current->next;
 	}
 	return current->data;
 }
 
-void **list_to_array(linkedlist list) {
-	if (!list || list->size == 0)
+void **list_to_array(list li) {
+	if (!li || li->size == 0)
 		return NULL;
 		
-	void **items = malloc(list->size * sizeof(void *));
+	void **items = malloc(li->size * sizeof(void *));
 	int counter = 0;
-	_list_node current = list->head;
+	_list_node current = li->head;
 	while (current) {
 		items[counter] = current;
 		counter++;
@@ -148,8 +148,8 @@ void **list_to_array(linkedlist list) {
 	return items;
 }
 
-int list_add_first(linkedlist list, void *item) {
-	if (!list)
+int list_add_first(list li, void *item) {
+	if (!li)
 		return ERROR_LIST_IS_NULL;
 	
 	/* make a new node to contain the item */
@@ -163,22 +163,22 @@ int list_add_first(linkedlist list, void *item) {
 	/* if there are no elements in the list, set head and tail to node
 	 * else reset node's next pointer, set head's prev to node, and set 
 	 * head to node */
-	if (!list->head) {
-		list->head = node;
-		list->tail = node;
+	if (!li->head) {
+		li->head = node;
+		li->tail = node;
 	} else {
-		node->next = list->head;
-		list->head->prev = node;	
-		list->head = node;
+		node->next = li->head;
+		li->head->prev = node;	
+		li->head = node;
 	}
 
 	/* update size */
-	list->size++;
+	li->size++;
 	return SUCCESS_LIST;
 }
 
-int list_add_last(linkedlist list, void *item) {
-	if (!list)
+int list_add_last(list li, void *item) {
+	if (!li)
 		return ERROR_LIST_IS_NULL;
 	
 	/* make a new node to contain the item */
@@ -191,107 +191,107 @@ int list_add_last(linkedlist list, void *item) {
 
 	/* if there are no elements in the list, set head and tail to node
 	 * else reset tail's next pointer, prev to tail, and set tail to node */	
-	if (!list->tail) {
-		list->head = node;
-		list->tail = node;
+	if (!li->tail) {
+		li->head = node;
+		li->tail = node;
 	} else {
-		node->prev = list->tail;
-		list->tail->next = node;	
-		list->tail = node;
+		node->prev = li->tail;
+		li->tail->next = node;	
+		li->tail = node;
 	}
 
 	/* update size */
-	list->size++;
+	li->size++;
 	return SUCCESS_LIST;
 }
 
-int list_set(linkedlist list, int index, void *item) {
-	if (!list)
+int list_set(list li, int index, void *item) {
+	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
 		return ERROR_LIST_ITEM_IS_NULL;
-	if (index < 0 || index >= list->size)
+	if (index < 0 || index >= li->size)
 		return ERROR_LIST_OUT_OF_BOUNDS;
 	
-	_list_node current = list->head;
+	_list_node current = li->head;
 	for (int i = 0; i < index; i++)
 		current = current->next;
 	current->data = item;
 	return SUCCESS_LIST;
 }
 
-void *list_remove_first(linkedlist list) {
-	if (!list)
+void *list_remove_first(list li) {
+	if (!li)
 		return NULL;
-	if (!list->head)
+	if (!li->head)
 		return NULL;	
 	
-	void *item = list->head->data;
+	void *item = li->head->data;
 	
 	/* check if only one item in list */
-	if (list->head == list->tail)
-		list->tail = list->head->next;
-	list->head = list->head->next;
+	if (li->head == li->tail)
+		li->tail = li->head->next;
+	li->head = li->head->next;
 	
 	/* check if the new head is NULL */
-	if (list->head)
-		list->head->prev = NULL;
-	list->size--;
+	if (li->head)
+		li->head->prev = NULL;
+	li->size--;
 	return item;
 }
 
-void *list_remove_last(linkedlist list) {
-	if (!list)
+void *list_remove_last(list li) {
+	if (!li)
 		return NULL;
-	if (!list->tail)
+	if (!li->tail)
 		return NULL;	
 	
-	void *item = list->tail->data;
+	void *item = li->tail->data;
 
 	/* check if only one item in list */
-	if (list->head == list->tail)
-		list->head = list->tail->prev;
-	list->tail = list->tail->prev;
+	if (li->head == li->tail)
+		li->head = li->tail->prev;
+	li->tail = li->tail->prev;
 	
 	/* check if the new head is NULL */
-	if (list->tail)
-		list->tail->next = NULL;
-	list->size--;
+	if (li->tail)
+		li->tail->next = NULL;
+	li->size--;
 	return item;
 }
 
-int list_remove(linkedlist list, void *item) {
-	if (!list)
+int list_remove(list li, void *item) {
+	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
 		return ERROR_LIST_ITEM_IS_NULL;
-	if (list->size == 0)
+	if (li->size == 0)
 		return ERROR_LIST_IS_EMPTY;
 	
-	_list_node current = list->head;
+	_list_node current = li->head;
 	while (current) {
 		if (current->data == item) {
 			if (current->prev) {
 				current->prev->next = current->next;
 			} else {
 				/* current is the first item in the list */
-				if (list->tail == list->head) {
+				if (li->tail == li->head) {
 					/* current is the only item in the list */
-					list->tail = current->next;
+					li->tail = current->next;
 				}
-				list->head = current->next;
+				li->head = current->next;
 			}
 			if (current->next) {
 				current->next->prev = current->prev;
 			} else {
 				/* current is the last item in the list */
-				if (list->tail == list->head) {
+				if (li->tail == li->head) {
 					/* current is the only item in the list */
-					list->head = current->prev;
+					li->head = current->prev;
 				}
-				list->tail = current->prev;
+				li->tail = current->prev;
 			}
-			list->size--;
+			li->size--;
 			return SUCCESS_LIST;
 		}
 		current = current->next;

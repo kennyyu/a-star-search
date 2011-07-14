@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <check.h>
-#include "../src/linkedlist.h"
+#include "../src/list.h"
 
-linkedlist list_test;
+list list_test;
 
 void setup (void) {
 	list_test = list_create();
@@ -30,25 +30,25 @@ START_TEST (test_get_first) {
 		*nums[i] = i;
 	}
 	
-	linkedlist list = NULL;
-	fail_unless(list_get_first(list) == NULL, 
+	list li = NULL;
+	fail_unless(list_get_first(li) == NULL, 
 							"Error getting from a NULL list");
-	list = list_create();
-	fail_if(!list, "list_create failed.");
-	fail_unless(list_get_first(list) == NULL,
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_get_first(li) == NULL,
 							"Error getting from an empty list");
 
 	for (int i = 0; i < 3; i++) {
-		error = list_add_last(list, nums[i]);
+		error = list_add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
 	}
 	
-	item = list_get_first(list);
+	item = list_get_first(li);
 	fail_unless(*item == 0, "Error getting first item");
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(list);
+	list_free(li);
 }
 END_TEST
 
@@ -61,25 +61,25 @@ START_TEST (test_get_last) {
 		*nums[i] = i;
 	}
 	
-	linkedlist list = NULL;
-	fail_unless(list_get_last(list) == NULL, 
+	list li = NULL;
+	fail_unless(list_get_last(li) == NULL, 
 							"Error getting from a NULL list");
-	list = list_create();
-	fail_if(!list, "list_create failed.");
-	fail_unless(list_get_last(list) == NULL,
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_get_last(li) == NULL,
 							"Error getting from an empty list");
 
 	for (int i = 0; i < 3; i++) {
-		error = list_add_last(list, nums[i]);
+		error = list_add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
 	}
 	
-	item = list_get_last(list);
+	item = list_get_last(li);
 	fail_unless(*item == 2, "Error getting first item");
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(list);
+	list_free(li);
 }
 END_TEST
 
@@ -92,30 +92,30 @@ START_TEST (test_get) {
 		*nums[i] = i;
 	}
 	
-	linkedlist list = NULL;
-	fail_unless(list_get(list, 0) == NULL, 
+	list li = NULL;
+	fail_unless(list_get(li, 0) == NULL, 
 							"Error getting from a NULL list");
-	list = list_create();
-	fail_if(!list, "list_create failed.");
-	fail_unless(list_get(list, 0) == NULL,
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_get(li, 0) == NULL,
 							"Error getting from an empty list");
 
 	for (int i = 0; i < 3; i++) {
-		error = list_add_last(list, nums[i]);
+		error = list_add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
 	}
 	
 	for (int i = 0; i < 3; i++) {
-		item = list_get(list, i);
+		item = list_get(li, i);
 		fail_unless(*item == i, "Error getting i-th item");
  	}
 
-	fail_unless(list_get(list, -1) == NULL, "Error getting with index = -1");	
-	fail_unless(list_get(list, 4) == NULL, "Error getting with index = 4");
+	fail_unless(list_get(li, -1) == NULL, "Error getting with index = -1");	
+	fail_unless(list_get(li, 4) == NULL, "Error getting with index = 4");
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(list);
+	list_free(li);
 }
 END_TEST
 
@@ -127,15 +127,15 @@ START_TEST (test_to_array) {
 		*nums[i] = i;
 	}
 	
-	linkedlist list = list_create();
-	fail_if(!list, "list_create failed.");
+	list li = list_create();
+	fail_if(!li, "list_create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_first(list, nums[i]);
+		error = list_add_first(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
 	}
 	
-	int **items = (int **) list_to_array(list);
+	int **items = (int **) list_to_array(li);
 	for (int i = 0; i < 3; i++) {
 		fail_unless(*items[i] != *nums[i], "Error in to_array");
 	}
@@ -143,7 +143,7 @@ START_TEST (test_to_array) {
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
 	free(items);	
-	list_free(list);
+	list_free(li);
 }
 END_TEST
 
@@ -156,30 +156,30 @@ START_TEST (test_add_first) {
 		*nums[i] = i;
 	}
 	
-	linkedlist list = NULL;
+	list li = NULL;
 	
-	error = list_add_first(list, nums[0]);
+	error = list_add_first(li, nums[0]);
 	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
-	fail_unless(list_size(list) == ERROR_LIST_IS_NULL, 
+	fail_unless(list_size(li) == ERROR_LIST_IS_NULL, 
 							"Size incorrect after adding to NULL list");
 	
-	list = list_create();
-	fail_if(!list, "list_create failed.");
+	li = list_create();
+	fail_if(!li, "list_create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_first(list, nums[i]);
+		error = list_add_first(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
-		fail_unless(list_size(list) == (i+1), "Size incorrect after add_first");	
-		item = (int *) list_get_last(list);
+		fail_unless(list_size(li) == (i+1), "Size incorrect after add_first");	
+		item = (int *) list_get_last(li);
 		fail_unless(*item == 0, "Wrong item in last position");
-		item = (int *) list_get_first(list);
+		item = (int *) list_get_first(li);
 		fail_unless(*item == i, "Wrong item in first position");
-		fail_unless(list_contains(list, nums[i]), "Error in list_contains");
+		fail_unless(list_contains(li, nums[i]), "Error in list_contains");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(list);
+	list_free(li);
 }
 END_TEST
 
@@ -192,30 +192,30 @@ START_TEST (test_add_last) {
 		*nums[i] = i;
 	}
 	
-	linkedlist list = NULL;
+	list li = NULL;
 	
-	error = list_add_last(list, nums[0]);
+	error = list_add_last(li, nums[0]);
 	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
-	fail_unless(list_size(list) == ERROR_LIST_IS_NULL, 
+	fail_unless(list_size(li) == ERROR_LIST_IS_NULL, 
 							"Size incorrect after adding to NULL list");
 	
-	list = list_create();
-	fail_if(!list, "list_create failed.");
+	li = list_create();
+	fail_if(!li, "list_create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_last(list, nums[i]);
+		error = list_add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
-		fail_unless(list_size(list) == (i+1), "Size incorrect after add_last");
-		item = (int *) list_get_first(list);
+		fail_unless(list_size(li) == (i+1), "Size incorrect after add_last");
+		item = (int *) list_get_first(li);
 		fail_unless(*item == 0, "Wrong item in first position");	
-		item = (int *) list_get_last(list);
+		item = (int *) list_get_last(li);
 		fail_unless(*item == i, "Wrong item in last position");
-		fail_unless(list_contains(list, nums[i]), "Error in list_contains");
+		fail_unless(list_contains(li, nums[i]), "Error in list_contains");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(list);
+	list_free(li);
 }
 END_TEST
 
@@ -228,42 +228,42 @@ START_TEST (test_set) {
 		*nums[i] = i;
 	}
 	
-	linkedlist list = NULL;
+	list li = NULL;
 
-	error = list_set(list, 0, nums[0]);
+	error = list_set(li, 0, nums[0]);
 	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
-	fail_unless(list_size(list) == ERROR_LIST_IS_NULL, 
+	fail_unless(list_size(li) == ERROR_LIST_IS_NULL, 
 							"Size incorrect after adding to NULL list");
 
-	list = list_create();
-	fail_if(!list, "list_create failed.");
+	li = list_create();
+	fail_if(!li, "list_create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_last(list, nums[i]);
+		error = list_add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
-		fail_unless(list_size(list) == (i+1), "Size incorrect after add_last");
-		item = (int *) list_get_first(list);
+		fail_unless(list_size(li) == (i+1), "Size incorrect after add_last");
+		item = (int *) list_get_first(li);
 		fail_unless(*item == 0, "Wrong item in first position");	
-		item = (int *) list_get_last(list);
+		item = (int *) list_get_last(li);
 		fail_unless(*item == i, "Wrong item in last position");
-		fail_unless(list_contains(list, nums[i]), "Error in list_contains");
+		fail_unless(list_contains(li, nums[i]), "Error in list_contains");
 	}
 	
-	error = list_set(list, 3, nums[0]);
+	error = list_set(li, 3, nums[0]);
 	fail_unless(error == ERROR_LIST_OUT_OF_BOUNDS);
-	error = list_set(list, -1, nums[0]);
+	error = list_set(li, -1, nums[0]);
 	fail_unless(error == ERROR_LIST_OUT_OF_BOUNDS);
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_set(list, i, nums[0]);
+		error = list_set(li, i, nums[0]);
 		fail_unless(error == SUCCESS_LIST, "Error setting ith position");
-		item = (int *) list_get(list, i);
+		item = (int *) list_get(li, i);
 		fail_unless(*item == 0, "Wrong item after setting");
 	}
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(list);	
+	list_free(li);	
 }
 END_TEST
 
@@ -276,28 +276,28 @@ START_TEST (test_remove_first) {
 		*nums[i] = i;
 	}
 	
-	linkedlist list = NULL;
-	fail_unless(list_remove_first(list) == NULL, 
+	list li = NULL;
+	fail_unless(list_remove_first(li) == NULL, 
 							"Error removing from a NULL list");
-	list = list_create();
-	fail_if(!list, "list_create failed.");
-	fail_unless(list_remove_first(list) == NULL, 
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_remove_first(li) == NULL, 
 							"Error removing from an empty list");			
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_first(list, nums[i]);
+		error = list_add_first(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
 	}
 	
 	for (int i = 2; i >= 0; i--) {
-		item = list_remove_first(list);
+		item = list_remove_first(li);
 		fail_unless(*item == i, "Error removing first item");
-		fail_unless(list_size(list) == i, "Error in size after removing item");
+		fail_unless(list_size(li) == i, "Error in size after removing item");
 	}
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(list);
+	list_free(li);
 }
 END_TEST
 
@@ -310,29 +310,29 @@ START_TEST (test_remove_last) {
 		*nums[i] = i;
 	}
 	
-	linkedlist list = NULL;
-	fail_unless(list_remove_last(list) == NULL, 
+	list li = NULL;
+	fail_unless(list_remove_last(li) == NULL, 
 							"Error removing from a NULL list");
-	list = list_create();
-	fail_if(!list, "list_create failed.");
-	fail_unless(list_remove_last(list) == NULL, 
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_remove_last(li) == NULL, 
 							"Error removing from an empty list");			
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_first(list, nums[i]);
+		error = list_add_first(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
 	}
 	
 	for (int i = 0; i < 3; i++) {
-		item = list_remove_last(list);
+		item = list_remove_last(li);
 		fail_unless(*item == i, "Error removing first item");
-		fail_unless(list_size(list) == (2 - i), 
+		fail_unless(list_size(li) == (2 - i), 
 								"Error in size after removing item");
 	}
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(list);	
+	list_free(li);	
 }
 END_TEST
 
@@ -344,34 +344,34 @@ START_TEST (test_remove) {
 		*nums[i] = i;
 	}
 	
-	linkedlist list = NULL;
-	fail_unless(list_remove(list, nums[0]) == ERROR_LIST_IS_NULL, 
+	list li = NULL;
+	fail_unless(list_remove(li, nums[0]) == ERROR_LIST_IS_NULL, 
 							"Error removing from a NULL list");
-	list = list_create();
-	fail_if(!list, "list_create failed.");
-	fail_unless(list_remove(list, nums[0]) == ERROR_LIST_IS_EMPTY, 
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_remove(li, nums[0]) == ERROR_LIST_IS_EMPTY, 
 							"Error removing from an empty list");
-	fail_unless(list_remove(list, NULL) == ERROR_LIST_ITEM_IS_NULL, 
+	fail_unless(list_remove(li, NULL) == ERROR_LIST_ITEM_IS_NULL, 
 							"Error removing a NULL item");
 
 	for (int i = 0; i < 4; i++) {
-		error = list_add_last(list, nums[i]);
+		error = list_add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
 	}
 
-	error = list_remove(list, nums[1]);
+	error = list_remove(li, nums[1]);
 	fail_unless(error == SUCCESS_LIST, "Error removing middle item");
-	fail_unless(list_size(list) == 3, "Error in size after removing item");
-	error = list_remove(list, nums[0]);
+	fail_unless(list_size(li) == 3, "Error in size after removing item");
+	error = list_remove(li, nums[0]);
 	fail_unless(error == SUCCESS_LIST, "Error removing first item");
-	fail_unless(list_size(list) == 2, "Error in size after removing item");
-	error = list_remove(list, nums[3]);
+	fail_unless(list_size(li) == 2, "Error in size after removing item");
+	error = list_remove(li, nums[3]);
 	fail_unless(error == SUCCESS_LIST, "Error removing last item");
-	fail_unless(list_size(list) == 1, "Error in size after removing item");
+	fail_unless(list_size(li) == 1, "Error in size after removing item");
 
 	for (int i = 0; i < 4; i++)
 		free(nums[i]);
-	list_free(list);
+	list_free(li);
 }
 END_TEST
 

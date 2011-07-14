@@ -1,5 +1,5 @@
-#ifndef PRIORITY_QUEUE_H
-#define PRIORITY_QUEUE_H
+#ifndef _PRIORITY_QUEUE_H
+#define _PRIORITY_QUEUE_H
 
 typedef struct pqueue *pqueue;
 

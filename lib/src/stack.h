@@ -1,5 +1,5 @@
-#ifndef STACK_H
-#define STACK_H
+#ifndef _STACK_H
+#define _STACK_H
 
 /* 
  * Alias stack to be a pointer to a struct stack.

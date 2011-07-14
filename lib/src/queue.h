@@ -1,5 +1,5 @@
-#ifndef QUEUE_H
-#define QUEUE_H
+#ifndef _QUEUE_H
+#define _QUEUE_H
 
 /* 
  * Alias queue to be a pointer to a struct queue.
