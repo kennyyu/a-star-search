@@ -219,73 +219,6 @@ START_TEST (test_add_last) {
 }
 END_TEST
 
-START_TEST (test_add_next) {
-	int error;
-	int *item;
-	int *nums[3];
-	for (int i = 0; i < 3; i++) {
-		nums[i] = malloc(sizeof(int));
-		*nums[i] = i;
-	}
-	
-	linkedlist list = NULL;
-
-	error = list_add_next(list, nums[0], nums[1]);
-	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
-	fail_unless(list_size(list) == ERROR_LIST_IS_NULL, 
-							"Size incorrect after adding to NULL list");
-
-	list = list_create();
-	fail_if(!list, "list_create failed.");
-	
-	error = list_add_first(list, nums[0]);
-	fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
-	fail_unless(list_size(list) == 1, "Size incorrect after add_first");
-	item = (int *) list_get_first(list);
-	fail_unless(*item == 0, "Wrong item in first position");	
-	item = (int *) list_get_last(list);
-	fail_unless(*item == 0, "Wrong item in last position");
-	fail_unless(list_contains(list, nums[0]), "Error in list_contains");
-	
-	error = list_add_next(list, nums[1], nums[2]);
-	fail_unless(error == ERROR_LIST_ITEM_NOT_FOUND, 
-					"Error adding after an item not in list");
-	
-	/* test adding at the tail */
-	error = list_add_next(list, nums[0], nums[1]);
-	fail_unless(error == SUCCESS_LIST, "Error adding with add_next");
-	fail_unless(list_size(list) == 2, "Size incorrect after add_first");
-	item = (int *) list_get_first(list);
-	fail_unless(*item == 0, "Wrong item in first position");	
-	item = (int *) list_get_last(list);
-	fail_unless(*item == 1, "Wrong item in last position");
-	item = (int *) list_get_next(list, nums[0]);
-	fail_unless(*item == 1, "Wrong item after 0 position");
-	fail_unless(list_contains(list, nums[0]), "Error in list_contains");
-	fail_unless(list_contains(list, nums[1]), "Error in list_contains");
-	
-	/* test adding in the middle */
-	error = list_add_next(list, nums[0], nums[2]);	
-	fail_unless(error == SUCCESS_LIST, "Error adding with add_next");
-	fail_unless(list_size(list) == 3, "Size incorrect after add_first");
-	item = (int *) list_get_first(list);
-	fail_unless(*item == 0, "Wrong item in first position");	
-	item = (int *) list_get_last(list);
-	fail_unless(*item == 1, "Wrong item in last position");
-	item = (int *) list_get_next(list, nums[0]);
-	fail_unless(*item == 2, "Wrong item after 0 position");
-	item = (int *) list_get_next(list, nums[2]);
-	fail_unless(*item == 1, "Wrong item after 0 position");
-	fail_unless(list_contains(list, nums[0]), "Error in list_contains");
-	fail_unless(list_contains(list, nums[1]), "Error in list_contains");
-	fail_unless(list_contains(list, nums[2]), "Error in list_contains");
-	
-	for (int i = 0; i < 3; i++)
-		free(nums[i]);
-	list_free(list);
-}
-END_TEST
-
 START_TEST (test_set) {
 	int error;
 	int *item;
@@ -297,7 +230,7 @@ START_TEST (test_set) {
 	
 	linkedlist list = NULL;
 
-	error = list_add_next(list, nums[0], nums[1]);
+	error = list_set(list, 0, nums[0]);
 	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
 	fail_unless(list_size(list) == ERROR_LIST_IS_NULL, 
 							"Size incorrect after adding to NULL list");
@@ -463,7 +396,6 @@ Suite *list_suite(void) {
   TCase *tc_adders = tcase_create("Adders");
   tcase_add_test(tc_adders, test_add_first);
   tcase_add_test(tc_adders, test_add_last);
-	tcase_add_test(tc_adders, test_add_next);
 	tcase_add_test(tc_adders, test_set);
   suite_add_tcase(s, tc_adders);	
 

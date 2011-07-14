@@ -205,46 +205,6 @@ int list_add_last(linkedlist list, void *item) {
 	return SUCCESS_LIST;
 }
 
-int list_add_next(linkedlist list, void *after, void *item) {
-	if (!list)
-		return ERROR_LIST_IS_NULL;
-	if (!after)
-		return ERROR_LIST_ITEM_IS_NULL;
-	
-	/* make a new node to contain the item */
-	_list_node node = malloc(sizeof(struct _list_node));
-	if (!node)
-		return ERROR_LIST_MALLOC_FAIL;
-	node->next = NULL;
-	node->prev = NULL;
-	node->data = item;
- 
-	_list_node current = list->head;
-	while (current) {
-		if (after == current->data) {
-			if (!current->next) {
-				/* current is the last item */
-				current->next = node;
-				node->prev = current;
-				list->tail = node;
-			} else {
-				/* current is in the middle of the list */
-				node->next = current->next;
-				node->prev = current;
-				current->next->prev = node;
-				current->next = node;
-			}
-			list->size++;
-			return SUCCESS_LIST;
-		} else {
-			current = current->next;
-		}
-	}
-	
-	/* item not found */
-	return ERROR_LIST_ITEM_NOT_FOUND;
-}
-
 int list_set(linkedlist list, int index, void *item) {
 	if (!list)
 		return ERROR_LIST_IS_NULL;

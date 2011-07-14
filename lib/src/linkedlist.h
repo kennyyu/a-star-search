@@ -107,15 +107,6 @@ int list_add_first(linkedlist, void *);
  */
 int list_add_last(linkedlist, void *);
 
-/* 
- * Adds the the first argument into the list after the second argument. If 
- * successful, this returns SUCCESS_LIST. If the linkedlist is NULL, this 
- * returns ERROR_LIST_IS_NULL. If the first argument is not in the list.
- * this returns ERROR_LIST_ITEM_NOT_FOUND. If the first argument is NULL,
- * this returns ERROR_LIST_ITEM_IS_NULL.
- */
-int list_add_next(linkedlist, void *, void *);
-
 /*
  * Given an index position i, this sets the i-th element of the list to the
  * item. If i < 0 or i >= size, then this returns ERROR_LIST_OUT_OF_BOUNDS. 
