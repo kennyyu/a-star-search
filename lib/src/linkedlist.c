@@ -96,28 +96,6 @@ void *list_get_last(list li) {
 	return li->tail->data;
 }
 
-void *list_get_next(list li, void *item) {
-	if (!li)
-		return NULL;
-	
-	_list_node current = li->head;
-	while (current) {
-		if (item == current->data) {
-			if (!current->next) {
-				/* current is the last item; there is no next */
-				return NULL;
-			} else {
-				return current->next->data;
-			}
-		} else {
-			current = current->next;
-		}
-	}
-	
-	/* item not found */
-	return NULL;
-}
-
 void *list_get(list li, int index) {
 	if (!li)
 		return NULL;

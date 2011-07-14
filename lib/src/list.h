@@ -64,23 +64,6 @@ void *list_get_first(list);
 void *list_get_last(list);
 
 /*
- * Returns a pointer to the next item in the list, after the given item. If
- * the given item is the last item in the list, the item is NULL or not in 
- * the list, or if the list is NULL, this returns NULL. Use this for 
- * iterating through the list. 
- *
- * WARNING: Do not mutate the list while iterating.
- *
- * Example:
- *		for (item = list_get_first(list); 
- *				 !list_is_empty(list); 
- *				 list_get_next(list, item)) {
- *						// process list
- *		}
- */
-void *list_get_next(list, void *);
-
-/*
  * Returns a pointer to the given index in the list. If the list is NULL, the
  * list is empty, or if the index is out of bounds, return NULL.
  */
