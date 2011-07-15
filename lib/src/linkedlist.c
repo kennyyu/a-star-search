@@ -131,6 +131,8 @@ void **list_to_array(list li) {
 int list_add_first(list li, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
+	if (!item)
+		return ERROR_LIST_ITEM_IS_NULL;
 	
 	/* make a new node to contain the item */
 	_list_node node = malloc(sizeof(struct _list_node));
@@ -160,6 +162,8 @@ int list_add_first(list li, void *item) {
 int list_add_last(list li, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
+	if (!item)
+		return ERROR_LIST_ITEM_IS_NULL;
 	
 	/* make a new node to contain the item */
 	_list_node node = malloc(sizeof(struct _list_node));

@@ -27,30 +27,30 @@ list list_create() {
 	return li;
 }
 
+/* this does not free the items */
 void list_free(list li) {
 	if (!li)
 		return;
-	for (int i = 0; i < li->size; i++)
-		free(li->data[i]);
 	free(li->data);
 	free(li);
 }
 
-/* resize the array by doubling it's current array_size. returns NULL if
- * the list is NULL or if malloc fails */
-list _list_resize(list li) {
+/* resize the array by doubling it's current array_size. returns 
+ * ERROR_LIST_MALLOC_FAIL if malloc fails, or returns ERROR_LIST_IS_NULL if
+ * the list is NULL. On success, return SUCCESS_LIST */
+int _list_resize(list li) {
 	if (!li)
-		return NULL;
+		return ERROR_LIST_IS_NULL;
 	int new_array_size = li->array_size * 2;
 	void **new_data = malloc(sizeof(void *) * new_array_size);
 	if (!new_data)
-		return NULL;
+		return ERROR_LIST_MALLOC_FAIL;
 	for (int i = 0; i < li->size; i++)
 		new_data[i] = li->data[i];
 	free(li->data);
 	li->data = new_data;
 	li->array_size = new_array_size;
-	return li;
+	return SUCCESS_LIST;
 }
 
 int list_size(list li) {
@@ -116,4 +116,54 @@ void **list_to_array(list li) {
 	for (int i = 0; i < li->size; i++)
 		items[i] = li->data[i];
 	return items;
+}
+
+int list_add_first(list li, void *item) {
+	if (!li)
+		return ERROR_LIST_IS_NULL;
+	if (!item)
+		return ERROR_LIST_ITEM_IS_NULL;
+		
+	/* resize array if the array is full */
+	if (li->size == li->array_size) {
+		int error = _list_resize(li);
+		if (error != SUCCESS_LIST)
+			return ERROR_LIST_MALLOC_FAIL;
+	}
+	/* shift all items one index over */
+	for (int i = li->size - 1; i >= 0; i--) {
+		li->data[i+1] = li->data[i];
+	}
+	li->data[0] = item;
+	li->size++;
+	return SUCCESS_LIST;
+}
+
+int list_add_last(list li, void *item) {
+	if (!li)
+		return ERROR_LIST_IS_NULL;
+	if (!item)
+		return ERROR_LIST_ITEM_IS_NULL;
+		
+	/* resize array if the array is full */
+	if (li->size == li->array_size) {
+		int error = _list_resize(li);
+		if (error != SUCCESS_LIST)
+			return ERROR_LIST_MALLOC_FAIL;
+	}
+	li->data[li->size] = item;
+	li->size++;
+	return SUCCESS_LIST;
+}
+
+int list_set(list li, int index, void *item) {
+	if (!li)
+		return ERROR_LIST_IS_NULL;
+	if (!item)
+		return ERROR_LIST_ITEM_IS_NULL;
+	if (index < 0 || index >= li->size)
+		return ERROR_LIST_OUT_OF_BOUNDS;
+	
+	li->data[index] = item;
+	return SUCCESS_LIST;
 }

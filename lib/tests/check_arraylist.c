@@ -21,6 +21,252 @@ START_TEST (test_list_create) {
 }
 END_TEST
 
+START_TEST (test_get_first) {
+	int error;
+	int *item;
+	int *nums[3];
+	for (int i = 0; i < 3; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	list li = NULL;
+	fail_unless(list_get_first(li) == NULL, 
+							"Error getting from a NULL list");
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_get_first(li) == NULL,
+							"Error getting from an empty list");
+
+	for (int i = 0; i < 3; i++) {
+		error = list_add_last(li, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
+	}
+	
+	item = list_get_first(li);
+	fail_unless(*item == 0, "Error getting first item");
+	
+	for (int i = 0; i < 3; i++)
+		free(nums[i]);
+	list_free(li);
+}
+END_TEST
+
+START_TEST (test_get_last) {
+	int error;
+	int *item;
+	int *nums[3];
+	for (int i = 0; i < 3; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	list li = NULL;
+	fail_unless(list_get_last(li) == NULL, 
+							"Error getting from a NULL list");
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_get_last(li) == NULL,
+							"Error getting from an empty list");
+
+	for (int i = 0; i < 3; i++) {
+		error = list_add_last(li, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
+	}
+	
+	item = list_get_last(li);
+	fail_unless(*item == 2, "Error getting first item");
+	
+	for (int i = 0; i < 3; i++)
+		free(nums[i]);
+	list_free(li);
+}
+END_TEST
+
+START_TEST (test_get) {
+	int error;
+	int *item;
+	int *nums[3];
+	for (int i = 0; i < 3; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	list li = NULL;
+	fail_unless(list_get(li, 0) == NULL, 
+							"Error getting from a NULL list");
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_get(li, 0) == NULL,
+							"Error getting from an empty list");
+
+	for (int i = 0; i < 3; i++) {
+		error = list_add_last(li, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
+	}
+	
+	for (int i = 0; i < 3; i++) {
+		item = list_get(li, i);
+		fail_unless(*item == i, "Error getting i-th item");
+ 	}
+
+	fail_unless(list_get(li, -1) == NULL, "Error getting with index = -1");	
+	fail_unless(list_get(li, 4) == NULL, "Error getting with index = 4");
+	
+	for (int i = 0; i < 3; i++)
+		free(nums[i]);
+	list_free(li);
+}
+END_TEST
+
+START_TEST (test_to_array) {
+	int error;
+	int *nums[3];
+	for (int i = 0; i < 3; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	list li = list_create();
+	fail_if(!li, "list_create failed.");
+	
+	for (int i = 0; i < 3; i++) {
+		error = list_add_first(li, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
+	}
+	
+	int **items = (int **) list_to_array(li);
+	for (int i = 0; i < 3; i++) {
+		fail_unless(*items[i] == *nums[2-i], "Error in to_array");
+	}
+
+	for (int i = 0; i < 3; i++)
+		free(nums[i]);
+	free(items);	
+	list_free(li);
+}
+END_TEST
+
+START_TEST (test_add_first) {
+	int error;
+	int *item;
+	int *nums[3];
+	for (int i = 0; i < 3; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	list li = NULL;
+	
+	error = list_add_first(li, nums[0]);
+	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
+	fail_unless(list_size(li) == ERROR_LIST_IS_NULL, 
+							"Size incorrect after adding to NULL list");
+	
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	
+	for (int i = 0; i < 3; i++) {
+		error = list_add_first(li, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
+		fail_unless(list_size(li) == (i+1), "Size incorrect after add_first");	
+		item = (int *) list_get_last(li);
+		fail_unless(*item == 0, "Wrong item in last position");
+		item = (int *) list_get_first(li);
+		fail_unless(*item == i, "Wrong item in first position");
+		fail_unless(list_contains(li, nums[i]), "Error in list_contains");
+	}
+
+	for (int i = 0; i < 3; i++)
+		free(nums[i]);
+	list_free(li);
+}
+END_TEST
+
+START_TEST (test_add_last) {
+	int error;
+	int *item;
+	int *nums[3];
+	for (int i = 0; i < 3; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	list li = NULL;
+	
+	error = list_add_last(li, nums[0]);
+	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
+	fail_unless(list_size(li) == ERROR_LIST_IS_NULL, 
+							"Size incorrect after adding to NULL list");
+	
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	
+	for (int i = 0; i < 3; i++) {
+		error = list_add_last(li, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
+		fail_unless(list_size(li) == (i+1), "Size incorrect after add_last");
+		item = (int *) list_get_first(li);
+		fail_unless(*item == 0, "Wrong item in first position");	
+		item = (int *) list_get_last(li);
+		fail_unless(*item == i, "Wrong item in last position");
+		fail_unless(list_contains(li, nums[i]), "Error in list_contains");
+	}
+
+	for (int i = 0; i < 3; i++)
+		free(nums[i]);
+	list_free(li);
+}
+END_TEST
+
+START_TEST (test_set) {
+	int error;
+	int *item;
+	int *nums[3];
+	for (int i = 0; i < 3; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	list li = NULL;
+
+	error = list_set(li, 0, nums[0]);
+	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
+	fail_unless(list_size(li) == ERROR_LIST_IS_NULL, 
+							"Size incorrect after adding to NULL list");
+
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	
+	for (int i = 0; i < 3; i++) {
+		error = list_add_last(li, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
+		fail_unless(list_size(li) == (i+1), "Size incorrect after add_last");
+		item = (int *) list_get_first(li);
+		fail_unless(*item == 0, "Wrong item in first position");	
+		item = (int *) list_get_last(li);
+		fail_unless(*item == i, "Wrong item in last position");
+		fail_unless(list_contains(li, nums[i]), "Error in list_contains");
+	}
+	
+	error = list_set(li, 3, nums[0]);
+	fail_unless(error == ERROR_LIST_OUT_OF_BOUNDS);
+	error = list_set(li, -1, nums[0]);
+	fail_unless(error == ERROR_LIST_OUT_OF_BOUNDS);
+	
+	for (int i = 0; i < 3; i++) {
+		error = list_set(li, i, nums[0]);
+		fail_unless(error == SUCCESS_LIST, "Error setting ith position");
+		item = (int *) list_get(li, i);
+		fail_unless(*item == 0, "Wrong item after setting");
+	}
+	
+	for (int i = 0; i < 3; i++)
+		free(nums[i]);
+	list_free(li);	
+}
+END_TEST
+
 Suite *list_suite(void) {
   Suite *s = suite_create("ArrayList");
 
@@ -31,21 +277,19 @@ Suite *list_suite(void) {
   suite_add_tcase(s, tc_init);
 
 	/* test getters */
-	/*
   TCase *tc_setters = tcase_create("Getters");
   tcase_add_test(tc_setters, test_get_first);
   tcase_add_test(tc_setters, test_get_last);
 	tcase_add_test(tc_setters, test_get);
 	tcase_add_test(tc_setters, test_to_array);
-  suite_add_tcase(s, tc_setters);*/
+  suite_add_tcase(s, tc_setters);
 
 	/* test adders */
-	/*
   TCase *tc_adders = tcase_create("Adders");
   tcase_add_test(tc_adders, test_add_first);
   tcase_add_test(tc_adders, test_add_last);
 	tcase_add_test(tc_adders, test_set);
-  suite_add_tcase(s, tc_adders);	*/
+  suite_add_tcase(s, tc_adders);
 
 	/* test removers */
 	/*
