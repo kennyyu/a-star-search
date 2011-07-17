@@ -2,9 +2,9 @@ CC = gcc
 CFLAGS = -g -std=c99 -Wall
 SLIBS = -lcheck
 SRC = ../src
-INCLUDES = list.h queue.h stack.h
-OBJECTS = check_linkedlist.o check_arraylist.o check_queue.o check_stack.o
-TESTS = check_linkedlist check_arraylist check_queue check_stack
+INCLUDES = list.h queue.h stack.h heap.h
+OBJECTS = check_linkedlist.o check_arraylist.o check_queue.o check_stack.o check_arrayheap.o
+TESTS = check_linkedlist check_arraylist check_queue check_stack check_arrayheap
 
 %.o : %.c $(INCLUDES)
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -22,6 +22,9 @@ check_queue: check_queue.o $(SRC)/queue.o $(SRC)/linkedlist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
 check_stack: check_stack.o $(SRC)/stack.o $(SRC)/linkedlist.o
+	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
+	
+check_arrayheap: check_arrayheap.o $(SRC)/arrayheap.o $(SRC)/arraylist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
 all: $(TESTS)
