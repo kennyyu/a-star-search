@@ -9,9 +9,11 @@ INSTALL
 *	Download source code.
 
 *	In the a-star-search directory, compile the source files with:
+
 		$ make
 	
 *	Also in the a-star-search directory, run the tests and ensure they all pass:
+
 		$ make check
 	
 *	To use the data structures, include the path to the src folder, and link the appropriate object file. Here's an example including the list.h file and linking the object file linkedlist.o: 
