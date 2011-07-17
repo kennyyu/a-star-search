@@ -21,11 +21,11 @@ INSTALL
 		/*
 	 	 * include the list header file
 	 	 */
-		include "list.h"
+		include "../lib/src/list.h"
 		// ...
 	
 		# compile and link with linkedlist.o
-		gcc -o hello hello.c linkedlist.o
+		gcc -o hello hello.c ../lib/src/linkedlist.o
 
 SOURCE
 ======
@@ -46,10 +46,10 @@ SOURCE
 REFERENCES
 ==========
 
-### README Markdown syntax:
+#### README Markdown syntax:
 *	http://daringfireball.net/projects/markdown/syntax#overview
 
-### Makefile tutorials:
+#### Makefile tutorials:
 *	http://www.cs.cf.ac.uk/Dave/C/node35.html
 *	http://sunsite.ualberta.ca/Documentation/Gnu/make-3.79/html_chapter/make_3.html
 *	http://www.cs.umd.edu/class/fall2002/cmsc214/Tutorial/makefile.html
@@ -58,26 +58,26 @@ REFERENCES
 *	http://stackoverflow.com/questions/1139271/makefiles-with-source-files-in-different-directories
 *	http://www.gnu.org/s/hello/manual/make/Phony-Targets.html
 
-### C iterators:
+#### C iterators:
 *	http://pine.cs.yale.edu/pinewiki/C/Iterators
 
-### C arrays:
+#### C arrays:
 *	http://c-faq.com/~scs/cclass/int/sx5.html
 
-### C function pointers:
+#### C function pointers:
 *	http://www.java2s.com/Tutorial/Cpp/0140__Function/Usetypedeftodefineafunctiontypeforfunctionpointer.htm
 *	http://www.newty.de/fpt/fpt.html#r_value
 
-### Common C errors:
+#### Common C errors:
 *	http://www.drpaulcarter.com/cs/common-c-errors.php
 
-### C error handling:
+#### C error handling:
 *	http://en.wikibooks.org/wiki/C_Programming/Error_handling
 *	http://stackoverflow.com/questions/385975/error-handling-in-c-code
 
-### C Enums:
+#### C Enums:
 *	http://gnuvince.wordpress.com/2009/09/08/enums-in-c/
 *	http://msdn.microsoft.com/en-us/library/whbyts4t.aspx
 
-### Dereferencing Void Pointers
+#### Dereferencing Void Pointers:
 *	http://forums.devshed.com/c-programming-42/dereference-void-pointer-229122.html
