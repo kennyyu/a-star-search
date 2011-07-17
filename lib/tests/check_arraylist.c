@@ -267,6 +267,114 @@ START_TEST (test_set) {
 }
 END_TEST
 
+START_TEST (test_remove_first) {
+	int error;
+	int *item;
+	int *nums[3];
+	for (int i = 0; i < 3; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	list li = NULL;
+	fail_unless(list_remove_first(li) == NULL, 
+							"Error removing from a NULL list");
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_remove_first(li) == NULL, 
+							"Error removing from an empty list");			
+	
+	for (int i = 0; i < 3; i++) {
+		error = list_add_first(li, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
+	}
+	
+	for (int i = 2; i >= 0; i--) {
+		item = list_remove_first(li);
+		fail_unless(*item == i, "Error removing first item");
+		fail_unless(list_size(li) == i, "Error in size after removing item");
+	}
+	
+	for (int i = 0; i < 3; i++)
+		free(nums[i]);
+	list_free(li);
+}
+END_TEST
+
+START_TEST (test_remove_last) {
+	int error;
+	int *item;
+	int *nums[3];
+	for (int i = 0; i < 3; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	list li = NULL;
+	fail_unless(list_remove_last(li) == NULL, 
+							"Error removing from a NULL list");
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_remove_last(li) == NULL, 
+							"Error removing from an empty list");			
+	
+	for (int i = 0; i < 3; i++) {
+		error = list_add_first(li, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
+	}
+	
+	for (int i = 0; i < 3; i++) {
+		item = list_remove_last(li);
+		fail_unless(*item == i, "Error removing first item");
+		fail_unless(list_size(li) == (2 - i), 
+								"Error in size after removing item");
+	}
+	
+	for (int i = 0; i < 3; i++)
+		free(nums[i]);
+	list_free(li);	
+}
+END_TEST
+
+START_TEST (test_remove) {
+	int error;
+	int *nums[4];
+	for (int i = 0; i < 4; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = i;
+	}
+	
+	list li = NULL;
+	fail_unless(list_remove(li, nums[0]) == ERROR_LIST_IS_NULL, 
+							"Error removing from a NULL list");
+	li = list_create();
+	fail_if(!li, "list_create failed.");
+	fail_unless(list_remove(li, nums[0]) == ERROR_LIST_IS_EMPTY, 
+							"Error removing from an empty list");
+	fail_unless(list_remove(li, NULL) == ERROR_LIST_ITEM_IS_NULL, 
+							"Error removing a NULL item");
+
+	for (int i = 0; i < 4; i++) {
+		error = list_add_last(li, nums[i]);
+		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
+	}
+
+	error = list_remove(li, nums[1]);
+	fail_unless(error == SUCCESS_LIST, "Error removing middle item");
+	fail_unless(list_size(li) == 3, "Error in size after removing item");
+	error = list_remove(li, nums[0]);
+	fail_unless(error == SUCCESS_LIST, "Error removing first item");
+	fail_unless(list_size(li) == 2, "Error in size after removing item");
+	error = list_remove(li, nums[3]);
+	fail_unless(error == SUCCESS_LIST, "Error removing last item");
+	fail_unless(list_size(li) == 1, "Error in size after removing item");
+
+	for (int i = 0; i < 4; i++)
+		free(nums[i]);
+	list_free(li);
+}
+END_TEST
+
 Suite *list_suite(void) {
   Suite *s = suite_create("ArrayList");
 
@@ -292,12 +400,11 @@ Suite *list_suite(void) {
   suite_add_tcase(s, tc_adders);
 
 	/* test removers */
-	/*
   TCase *tc_removers = tcase_create("Removers");
   tcase_add_test(tc_removers, test_remove_first);
   tcase_add_test(tc_removers, test_remove_last);
 	tcase_add_test(tc_removers, test_remove);
-  suite_add_tcase(s, tc_removers); */
+  suite_add_tcase(s, tc_removers);
 
   return s;
 }

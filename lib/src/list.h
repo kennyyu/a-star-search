@@ -103,7 +103,7 @@ int list_set(list, int, void *);
  * ERROR_LIST_ITEM_NOT_FOUND. If the item is NULL, this returns
  * ERROR_LIST_ITEM_IS_NULL. If the list is empty, this returns
  * ERROR_LIST_IS_EMPTY. If the list is NULL, this returns
- * ERROR_LIST_IS_NULL.
+ * ERROR_LIST_IS_NULL. On success, returns SUCCESS_LIST.
  */
 int list_remove(list, void *);
 

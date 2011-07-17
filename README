@@ -1,73 +1,80 @@
-Testing Library: Check (http://check.sourceforge.net/)
+ABOUT
+=====
+This is collection of C library data structures and a solution for the [fifteen puzzle](http://en.wikipedia.org/wiki/Fifteen_puzzle "Fifteen Puzzle"), using an [A* Search](http://en.wikipedia.org/wiki/A*_search_algorithm "A* Search").
 
-a-star-search/
-	README
-	Makefile
-	lib/
-		src/
-			Makefile
-			priorityqueue.c
-			priorityqueue.h
-			heap.c
-			heap.h
-			linkedlist.c
-			linkedlist.h
-			queue.c
-			queue.h
-			stack.c
-			stack.h
-		tests/
-			Makefile
-			check_linkedlist.c
-			check_priorityqueue.c
-			check_heap.c
-			check_stack.c
-			check_queue.c
-	fifteen-puzzle/
-		src/
-			Makefile
-			a_star_search.h
-			a_star_search.c
-			fifteen_puzzle.h
-			fifteen_puzzle.c
-		tests/
-			Makefile
-			check_a_star_search.c
-			check_fifteen_puzzle.c
+INSTALL
+=======
+*	Install [Check](http://check.sourceforge.net/ "Check"), a C testing framework.
+
+*	Download source code.
+
+*	In the a-star-search directory, compile the source files with:
+		$ make
+	
+*	Also in the a-star-search directory, run the tests and ensure they all pass:
+		$ make check
+	
+*	To use the data structures, include the path to the src folder, and link the appropriate object file. Here's an example including the list.h file and linking the object file linkedlist.o: 
+		/*
+	 	 * include the list header file
+	 	 */
+		include "list.h"
+		// ...
+	
+		# compile and link with linkedlist.o
+		gcc -o hello hello.c linkedlist.o
+
+SOURCE
+======
+	a-star-search/
+		README.md
+		Makefile
+		lib/
+			src/
+				Collection of data structure libraries, including linkedlist, arraylist, priorityqueue, stack, queue, and heap.
+			tests/
+				Collection of tests for these data structures, using the Check framework
+		fifteen-puzzle/
+			src/
+				Implementation of an A* Search on the fifteen puzzle.
+			tests/
+				Tests for the fifteen puzzle solver
 			
-==========================
 REFERENCES
-==========================
+==========
 
-Makefile tutorials:
- * http://www.cs.cf.ac.uk/Dave/C/node35.html
- * http://sunsite.ualberta.ca/Documentation/Gnu/make-3.79/html_chapter/make_3.html
- * http://www.cs.umd.edu/class/fall2002/cmsc214/Tutorial/makefile.html
- * http://web.mit.edu/gnu/doc/html/make_toc.html#SEC15
- * http://www.cprogramming.com/tutorial/makefiles_continued.html
- * http://stackoverflow.com/questions/1139271/makefiles-with-source-files-in-different-directories
- * http://www.gnu.org/s/hello/manual/make/Phony-Targets.html
+### README Markdown syntax:
+*	http://daringfireball.net/projects/markdown/syntax#overview
 
-C iterators:
- * http://pine.cs.yale.edu/pinewiki/C/Iterators
+### Makefile tutorials:
+*	http://www.cs.cf.ac.uk/Dave/C/node35.html
+*	http://sunsite.ualberta.ca/Documentation/Gnu/make-3.79/html_chapter/make_3.html
+*	http://www.cs.umd.edu/class/fall2002/cmsc214/Tutorial/makefile.html
+*	http://web.mit.edu/gnu/doc/html/make_toc.html#SEC15
+*	http://www.cprogramming.com/tutorial/makefiles_continued.html
+*	http://stackoverflow.com/questions/1139271/makefiles-with-source-files-in-different-directories
+*	http://www.gnu.org/s/hello/manual/make/Phony-Targets.html
 
-C arrays:
- * http://c-faq.com/~scs/cclass/int/sx5.html
+### C iterators:
+*	http://pine.cs.yale.edu/pinewiki/C/Iterators
 
-C function pointers:
- * http://www.java2s.com/Tutorial/Cpp/0140__Function/Usetypedeftodefineafunctiontypeforfunctionpointer.htm
- * http://www.newty.de/fpt/fpt.html#r_value
+### C arrays:
+*	http://c-faq.com/~scs/cclass/int/sx5.html
 
-Common C errors:
- * http://www.drpaulcarter.com/cs/common-c-errors.php
+### C function pointers:
+*	http://www.java2s.com/Tutorial/Cpp/0140__Function/Usetypedeftodefineafunctiontypeforfunctionpointer.htm
+*	http://www.newty.de/fpt/fpt.html#r_value
 
-C error handling:
- * http://en.wikibooks.org/wiki/C_Programming/Error_handling
- * http://stackoverflow.com/questions/385975/error-handling-in-c-code
+### Common C errors:
+*	http://www.drpaulcarter.com/cs/common-c-errors.php
 
-C Enums:
- * http://gnuvince.wordpress.com/2009/09/08/enums-in-c/
- * http://msdn.microsoft.com/en-us/library/whbyts4t.aspx
+### C error handling:
+*	http://en.wikibooks.org/wiki/C_Programming/Error_handling
+*	http://stackoverflow.com/questions/385975/error-handling-in-c-code
 
-Dereferencing Void Pointers
- * http://forums.devshed.com/c-programming-42/dereference-void-pointer-229122.html
+### C Enums:
+*	http://gnuvince.wordpress.com/2009/09/08/enums-in-c/
+*	http://msdn.microsoft.com/en-us/library/whbyts4t.aspx
+
+### Dereferencing Void Pointers
+*	http://forums.devshed.com/c-programming-42/dereference-void-pointer-229122.html

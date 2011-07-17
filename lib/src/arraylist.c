@@ -167,3 +167,63 @@ int list_set(list li, int index, void *item) {
 	li->data[index] = item;
 	return SUCCESS_LIST;
 }
+
+int list_remove(list li, void *item) {
+	if (!li)
+		return ERROR_LIST_IS_NULL;
+	if (!item)
+		return ERROR_LIST_ITEM_IS_NULL;
+	if (!li->size)
+		return ERROR_LIST_IS_EMPTY;
+	
+	/* find position of the item in the list */
+	int item_index = 0;
+	for (int i = 0; i < li->size; i++) {
+		if (item == li->data[i]) {
+			item_index = i;
+			break;
+		}
+	}
+	
+	/* shift over all items one index back */
+	for (int i = item_index; i < li->size - 1; i++)
+		li->data[i] = li->data[i+1];
+	li->data[li->size - 1] = NULL;
+	li->size--;
+	return SUCCESS_LIST;
+}
+
+/* 
+ * Removes the first item from the list and returns a pointer to it. If the 
+ * item is not found or if the list is empty or NULL, this returns NULL.
+ */
+void *list_remove_first(list li) {
+	if (!li)
+		return NULL;
+	if (!li->size)
+		return NULL;
+	
+	/* shift over all items one index back */
+	void *item = li->data[0];
+	for (int i = 0; i < li->size - 1; i++)
+		li->data[i] = li->data[i+1];
+	li->data[li->size - 1] = NULL;
+	li->size--;
+	return item;
+}
+
+/* 
+ * Removes the last item from the list and returns a pointer to it. If the 
+ * item is not found or if the list is empty or NULL, this returns NULL.
+ */
+void *list_remove_last(list li) {
+	if (!li)
+		return NULL;
+	if (!li->size)
+		return NULL;
+	
+	void *item = li->data[li->size - 1];
+	li->data[li->size - 1] = NULL;
+	li->size--;
+	return item;
+}
