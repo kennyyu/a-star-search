@@ -6,6 +6,10 @@ TODO
 ====
 *	Add an equality function pointer to list
 
+*	Implement Dictionaries with BSTs (TreeDict) and Hash Tables (HashDict)
+
+*	Implement Set with Dictionaries
+
 INSTALL
 =======
 *	Install [Check](http://check.sourceforge.net/), a C testing framework.
