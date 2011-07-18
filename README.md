@@ -2,6 +2,10 @@ ABOUT
 =====
 This is collection of C library data structures and a solution for the [fifteen puzzle](http://en.wikipedia.org/wiki/Fifteen_puzzle "Fifteen Puzzle"), using an [A* Search](http://en.wikipedia.org/wiki/A*_search_algorithm "A* Search").
 
+TODO
+====
+*	Add an equality function pointer to list
+
 INSTALL
 =======
 *	Install [Check](http://check.sourceforge.net/ "Check"), a C testing framework.

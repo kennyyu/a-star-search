@@ -32,6 +32,7 @@ all: $(TESTS)
 check: $(TESTS)
 	for t in $(TESTS); \
 	do \
+		echo " "; \
 		./$$t; \
 	done
 

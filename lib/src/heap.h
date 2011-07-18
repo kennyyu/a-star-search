@@ -57,6 +57,14 @@ int heap_is_empty(heap);
  */
 int heap_contains(heap, void *);
 
+/*
+ * Returns an array of pointers to the items in the heap. They will be
+ * returned in an arbitrary order. The length of the array will be the size of
+ * the heap. If the heap is NULL, this returns NULL. If the length is 0, this 
+ * returns NULL. If malloc fails, this also returns NULL.
+ */
+void **heap_to_array(heap);
+
 /* 
  * Returns a pointer to the min item in the heap. If the heap is NULL or is 
  * empty, this returns NULL.
@@ -68,12 +76,19 @@ void *heap_peek(heap);
  * the queue is NULL, this returns ERROR_HEAP_IS_NULL. If there is not enough
  * memory, this returns ERROR_HEAP_MALLOC_FAIL.
  */
-int heap_add(heap);
+int heap_add(heap, void *);
 
 /* 
  * Removes the min item from the heap and returns a pointer to it. If the 
  * item is not found or if the heap is empty or NULL, this returns NULL.
  */
 void *heap_remove(heap);
+
+/*
+ * Merges two heaps and returns a pointer to the new heap. The old heaps are
+ * not changed. If both heaps are NULL, return NULL. If one of the heaps is 
+ * NULL, returns a copy of the other heap.
+ */
+heap heap_merge(heap, heap);
 
 #endif
