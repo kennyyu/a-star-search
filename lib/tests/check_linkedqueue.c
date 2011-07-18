@@ -97,7 +97,7 @@ START_TEST (test_queue_dequeue) {
 END_TEST
 
 Suite *queue_suite(void) {
-  Suite *s = suite_create("Queue");
+  Suite *s = suite_create("LinkedList Queue");
 
   /* test constructors and destructors */
   TCase *tc_init = tcase_create("Intialize");

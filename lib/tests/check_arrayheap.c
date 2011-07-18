@@ -364,7 +364,7 @@ START_TEST (test_heap_merge) {
 END_TEST
 
 Suite *heap_suite(void) {
-  Suite *s = suite_create("ArrayHeap");
+  Suite *s = suite_create("ArrayList Heap");
 
   /* test constructors and destructors */
   TCase *tc_init = tcase_create("Intialize");

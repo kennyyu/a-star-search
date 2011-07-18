@@ -3,21 +3,21 @@
 #include <check.h>
 #include "../src/list.h"
 
-list list_test;
+list li_test;
 
 void setup (void) {
-	list_test = list_create();
+	li_test = list_create();
 }
 
 void teardown(void) {
-  list_free(list_test);
+  list_free(li_test);
 }
 
 START_TEST (test_list_create) {
-	fail_if(!list_test, "list_create failed.");
-  fail_unless(list_size(list_test) == 0, 
+	fail_if(!li_test, "list_create failed.");
+  fail_unless(list_size(li_test) == 0, 
 							"Size not set correctly on creation");
-	fail_unless(list_is_empty(list_test), "Error: list is not empty");
+	fail_unless(list_is_empty(li_test), "Error: list is not empty");
 }
 END_TEST
 

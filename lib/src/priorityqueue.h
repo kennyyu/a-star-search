@@ -1,11 +1,22 @@
-#ifndef _PRIORITY_QUEUE_H
-#define _PRIORITY_QUEUE_H
+#ifndef _PRIORITY_PQUEUE_H
+#define _PRIORITY_PQUEUE_H
 
+/* 
+ * Alias pqueue to be a pointer to a struct pqueue.
+ */
 typedef struct pqueue *pqueue;
 
-pqueue pqueue_create();
-void pqueue_free(pqueue);
+/*
+ * Alias pqueue_compare to be a function pointer type that takes two pointers 
+ * to items and compares them. Returns + if the first item > second item, 0 if
+ * the first item = second item, - if the first item < second item.
+ */
+typedef int (*pqueue_compare) (void *, void *);
 
+/*
+ * Enumeration of error and success return values for functions that return an
+ * int. 
+ */
 typedef enum pqueue_error_numbers 
 {
 	SUCCESS_PQUEUE = 1,
@@ -15,11 +26,52 @@ typedef enum pqueue_error_numbers
 	ERROR_PQUEUE_MALLOC_FAIL = -4
 } pqueue_error_numbers;
 
+/* 
+ * Initialize a pqueue and returns a pointer to the pqueue. If there is not
+ * enough memory, this returns NULL.
+ */
+pqueue pqueue_create(pqueue_compare);
+
+/* 
+ * Frees the memory held by the pqueue.
+ */
+void pqueue_free(pqueue);
+
+/* 
+ * Returns the length of the pqueue. If the pqueue is NULL, this returns 
+ * ERROR_PQUEUE_IS_NULL.
+ */
 int pqueue_size(pqueue);
+
+/* 
+ * Returns 1 if the pqueue is empty, otherwise returns 0. If pqueue is NULL,
+ * this returns ERROR_PQUEUE_IS_NULL.
+ */
 int pqueue_is_empty(pqueue);
+
+/* 
+ * Returns 1 if the item is in the pqueue, otherwise returns 0. If pqueue is
+ * NULL, this returns ERROR_PQUEUE_IS_NULL. If the item is NULL, this returns
+ * ERROR_PQUEUE_ITEM_IS_NULL.
+ */
 int pqueue_contains(pqueue, void *);
+
+/* 
+ * Returns a pointer to the min item in the pqueue. If the pqueue is NULL
+ * or is empty, this returns NULL.
+ */
 void *pqueue_peek(pqueue);
+
+/* 
+ * Adds the item to the pqueue. If successful, this returns SUCCESS_PQUEUE. If 
+ * the pqueue is NULL, this returns ERROR_PQUEUE_IS_NULL.
+ */
 int pqueue_enpqueue(pqueue, void *);
+
+/* 
+ * Removes the min item in the pqueue and returns a pointer to it. If the 
+ * item is not found or if the pqueue is empty or NULL, this returns NULL.
+ */
 void *pqueue_depqueue(pqueue);
 
 #endif

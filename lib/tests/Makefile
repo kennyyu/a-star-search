@@ -3,8 +3,8 @@ CFLAGS = -g -std=c99 -Wall
 SLIBS = -lcheck
 SRC = ../src
 INCLUDES = list.h queue.h stack.h heap.h
-OBJECTS = check_linkedlist.o check_arraylist.o check_queue.o check_stack.o check_arrayheap.o
-TESTS = check_linkedlist check_arraylist check_queue check_stack check_arrayheap
+OBJECTS = check_linkedlist.o check_arraylist.o check_linkedqueue.o check_linkedstack.o check_arrayheap.o check_heappriorityqueue.o
+TESTS = check_linkedlist check_arraylist check_linkedqueue check_linkedstack check_arrayheap check_heappriorityqueue
 
 %.o : %.c $(INCLUDES)
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -18,13 +18,16 @@ check_linkedlist: check_linkedlist.o $(SRC)/linkedlist.o
 check_arraylist: check_arraylist.o $(SRC)/arraylist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 	
-check_queue: check_queue.o $(SRC)/queue.o $(SRC)/linkedlist.o
+check_linkedqueue: check_linkedqueue.o $(SRC)/linkedqueue.o $(SRC)/linkedlist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
-check_stack: check_stack.o $(SRC)/stack.o $(SRC)/linkedlist.o
+check_linkedstack: check_linkedstack.o $(SRC)/linkedstack.o $(SRC)/linkedlist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 	
 check_arrayheap: check_arrayheap.o $(SRC)/arrayheap.o $(SRC)/arraylist.o
+	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
+	
+check_heappriorityqueue: check_heappriorityqueue.o $(SRC)/heappriorityqueue.o $(SRC)/arrayheap.o $(SRC)/arraylist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
 all: $(TESTS)

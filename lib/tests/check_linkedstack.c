@@ -97,7 +97,7 @@ START_TEST (test_stack_pop) {
 END_TEST
 
 Suite *stack_suite(void) {
-  Suite *s = suite_create("Stack");
+  Suite *s = suite_create("LinkedList Stack");
 
   /* test constructors and destructors */
   TCase *tc_init = tcase_create("Intialize");
