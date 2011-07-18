@@ -22,13 +22,16 @@ INSTALL
 	
 *	To use the data structures, include the path to the src folder, and link the appropriate object file. Here's an example including the list.h file and linking the object file linkedlist.o: 
 
+	In hello.c:
+	
 		/*
 	 	 * include the list header file
 	 	 */
 		include "../lib/src/list.h"
 		// ...
 	
-		# compile and link with linkedlist.o
+	When compiling:
+
 		gcc -o hello hello.c ../lib/src/linkedlist.o
 
 SOURCE
