@@ -1,6 +1,6 @@
 ABOUT
 =====
-This is collection of C library data structures and a solution for the [fifteen puzzle](http://en.wikipedia.org/wiki/Fifteen_puzzle "Fifteen Puzzle"), using an [A* Search](http://en.wikipedia.org/wiki/A*_search_algorithm "A* Search").
+This is collection of C library data structures and a solution for the [fifteen puzzle](http://en.wikipedia.org/wiki/Fifteen_puzzle), using an [A* Search](http://en.wikipedia.org/wiki/A*_search_algorithm).
 
 TODO
 ====
@@ -8,7 +8,7 @@ TODO
 
 INSTALL
 =======
-*	Install [Check](http://check.sourceforge.net/ "Check"), a C testing framework.
+*	Install [Check](http://check.sourceforge.net/), a C testing framework.
 
 *	Download source code.
 
@@ -32,7 +32,7 @@ INSTALL
 	
 	When compiling:
 
-		gcc -o hello hello.c ../lib/src/linkedlist.o
+		$ gcc -o hello hello.c ../lib/src/linkedlist.o
 
 SOURCE
 ======
