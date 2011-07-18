@@ -4,11 +4,21 @@ This is collection of C library data structures and a solution for the [fifteen 
 
 TODO
 ====
-*	Add an equality function pointer to list
+*	A* Search
+	
+	* 	implement it so that it is reusable
 
-*	Implement Dictionaries with BSTs (TreeDict) and Hash Tables (HashDict)
+*	Library:
 
-*	Implement Set with Dictionaries
+	*	Add an equality function pointer to list
+
+	*	Implement Dictionaries with BSTs (TreeDict) and Hash Tables (HashDict)
+
+	*	Implement Set with Dictionaries
+	
+	*	Future: implement Graphs
+	
+	*	Algorithms (Sorts, Graph algorithms)
 
 INSTALL
 =======
