@@ -5,18 +5,18 @@ This is collection of C library data structures and a solution for the [fifteen 
 TODO
 ====
 *	A* Search
-	
-	* 	implement it so that it is reusable
 
 *	Library:
 
 	*	Add an equality function pointer to list
+	
+	*	Add a free_items function to all data structures to optionally free the items
 
-	*	Implement Dictionaries with BSTs (TreeDict) and Hash Tables (HashDict)
+	*	Implement treeset (with binary search trees) and hashset (with hash tables)
+	
+	* 	Implement treemap and hashmap with sets.
 
 	*	Implement Set with Dictionaries
-	
-	*	Future: implement Graphs
 	
 	*	Algorithms (Sorts, Graph algorithms)
 

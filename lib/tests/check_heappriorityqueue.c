@@ -110,7 +110,7 @@ Suite *pqueue_suite(void) {
   suite_add_tcase(s, tc_init);
 
   /* test enpqueue and depqueue */
-  TCase *tc_pqueue = tcase_create("Queue Properties");
+  TCase *tc_pqueue = tcase_create("Priority Queue Properties");
   tcase_add_test(tc_pqueue, test_pqueue_enpqueue);
   tcase_add_test(tc_pqueue, test_pqueue_depqueue);
   suite_add_tcase(s, tc_pqueue);
