@@ -10,6 +10,8 @@ TODO
 
 	*	Add an equality function pointer to list
 	
+	*	How to deal with using two different files together that implement the same header file.
+	
 	*	Add a free_items function to all data structures to optionally free the items
 
 	*	Implement treeset (with binary search trees) and hashset (with hash tables)
