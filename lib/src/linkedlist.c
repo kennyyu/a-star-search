@@ -1,23 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "list.h"
+#include "linkedlist.h"
 
 /* Internal. Do not use. */
-struct _list_node {
+struct __linkedlist_node {
 	void *data;
-	struct _list_node *next;
-	struct _list_node *prev;
+	struct __linkedlist_node *next;
+	struct __linkedlist_node *prev;
 }; 
-typedef struct _list_node *_list_node;	
+typedef struct __linkedlist_node *__linkedlist_node;	
 
 /* we alias list to be a pointer to this struct */
-struct list {
-	_list_node head;
-	_list_node tail;
+struct linkedlist {
+	__linkedlist_node head;
+	__linkedlist_node tail;
 	int size;
 };
 
-list list_create() {
+list _linkedlist_create() {
 	list li = malloc(sizeof(struct list));
 	/* if malloc returned NULL, also return NULL */
 	if (!li)
@@ -28,11 +28,11 @@ list list_create() {
 	return li;
 }
 
-void list_free(list li) {
+void _linkedlist_free(list li) {
 	if (!li)
 		return;
 	
-	_list_node current = li->head;
+	__linkedlist_node current = li->head;
 	while (current) {
 		if (!current->next) {
 			/* current is the last node */
@@ -46,25 +46,25 @@ void list_free(list li) {
 	free(li);
 }
 
-int list_size(list li) {
+int _linkedlist_size(list li) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
  	return li->size;
 }
 
-int list_is_empty(list li) {
+int _linkedlist_is_empty(list li) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
-	return list_size(li) == 0;
+	return _linkedlist_size(li) == 0;
 }
 
-int list_contains(list li, void *item) {
+int _linkedlist_contains(list li, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
 		return ERROR_LIST_ITEM_IS_NULL;
 	
-	_list_node current = li->head;
+	__linkedlist_node current = li->head;
 	while (current) {
 		if (item == current->data) 
 			return 1;
@@ -74,7 +74,7 @@ int list_contains(list li, void *item) {
 	return 0;
 }
 
-void *list_get_first(list li) {
+void *_linkedlist_get_first(list li) {
 	if (!li)
 		return NULL;
 		
@@ -85,7 +85,7 @@ void *list_get_first(list li) {
 	return li->head->data;
 }
 
-void *list_get_last(list li) {
+void *_linkedlist_get_last(list li) {
 	if (!li)
 		return NULL;
 	
@@ -96,7 +96,7 @@ void *list_get_last(list li) {
 	return li->tail->data;
 }
 
-void *list_get(list li, int index) {
+void *_linkedlist_get(list li, int index) {
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -104,14 +104,14 @@ void *list_get(list li, int index) {
 	if ((index < 0) || (index >= li->size))
 		return NULL;
 	
-	_list_node current = li->head;
+	__linkedlist_node current = li->head;
 	for (int i = 0; i < index; i++) {
 		current = current->next;
 	}
 	return current->data;
 }
 
-void **list_to_array(list li) {
+void **_linkedlist_to_array(list li) {
 	if (!li || li->size == 0)
 		return NULL;
 		
@@ -119,7 +119,7 @@ void **list_to_array(list li) {
 	if (!items)
 		return NULL;
 	int counter = 0;
-	_list_node current = li->head;
+	__linkedlist_node current = li->head;
 	while (current) {
 		items[counter] = current;
 		counter++;
@@ -128,14 +128,14 @@ void **list_to_array(list li) {
 	return items;
 }
 
-int list_add_first(list li, void *item) {
+int _linkedlist_add_first(list li, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
 		return ERROR_LIST_ITEM_IS_NULL;
 	
 	/* make a new node to contain the item */
-	_list_node node = malloc(sizeof(struct _list_node));
+	__linkedlist_node node = malloc(sizeof(struct __linkedlist_node));
 	if (!node)
 		return ERROR_LIST_MALLOC_FAIL;
 	node->next = NULL;
@@ -159,14 +159,14 @@ int list_add_first(list li, void *item) {
 	return SUCCESS_LIST;
 }
 
-int list_add_last(list li, void *item) {
+int _linkedlist_add_last(list li, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
 		return ERROR_LIST_ITEM_IS_NULL;
 	
 	/* make a new node to contain the item */
-	_list_node node = malloc(sizeof(struct _list_node));
+	__linkedlist_node node = malloc(sizeof(struct __linkedlist_node));
 	if (!node)
 		return ERROR_LIST_MALLOC_FAIL;
 	node->next = NULL;
@@ -189,7 +189,7 @@ int list_add_last(list li, void *item) {
 	return SUCCESS_LIST;
 }
 
-int list_set(list li, int index, void *item) {
+int _linkedlist_set(list li, int index, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -197,14 +197,14 @@ int list_set(list li, int index, void *item) {
 	if (index < 0 || index >= li->size)
 		return ERROR_LIST_OUT_OF_BOUNDS;
 	
-	_list_node current = li->head;
+	__linkedlist_node current = li->head;
 	for (int i = 0; i < index; i++)
 		current = current->next;
 	current->data = item;
 	return SUCCESS_LIST;
 }
 
-void *list_remove_first(list li) {
+void *_linkedlist_remove_first(list li) {
 	if (!li)
 		return NULL;
 	if (!li->head)
@@ -224,7 +224,7 @@ void *list_remove_first(list li) {
 	return item;
 }
 
-void *list_remove_last(list li) {
+void *_linkedlist_remove_last(list li) {
 	if (!li)
 		return NULL;
 	if (!li->tail)
@@ -244,7 +244,7 @@ void *list_remove_last(list li) {
 	return item;
 }
 
-int list_remove(list li, void *item) {
+int _linkedlist_remove(list li, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -252,7 +252,7 @@ int list_remove(list li, void *item) {
 	if (li->size == 0)
 		return ERROR_LIST_IS_EMPTY;
 	
-	_list_node current = li->head;
+	__linkedlist_node current = li->head;
 	while (current) {
 		if (current->data == item) {
 			if (current->prev) {
@@ -284,5 +284,21 @@ int list_remove(list li, void *item) {
 	return ERROR_LIST_ITEM_NOT_FOUND;
 }
 
-
-
+/* initialize linkedlist manually */
+list_methods linkedlist_methods = {
+	.create = &_linkedlist_create,
+	.free = &_linkedlist_free,
+	.size = &_linkedlist_size,
+	.is_empty = &_linkedlist_is_empty,
+	.contains = &_linkedlist_contains,
+	.get_first = &_linkedlist_get_first,
+	.get_last = &_linkedlist_get_last,
+	.get = &_linkedlist_get,
+	.to_array = &_linkedlist_to_array,
+	.add_first = &_linkedlist_add_first,
+	.add_last = &_linkedlist_add_last,
+	.set = &_linkedlist_set,
+	.remove = &_linkedlist_remove,
+	.remove_first = &_linkedlist_remove_first,
+	.remove_last = &_linkedlist_remove_last,
+};

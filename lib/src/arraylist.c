@@ -14,7 +14,7 @@ struct list {
 	void **data;
 };
 
-list list_create() {
+list _arraylist_create() {
 	list li = malloc(sizeof(struct list));
 	/* if malloc returned NULL, also return NULL */
 	if (!li)
@@ -28,7 +28,7 @@ list list_create() {
 }
 
 /* this does not free the items */
-void list_free(list li) {
+void _arraylist_free(list li) {
 	if (!li)
 		return;
 	free(li->data);
@@ -38,7 +38,7 @@ void list_free(list li) {
 /* resize the array by doubling it's current array_size. returns 
  * ERROR_LIST_MALLOC_FAIL if malloc fails, or returns ERROR_LIST_IS_NULL if
  * the list is NULL. On success, return SUCCESS_LIST */
-int _list_resize(list li) {
+int __arraylist_resize(list li) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	int new_array_size = li->array_size * 2;
@@ -53,19 +53,19 @@ int _list_resize(list li) {
 	return SUCCESS_LIST;
 }
 
-int list_size(list li) {
+int _arraylist_size(list li) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
  	return li->size;
 }
 
-int list_is_empty(list li) {
+int _arraylist_is_empty(list li) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
-	return list_size(li) == 0;
+	return _arraylist_size(li) == 0;
 }
 
-int list_contains(list li, void *item) {
+int _arraylist_contains(list li, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -78,7 +78,7 @@ int list_contains(list li, void *item) {
 	return 0;
 }
  
-void *list_get_first(list li) {
+void *_arraylist_get_first(list li) {
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -86,7 +86,7 @@ void *list_get_first(list li) {
 	return li->data[0];
 }
 
-void *list_get_last(list li) {
+void *_arraylist_get_last(list li) {
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -94,7 +94,7 @@ void *list_get_last(list li) {
 	return li->data[li->size - 1];
 }
 
-void *list_get(list li, int index) {
+void *_arraylist_get(list li, int index) {
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -104,7 +104,7 @@ void *list_get(list li, int index) {
 	return li->data[index];
 }
 
-void **list_to_array(list li) {
+void **_arraylist_to_array(list li) {
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -118,7 +118,7 @@ void **list_to_array(list li) {
 	return items;
 }
 
-int list_add_first(list li, void *item) {
+int _arraylist_add_first(list li, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -126,7 +126,7 @@ int list_add_first(list li, void *item) {
 		
 	/* resize array if the array is full */
 	if (li->size == li->array_size) {
-		int error = _list_resize(li);
+		int error = __arraylist_resize(li);
 		if (error != SUCCESS_LIST)
 			return ERROR_LIST_MALLOC_FAIL;
 	}
@@ -139,7 +139,7 @@ int list_add_first(list li, void *item) {
 	return SUCCESS_LIST;
 }
 
-int list_add_last(list li, void *item) {
+int _arraylist_add_last(list li, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -147,7 +147,7 @@ int list_add_last(list li, void *item) {
 		
 	/* resize array if the array is full */
 	if (li->size == li->array_size) {
-		int error = _list_resize(li);
+		int error = __arraylist_resize(li);
 		if (error != SUCCESS_LIST)
 			return ERROR_LIST_MALLOC_FAIL;
 	}
@@ -156,7 +156,7 @@ int list_add_last(list li, void *item) {
 	return SUCCESS_LIST;
 }
 
-int list_set(list li, int index, void *item) {
+int _arraylist_set(list li, int index, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -168,7 +168,7 @@ int list_set(list li, int index, void *item) {
 	return SUCCESS_LIST;
 }
 
-int list_remove(list li, void *item) {
+int _arraylist_remove(list li, void *item) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -193,11 +193,7 @@ int list_remove(list li, void *item) {
 	return SUCCESS_LIST;
 }
 
-/* 
- * Removes the first item from the list and returns a pointer to it. If the 
- * item is not found or if the list is empty or NULL, this returns NULL.
- */
-void *list_remove_first(list li) {
+void *_arraylist_remove_first(list li) {
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -212,11 +208,7 @@ void *list_remove_first(list li) {
 	return item;
 }
 
-/* 
- * Removes the last item from the list and returns a pointer to it. If the 
- * item is not found or if the list is empty or NULL, this returns NULL.
- */
-void *list_remove_last(list li) {
+void *_arraylist_remove_last(list li) {
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -227,3 +219,21 @@ void *list_remove_last(list li) {
 	li->size--;
 	return item;
 }
+
+list_methods arraylist_methods = {
+	.create = &_arraylist_create,
+	.free = &_arraylist_free,
+	.size = &_arraylist_size,
+	.is_empty = &_arraylist_is_empty,
+	.contains = &_arraylist_contains,
+	.get_first = &_arraylist_get_first,
+	.get_last = &_arraylist_get_last,
+	.get = &_arraylist_get,
+	.to_array = &_arraylist_to_array,
+	.add_first = &_arraylist_add_first,
+	.add_last = &_arraylist_add_last,
+	.set = &_arraylist_set,
+	.remove = &_arraylist_remove,
+	.remove_first = &_arraylist_remove_first,
+	.remove_last = &_arraylist_remove_last,
+};
