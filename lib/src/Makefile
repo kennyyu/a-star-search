@@ -1,8 +1,8 @@
 CC = gcc
 CFLAGS = -g -std=c99 -Wall
 SLIBS =
-OBJECTS = linkedlist.o arraylist.o linkedqueue.o linkedstack.o arrayheap.o heappriorityqueue.o
-INCLUDES = priorityqueue.h list.h queue.h stack.h heap.h
+OBJECTS = list.o linkedlist.o arraylist.o queue.o linkedqueue.o stack.o linkedstack.o heap.o arrayheap.o priorityqueue.o heappriorityqueue.o
+INCLUDES = list.h linkedlist.h arraylist.h queue.h linkedqueue.h stack.h linkedstack.h heap.h arrayheap.h priorityqueue.h heappriorityqueue.h 
 PROGRAM =
 
 %.o : %.c $(INCLUDES)

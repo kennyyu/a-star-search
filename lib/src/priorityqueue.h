@@ -26,52 +26,57 @@ typedef enum pqueue_error_numbers
 	ERROR_PQUEUE_MALLOC_FAIL = -4
 } pqueue_error_numbers;
 
-/* 
- * Initialize a pqueue and returns a pointer to the pqueue. If there is not
- * enough memory, this returns NULL.
- */
-pqueue pqueue_create(pqueue_compare);
+typedef struct pqueue_methods pqueue_methods;
 
-/* 
- * Frees the memory held by the pqueue.
- */
-void pqueue_free(pqueue);
+struct pqueue_methods {
+	/* 
+	 * Initialize a pqueue and returns a pointer to the pqueue. If there is not
+	 * enough memory, this returns NULL.
+	 */
+	pqueue (*create)(pqueue_compare);
 
-/* 
- * Returns the length of the pqueue. If the pqueue is NULL, this returns 
- * ERROR_PQUEUE_IS_NULL.
- */
-int pqueue_size(pqueue);
+	/* 
+	 * Frees the memory held by the pqueue.
+	 */
+	void (*free)(pqueue);
 
-/* 
- * Returns 1 if the pqueue is empty, otherwise returns 0. If pqueue is NULL,
- * this returns ERROR_PQUEUE_IS_NULL.
- */
-int pqueue_is_empty(pqueue);
+	/* 
+	 * Returns the length of the pqueue. If the pqueue is NULL, this returns 
+	 * ERROR_PQUEUE_IS_NULL.
+	 */
+	int (*size)(pqueue);
 
-/* 
- * Returns 1 if the item is in the pqueue, otherwise returns 0. If pqueue is
- * NULL, this returns ERROR_PQUEUE_IS_NULL. If the item is NULL, this returns
- * ERROR_PQUEUE_ITEM_IS_NULL.
- */
-int pqueue_contains(pqueue, void *);
+	/* 
+	 * Returns 1 if the pqueue is empty, otherwise returns 0. If pqueue is NULL,
+	 * this returns ERROR_PQUEUE_IS_NULL.
+	 */
+	int (*is_empty)(pqueue);
 
-/* 
- * Returns a pointer to the min item in the pqueue. If the pqueue is NULL
- * or is empty, this returns NULL.
- */
-void *pqueue_peek(pqueue);
+	/* 
+	 * Returns 1 if the item is in the pqueue, otherwise returns 0. If pqueue is
+	 * NULL, this returns ERROR_PQUEUE_IS_NULL. If the item is NULL, this returns
+	 * ERROR_PQUEUE_ITEM_IS_NULL.
+	 */
+	int (*contains)(pqueue, void *);
 
-/* 
- * Adds the item to the pqueue. If successful, this returns SUCCESS_PQUEUE. If 
- * the pqueue is NULL, this returns ERROR_PQUEUE_IS_NULL.
- */
-int pqueue_enpqueue(pqueue, void *);
+	/* 
+	 * Returns a pointer to the min item in the pqueue. If the pqueue is NULL
+	 * or is empty, this returns NULL.
+	 */
+	void *(*peek)(pqueue);
 
-/* 
- * Removes the min item in the pqueue and returns a pointer to it. If the 
- * item is not found or if the pqueue is empty or NULL, this returns NULL.
- */
-void *pqueue_depqueue(pqueue);
+	/* 
+	 * Adds the item to the pqueue. If successful, this returns SUCCESS_PQUEUE. If 
+	 * the pqueue is NULL, this returns ERROR_PQUEUE_IS_NULL.
+	 */
+	int (*enqueue)(pqueue, void *);
+
+	/* 
+	 * Removes the min item in the pqueue and returns a pointer to it. If the 
+	 * item is not found or if the pqueue is empty or NULL, this returns NULL.
+	 */
+	void *(*dequeue)(pqueue);
+
+};
 
 #endif

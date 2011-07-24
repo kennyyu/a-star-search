@@ -19,52 +19,57 @@ typedef enum queue_error_numbers
 	ERROR_QUEUE_MALLOC_FAIL = -4
 } queue_error_numbers;
 
-/* 
- * Initialize a queue and returns a pointer to the queue. If there is not
- * enough memory, this returns NULL.
- */
-queue queue_create();
+typedef struct queue_methods queue_methods;
 
-/* 
- * Frees the memory held by the queue.
- */
-void queue_free(queue);
+struct queue_methods {
+	/* 
+	 * Initialize a queue and returns a pointer to the queue. If there is not
+	 * enough memory, this returns NULL.
+	 */
+	queue (*create)();
 
-/* 
- * Returns the length of the queue. If the queue is NULL, this returns 
- * ERROR_QUEUE_IS_NULL.
- */
-int queue_size(queue);
+	/* 
+	 * Frees the memory held by the queue.
+	 */
+	void (*free)(queue);
 
-/* 
- * Returns 1 if the queue is empty, otherwise returns 0. If the queue is NULL,
- * this returns ERROR_QUEUE_IS_NULL.
- */
-int queue_is_empty(queue);
+	/* 
+	 * Returns the length of the queue. If the queue is NULL, this returns 
+	 * ERROR_QUEUE_IS_NULL.
+	 */
+	int (*size)(queue);
 
-/* 
- * Returns 1 if the item is in the queue, otherwise returns 0. If the queue is
- * NULL, this returns ERROR_QUEUE_IS_NULL. If the item is NULL, this returns
- * ERROR_QUEUE_ITEM_IS_NULL.
- */
-int queue_contains(queue, void *);
+	/* 
+	 * Returns 1 if the queue is empty, otherwise returns 0. If the queue is NULL,
+	 * this returns ERROR_QUEUE_IS_NULL.
+	 */
+	int (*is_empty)(queue);
 
-/* 
- * Returns a pointer to the top item in the queue. If the queue is NULL
- * or is empty, this returns NULL.
- */
-void *queue_peek(queue);
+	/* 
+	 * Returns 1 if the item is in the queue, otherwise returns 0. If the queue is
+	 * NULL, this returns ERROR_QUEUE_IS_NULL. If the item is NULL, this returns
+	 * ERROR_QUEUE_ITEM_IS_NULL.
+	 */
+	int (*contains)(queue, void *);
 
-/* 
- * Adds the item to the queue. If successful, this returns SUCCESS_QUEUE. If 
- * the queue is NULL, this returns ERROR_QUEUE_IS_NULL.
- */
-int queue_enqueue(queue, void *);
+	/* 
+	 * Returns a pointer to the top item in the queue. If the queue is NULL
+	 * or is empty, this returns NULL.
+	 */
+	void *(*peek)(queue);
 
-/* 
- * Removes the first item in the queue and returns a pointer to it. If the 
- * item is not found or if the queue is empty or NULL, this returns NULL.
- */
-void *queue_dequeue(queue);
+	/* 
+	 * Adds the item to the queue. If successful, this returns SUCCESS_QUEUE. If 
+	 * the queue is NULL, this returns ERROR_QUEUE_IS_NULL.
+	 */
+	int (*enqueue)(queue, void *);
+
+	/* 
+	 * Removes the first item in the queue and returns a pointer to it. If the 
+	 * item is not found or if the queue is empty or NULL, this returns NULL.
+	 */
+	void *(*dequeue)(queue);
+
+};
 
 #endif

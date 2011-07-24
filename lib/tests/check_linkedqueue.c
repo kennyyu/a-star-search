@@ -1,23 +1,23 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <check.h>
-#include "../src/queue.h"
+#include "../src/linkedqueue.h"
 
 queue qu_test;
 
 void setup (void) {
-	qu_test = queue_create();
+	qu_test = linkedqueue_methods.create();
 }
 
 void teardown(void) {
-  queue_free(qu_test);
+  linkedqueue_methods.free(qu_test);
 }
 
 START_TEST (test_queue_create) {
-	fail_if(!qu_test, "queue_create failed.");
-  fail_unless(queue_size(qu_test) == 0, 
+	fail_if(!qu_test, "linkedqueue_methods.create failed.");
+  fail_unless(linkedqueue_methods.size(qu_test) == 0, 
 							"Size not set correctly on creation");
-	fail_unless(queue_is_empty(qu_test), "Error: queue is not empty");
+	fail_unless(linkedqueue_methods.is_empty(qu_test), "Error: queue is not empty");
 }
 END_TEST
 
@@ -32,26 +32,26 @@ START_TEST (test_queue_enqueue) {
 	
 	queue qu = NULL;
 	
-	error = queue_enqueue(qu, nums[0]);
+	error = linkedqueue_methods.enqueue(qu, nums[0]);
 	fail_unless(error == ERROR_QUEUE_IS_NULL, "Error adding to NULL queue");
-	fail_unless(queue_size(qu) == ERROR_QUEUE_IS_NULL, 
+	fail_unless(linkedqueue_methods.size(qu) == ERROR_QUEUE_IS_NULL, 
 							"Size incorrect after adding to NULL queue");
 	
-	qu = queue_create();
-	fail_if(!qu, "queue_create failed.");
+	qu = linkedqueue_methods.create();
+	fail_if(!qu, "linkedqueue_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = queue_enqueue(qu, nums[i]);
+		error = linkedqueue_methods.enqueue(qu, nums[i]);
 		fail_unless(error == SUCCESS_QUEUE, "Error adding with enqueue");
-		fail_unless(queue_size(qu) == (i+1), "Size incorrect after enqueue");	
-		item = (int *) queue_peek(qu);
+		fail_unless(linkedqueue_methods.size(qu) == (i+1), "Size incorrect after enqueue");	
+		item = (int *) linkedqueue_methods.peek(qu);
 		fail_unless(*item == 0, "Error in peek");
-		fail_unless(queue_contains(qu, nums[i]), "Error in queue_contains");
+		fail_unless(linkedqueue_methods.contains(qu, nums[i]), "Error in linkedqueue_methods.contains");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	queue_free(qu);
+	linkedqueue_methods.free(qu);
 }
 END_TEST
 
@@ -66,33 +66,33 @@ START_TEST (test_queue_dequeue) {
 	
 	queue qu = NULL;
 	
-	error = queue_enqueue(qu, nums[0]);
+	error = linkedqueue_methods.enqueue(qu, nums[0]);
 	fail_unless(error == ERROR_QUEUE_IS_NULL, "Error adding to NULL queue");
-	fail_unless(queue_size(qu) == ERROR_QUEUE_IS_NULL, 
+	fail_unless(linkedqueue_methods.size(qu) == ERROR_QUEUE_IS_NULL, 
 							"Size incorrect after adding to NULL queue");
 	
-	qu = queue_create();
-	fail_if(!qu, "queue_create failed.");
+	qu = linkedqueue_methods.create();
+	fail_if(!qu, "linkedqueue_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = queue_enqueue(qu, nums[i]);
+		error = linkedqueue_methods.enqueue(qu, nums[i]);
 		fail_unless(error == SUCCESS_QUEUE, "Error adding with enqueue");
-		fail_unless(queue_size(qu) == (i+1), "Size incorrect after enqueue");	
-		item = (int *) queue_peek(qu);
+		fail_unless(linkedqueue_methods.size(qu) == (i+1), "Size incorrect after enqueue");	
+		item = (int *) linkedqueue_methods.peek(qu);
 		fail_unless(*item == 0, "Error in peek");
-		fail_unless(queue_contains(qu, nums[i]), "Error in queue_contains");
+		fail_unless(linkedqueue_methods.contains(qu, nums[i]), "Error in linkedqueue_methods.contains");
 	}
 	
 	for (int i = 0; i < 3; i++) {
-		item = (int *) queue_dequeue(qu);
-		fail_unless(queue_size(qu) == (2-i), "Size incorrect after enqueue");
+		item = (int *) linkedqueue_methods.dequeue(qu);
+		fail_unless(linkedqueue_methods.size(qu) == (2-i), "Size incorrect after enqueue");
 		fail_unless(*item == i, "Error in dequeue");
-		fail_if(queue_contains(qu, nums[i]), "Error in queue_contains");
+		fail_if(linkedqueue_methods.contains(qu, nums[i]), "Error in linkedqueue_methods.contains");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	queue_free(qu);
+	linkedqueue_methods.free(qu);
 }
 END_TEST
 

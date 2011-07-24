@@ -26,69 +26,74 @@ typedef enum heap_error_numbers
 	ERROR_HEAP_MALLOC_FAIL = -4
 } heap_error_numbers;
 
-/* 
- * Initialize a heap and returns a pointer to the heap. It takes a function 
- * pointer to a compare function that takes two item pointers and returns +, 
- * 0, -. If there is not enough memory, this returns NULL.
- */
-heap heap_create(heap_compare);
+typedef struct heap_methods heap_methods;
 
-/* 
- * Frees the memory held by the heap.
- */
-void heap_free(heap);
+struct heap_methods {
+	/* 
+	 * Initialize a heap and returns a pointer to the heap. It takes a function 
+	 * pointer to a compare function that takes two item pointers and returns +, 
+	 * 0, -. If there is not enough memory, this returns NULL.
+	 */
+	heap (*create)(heap_compare);
 
-/* 
- * Returns the number of elements in the heap. If the queue is NULL, this 
- * returns ERROR_HEAP_IS_NULL.
- */
-int heap_size(heap);
+	/* 
+	 * Frees the memory held by the heap.
+	 */
+	void (*free)(heap);
 
-/* 
- * Returns 1 if the queue is empty, otherwise returns 0. If the heap is NULL,
- * this returns ERROR_HEAP_IS_NULL.
- */
-int heap_is_empty(heap);
+	/* 
+	 * Returns the number of elements in the heap. If the queue is NULL, this 
+	 * returns ERROR_HEAP_IS_NULL.
+	 */
+	int (*size)(heap);
 
-/* 
- * Returns 1 if the item is in the heap, otherwise returns 0. If the heap is
- * NULL, this returns ERROR_HEAP_IS_NULL. If the item is NULL, this returns
- * ERROR_HEAP_ITEM_IS_NULL.
- */
-int heap_contains(heap, void *);
+	/* 
+	 * Returns 1 if the queue is empty, otherwise returns 0. If the heap is NULL,
+	 * this returns ERROR_HEAP_IS_NULL.
+	 */
+	int (*is_empty)(heap);
 
-/*
- * Returns an array of pointers to the items in the heap. They will be
- * returned in an arbitrary order. The length of the array will be the size of
- * the heap. If the heap is NULL, this returns NULL. If the length is 0, this 
- * returns NULL. If malloc fails, this also returns NULL.
- */
-void **heap_to_array(heap);
+	/* 
+	 * Returns 1 if the item is in the heap, otherwise returns 0. If the heap is
+	 * NULL, this returns ERROR_HEAP_IS_NULL. If the item is NULL, this returns
+	 * ERROR_HEAP_ITEM_IS_NULL.
+	 */
+	int (*contains)(heap, void *);
 
-/* 
- * Returns a pointer to the min item in the heap. If the heap is NULL or is 
- * empty, this returns NULL.
- */
-void *heap_peek(heap);
+	/*
+	 * Returns an array of pointers to the items in the heap. They will be
+	 * returned in an arbitrary order. The length of the array will be the size of
+	 * the heap. If the heap is NULL, this returns NULL. If the length is 0, this 
+	 * returns NULL. If malloc fails, this also returns NULL.
+	 */
+	void **(*to_array)(heap);
 
-/* 
- * Adds the item to the heap. If successful, this returns SUCCESS_HEAP. If 
- * the queue is NULL, this returns ERROR_HEAP_IS_NULL. If there is not enough
- * memory, this returns ERROR_HEAP_MALLOC_FAIL.
- */
-int heap_add(heap, void *);
+	/* 
+	 * Returns a pointer to the min item in the heap. If the heap is NULL or is 
+	 * empty, this returns NULL.
+	 */
+	void *(*peek)(heap);
 
-/* 
- * Removes the min item from the heap and returns a pointer to it. If the 
- * item is not found or if the heap is empty or NULL, this returns NULL.
- */
-void *heap_remove(heap);
+	/* 
+	 * Adds the item to the heap. If successful, this returns SUCCESS_HEAP. If 
+	 * the queue is NULL, this returns ERROR_HEAP_IS_NULL. If there is not enough
+	 * memory, this returns ERROR_HEAP_MALLOC_FAIL.
+	 */
+	int (*add)(heap, void *);
 
-/*
- * Merges two heaps and returns a pointer to the new heap. The old heaps are
- * not changed. If both heaps are NULL, return NULL. If one of the heaps is 
- * NULL, returns a copy of the other heap.
- */
-heap heap_merge(heap, heap);
+	/* 
+	 * Removes the min item from the heap and returns a pointer to it. If the 
+	 * item is not found or if the heap is empty or NULL, this returns NULL.
+	 */
+	void *(*remove)(heap);
+
+	/*
+	 * Merges two heaps and returns a pointer to the new heap. The old heaps are
+	 * not changed. If both heaps are NULL, return NULL. If one of the heaps is 
+	 * NULL, returns a copy of the other heap.
+	 */
+	heap (*merge)(heap, heap);
+
+};
 
 #endif

@@ -1,23 +1,23 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <check.h>
-#include "../src/stack.h"
+#include "../src/linkedstack.h"
 
 stack st_test;
 
 void setup (void) {
-	st_test = stack_create();
+	st_test = linkedstack_methods.create();
 }
 
 void teardown(void) {
-  stack_free(st_test);
+  linkedstack_methods.free(st_test);
 }
 
 START_TEST (test_stack_create) {
-	fail_if(!st_test, "stack_create failed.");
-  fail_unless(stack_size(st_test) == 0, 
+	fail_if(!st_test, "linkedstack_methods.create failed.");
+  fail_unless(linkedstack_methods.size(st_test) == 0, 
 							"Size not set correctly on creation");
-	fail_unless(stack_is_empty(st_test), "Error: stack is not empty");
+	fail_unless(linkedstack_methods.is_empty(st_test), "Error: stack is not empty");
 }
 END_TEST
 
@@ -32,26 +32,26 @@ START_TEST (test_stack_push) {
 	
 	stack st = NULL;
 	
-	error = stack_push(st, nums[0]);
+	error = linkedstack_methods.push(st, nums[0]);
 	fail_unless(error == ERROR_STACK_IS_NULL, "Error adding to NULL stack");
-	fail_unless(stack_size(st) == ERROR_STACK_IS_NULL, 
+	fail_unless(linkedstack_methods.size(st) == ERROR_STACK_IS_NULL, 
 							"Size incorrect after adding to NULL stack");
 	
-	st = stack_create();
-	fail_if(!st, "stack_create failed.");
+	st = linkedstack_methods.create();
+	fail_if(!st, "linkedstack_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = stack_push(st, nums[i]);
+		error = linkedstack_methods.push(st, nums[i]);
 		fail_unless(error == SUCCESS_STACK, "Error adding with push");
-		fail_unless(stack_size(st) == (i+1), "Size incorrect after push");	
-		item = (int *) stack_peek(st);
+		fail_unless(linkedstack_methods.size(st) == (i+1), "Size incorrect after push");	
+		item = (int *) linkedstack_methods.peek(st);
 		fail_unless(*item == 0, "Error in peek");
-		fail_unless(stack_contains(st, nums[i]), "Error in stack_contains");
+		fail_unless(linkedstack_methods.contains(st, nums[i]), "Error in linkedstack_methods.contains");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	stack_free(st);
+	linkedstack_methods.free(st);
 }
 END_TEST
 
@@ -66,33 +66,33 @@ START_TEST (test_stack_pop) {
 	
 	stack st = NULL;
 	
-	error = stack_push(st, nums[0]);
+	error = linkedstack_methods.push(st, nums[0]);
 	fail_unless(error == ERROR_STACK_IS_NULL, "Error adding to NULL stack");
-	fail_unless(stack_size(st) == ERROR_STACK_IS_NULL, 
+	fail_unless(linkedstack_methods.size(st) == ERROR_STACK_IS_NULL, 
 							"Size incorrect after adding to NULL stack");
 	
-	st = stack_create();
-	fail_if(!st, "stack_create failed.");
+	st = linkedstack_methods.create();
+	fail_if(!st, "linkedstack_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = stack_push(st, nums[i]);
+		error = linkedstack_methods.push(st, nums[i]);
 		fail_unless(error == SUCCESS_STACK, "Error adding with enstack");
-		fail_unless(stack_size(st) == (i+1), "Size incorrect after push");	
-		item = (int *) stack_peek(st);
+		fail_unless(linkedstack_methods.size(st) == (i+1), "Size incorrect after push");	
+		item = (int *) linkedstack_methods.peek(st);
 		fail_unless(*item == 0, "Error in peek");
-		fail_unless(stack_contains(st, nums[i]), "Error in stack_contains");
+		fail_unless(linkedstack_methods.contains(st, nums[i]), "Error in linkedstack_methods.contains");
 	}
 	
 	for (int i = 0; i < 3; i++) {
-		item = (int *) stack_pop(st);
+		item = (int *) linkedstack_methods.pop(st);
 		fail_unless(*item == i, "Error in pop");
-		fail_unless(stack_size(st) == (2-i), "Size incorrect after push");
-		fail_if(stack_contains(st, nums[i]), "Error in stack_contains");
+		fail_unless(linkedstack_methods.size(st) == (2-i), "Size incorrect after push");
+		fail_if(linkedstack_methods.contains(st, nums[i]), "Error in linkedstack_methods.contains");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	stack_free(st);
+	linkedstack_methods.free(st);
 }
 END_TEST
 

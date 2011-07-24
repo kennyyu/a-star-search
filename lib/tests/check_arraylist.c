@@ -1,23 +1,23 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <check.h>
-#include "../src/list.h"
+#include "../src/arraylist.h"
 
 list li_test;
 
 void setup (void) {
-	li_test = list_create();
+	li_test = arraylist_methods.create();
 }
 
 void teardown(void) {
-  list_free(li_test);
+  arraylist_methods.free(li_test);
 }
 
 START_TEST (test_list_create) {
-	fail_if(!li_test, "list_create failed.");
-  fail_unless(list_size(li_test) == 0, 
+	fail_if(!li_test, "arraylist_methods.create failed.");
+  fail_unless(arraylist_methods.size(li_test) == 0, 
 							"Size not set correctly on creation");
-	fail_unless(list_is_empty(li_test), "Error: list is not empty");
+	fail_unless(arraylist_methods.is_empty(li_test), "Error: list is not empty");
 }
 END_TEST
 
@@ -31,24 +31,24 @@ START_TEST (test_get_first) {
 	}
 	
 	list li = NULL;
-	fail_unless(list_get_first(li) == NULL, 
+	fail_unless(arraylist_methods.get_first(li) == NULL, 
 							"Error getting from a NULL list");
-	li = list_create();
-	fail_if(!li, "list_create failed.");
-	fail_unless(list_get_first(li) == NULL,
+	li = arraylist_methods.create();
+	fail_if(!li, "arraylist_methods.create failed.");
+	fail_unless(arraylist_methods.get_first(li) == NULL,
 							"Error getting from an empty list");
 
 	for (int i = 0; i < 3; i++) {
-		error = list_add_last(li, nums[i]);
+		error = arraylist_methods.add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
 	}
 	
-	item = list_get_first(li);
+	item = arraylist_methods.get_first(li);
 	fail_unless(*item == 0, "Error getting first item");
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(li);
+	arraylist_methods.free(li);
 }
 END_TEST
 
@@ -62,24 +62,24 @@ START_TEST (test_get_last) {
 	}
 	
 	list li = NULL;
-	fail_unless(list_get_last(li) == NULL, 
+	fail_unless(arraylist_methods.get_last(li) == NULL, 
 							"Error getting from a NULL list");
-	li = list_create();
-	fail_if(!li, "list_create failed.");
-	fail_unless(list_get_last(li) == NULL,
+	li = arraylist_methods.create();
+	fail_if(!li, "arraylist_methods.create failed.");
+	fail_unless(arraylist_methods.get_last(li) == NULL,
 							"Error getting from an empty list");
 
 	for (int i = 0; i < 3; i++) {
-		error = list_add_last(li, nums[i]);
+		error = arraylist_methods.add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
 	}
 	
-	item = list_get_last(li);
+	item = arraylist_methods.get_last(li);
 	fail_unless(*item == 2, "Error getting first item");
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(li);
+	arraylist_methods.free(li);
 }
 END_TEST
 
@@ -93,29 +93,29 @@ START_TEST (test_get) {
 	}
 	
 	list li = NULL;
-	fail_unless(list_get(li, 0) == NULL, 
+	fail_unless(arraylist_methods.get(li, 0) == NULL, 
 							"Error getting from a NULL list");
-	li = list_create();
-	fail_if(!li, "list_create failed.");
-	fail_unless(list_get(li, 0) == NULL,
+	li = arraylist_methods.create();
+	fail_if(!li, "arraylist_methods.create failed.");
+	fail_unless(arraylist_methods.get(li, 0) == NULL,
 							"Error getting from an empty list");
 
 	for (int i = 0; i < 3; i++) {
-		error = list_add_last(li, nums[i]);
+		error = arraylist_methods.add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
 	}
 	
 	for (int i = 0; i < 3; i++) {
-		item = list_get(li, i);
+		item = arraylist_methods.get(li, i);
 		fail_unless(*item == i, "Error getting i-th item");
  	}
 
-	fail_unless(list_get(li, -1) == NULL, "Error getting with index = -1");	
-	fail_unless(list_get(li, 4) == NULL, "Error getting with index = 4");
+	fail_unless(arraylist_methods.get(li, -1) == NULL, "Error getting with index = -1");	
+	fail_unless(arraylist_methods.get(li, 4) == NULL, "Error getting with index = 4");
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(li);
+	arraylist_methods.free(li);
 }
 END_TEST
 
@@ -127,15 +127,15 @@ START_TEST (test_to_array) {
 		*nums[i] = i;
 	}
 	
-	list li = list_create();
-	fail_if(!li, "list_create failed.");
+	list li = arraylist_methods.create();
+	fail_if(!li, "arraylist_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_first(li, nums[i]);
+		error = arraylist_methods.add_first(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
 	}
 	
-	int **items = (int **) list_to_array(li);
+	int **items = (int **) arraylist_methods.to_array(li);
 	for (int i = 0; i < 3; i++) {
 		fail_unless(*items[i] == *nums[2-i], "Error in to_array");
 	}
@@ -143,7 +143,7 @@ START_TEST (test_to_array) {
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
 	free(items);	
-	list_free(li);
+	arraylist_methods.free(li);
 }
 END_TEST
 
@@ -158,28 +158,28 @@ START_TEST (test_add_first) {
 	
 	list li = NULL;
 	
-	error = list_add_first(li, nums[0]);
+	error = arraylist_methods.add_first(li, nums[0]);
 	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
-	fail_unless(list_size(li) == ERROR_LIST_IS_NULL, 
+	fail_unless(arraylist_methods.size(li) == ERROR_LIST_IS_NULL, 
 							"Size incorrect after adding to NULL list");
 	
-	li = list_create();
-	fail_if(!li, "list_create failed.");
+	li = arraylist_methods.create();
+	fail_if(!li, "arraylist_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_first(li, nums[i]);
+		error = arraylist_methods.add_first(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
-		fail_unless(list_size(li) == (i+1), "Size incorrect after add_first");	
-		item = (int *) list_get_last(li);
+		fail_unless(arraylist_methods.size(li) == (i+1), "Size incorrect after add_first");	
+		item = (int *) arraylist_methods.get_last(li);
 		fail_unless(*item == 0, "Wrong item in last position");
-		item = (int *) list_get_first(li);
+		item = (int *) arraylist_methods.get_first(li);
 		fail_unless(*item == i, "Wrong item in first position");
-		fail_unless(list_contains(li, nums[i]), "Error in list_contains");
+		fail_unless(arraylist_methods.contains(li, nums[i]), "Error in arraylist_methods.contains");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(li);
+	arraylist_methods.free(li);
 }
 END_TEST
 
@@ -194,28 +194,28 @@ START_TEST (test_add_last) {
 	
 	list li = NULL;
 	
-	error = list_add_last(li, nums[0]);
+	error = arraylist_methods.add_last(li, nums[0]);
 	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
-	fail_unless(list_size(li) == ERROR_LIST_IS_NULL, 
+	fail_unless(arraylist_methods.size(li) == ERROR_LIST_IS_NULL, 
 							"Size incorrect after adding to NULL list");
 	
-	li = list_create();
-	fail_if(!li, "list_create failed.");
+	li = arraylist_methods.create();
+	fail_if(!li, "arraylist_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_last(li, nums[i]);
+		error = arraylist_methods.add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
-		fail_unless(list_size(li) == (i+1), "Size incorrect after add_last");
-		item = (int *) list_get_first(li);
+		fail_unless(arraylist_methods.size(li) == (i+1), "Size incorrect after add_last");
+		item = (int *) arraylist_methods.get_first(li);
 		fail_unless(*item == 0, "Wrong item in first position");	
-		item = (int *) list_get_last(li);
+		item = (int *) arraylist_methods.get_last(li);
 		fail_unless(*item == i, "Wrong item in last position");
-		fail_unless(list_contains(li, nums[i]), "Error in list_contains");
+		fail_unless(arraylist_methods.contains(li, nums[i]), "Error in arraylist_methods.contains");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(li);
+	arraylist_methods.free(li);
 }
 END_TEST
 
@@ -230,40 +230,40 @@ START_TEST (test_set) {
 	
 	list li = NULL;
 
-	error = list_set(li, 0, nums[0]);
+	error = arraylist_methods.set(li, 0, nums[0]);
 	fail_unless(error == ERROR_LIST_IS_NULL, "Error adding to NULL list");
-	fail_unless(list_size(li) == ERROR_LIST_IS_NULL, 
+	fail_unless(arraylist_methods.size(li) == ERROR_LIST_IS_NULL, 
 							"Size incorrect after adding to NULL list");
 
-	li = list_create();
-	fail_if(!li, "list_create failed.");
+	li = arraylist_methods.create();
+	fail_if(!li, "arraylist_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_last(li, nums[i]);
+		error = arraylist_methods.add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_last");
-		fail_unless(list_size(li) == (i+1), "Size incorrect after add_last");
-		item = (int *) list_get_first(li);
+		fail_unless(arraylist_methods.size(li) == (i+1), "Size incorrect after add_last");
+		item = (int *) arraylist_methods.get_first(li);
 		fail_unless(*item == 0, "Wrong item in first position");	
-		item = (int *) list_get_last(li);
+		item = (int *) arraylist_methods.get_last(li);
 		fail_unless(*item == i, "Wrong item in last position");
-		fail_unless(list_contains(li, nums[i]), "Error in list_contains");
+		fail_unless(arraylist_methods.contains(li, nums[i]), "Error in arraylist_methods.contains");
 	}
 	
-	error = list_set(li, 3, nums[0]);
+	error = arraylist_methods.set(li, 3, nums[0]);
 	fail_unless(error == ERROR_LIST_OUT_OF_BOUNDS);
-	error = list_set(li, -1, nums[0]);
+	error = arraylist_methods.set(li, -1, nums[0]);
 	fail_unless(error == ERROR_LIST_OUT_OF_BOUNDS);
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_set(li, i, nums[0]);
+		error = arraylist_methods.set(li, i, nums[0]);
 		fail_unless(error == SUCCESS_LIST, "Error setting ith position");
-		item = (int *) list_get(li, i);
+		item = (int *) arraylist_methods.get(li, i);
 		fail_unless(*item == 0, "Wrong item after setting");
 	}
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(li);	
+	arraylist_methods.free(li);	
 }
 END_TEST
 
@@ -277,27 +277,27 @@ START_TEST (test_remove_first) {
 	}
 	
 	list li = NULL;
-	fail_unless(list_remove_first(li) == NULL, 
+	fail_unless(arraylist_methods.remove_first(li) == NULL, 
 							"Error removing from a NULL list");
-	li = list_create();
-	fail_if(!li, "list_create failed.");
-	fail_unless(list_remove_first(li) == NULL, 
+	li = arraylist_methods.create();
+	fail_if(!li, "arraylist_methods.create failed.");
+	fail_unless(arraylist_methods.remove_first(li) == NULL, 
 							"Error removing from an empty list");			
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_first(li, nums[i]);
+		error = arraylist_methods.add_first(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
 	}
 	
 	for (int i = 2; i >= 0; i--) {
-		item = list_remove_first(li);
+		item = arraylist_methods.remove_first(li);
 		fail_unless(*item == i, "Error removing first item");
-		fail_unless(list_size(li) == i, "Error in size after removing item");
+		fail_unless(arraylist_methods.size(li) == i, "Error in size after removing item");
 	}
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(li);
+	arraylist_methods.free(li);
 }
 END_TEST
 
@@ -311,28 +311,28 @@ START_TEST (test_remove_last) {
 	}
 	
 	list li = NULL;
-	fail_unless(list_remove_last(li) == NULL, 
+	fail_unless(arraylist_methods.remove_last(li) == NULL, 
 							"Error removing from a NULL list");
-	li = list_create();
-	fail_if(!li, "list_create failed.");
-	fail_unless(list_remove_last(li) == NULL, 
+	li = arraylist_methods.create();
+	fail_if(!li, "arraylist_methods.create failed.");
+	fail_unless(arraylist_methods.remove_last(li) == NULL, 
 							"Error removing from an empty list");			
 	
 	for (int i = 0; i < 3; i++) {
-		error = list_add_first(li, nums[i]);
+		error = arraylist_methods.add_first(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
 	}
 	
 	for (int i = 0; i < 3; i++) {
-		item = list_remove_last(li);
+		item = arraylist_methods.remove_last(li);
 		fail_unless(*item == i, "Error removing first item");
-		fail_unless(list_size(li) == (2 - i), 
+		fail_unless(arraylist_methods.size(li) == (2 - i), 
 								"Error in size after removing item");
 	}
 	
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	list_free(li);	
+	arraylist_methods.free(li);	
 }
 END_TEST
 
@@ -345,33 +345,33 @@ START_TEST (test_remove) {
 	}
 	
 	list li = NULL;
-	fail_unless(list_remove(li, nums[0]) == ERROR_LIST_IS_NULL, 
+	fail_unless(arraylist_methods.remove(li, nums[0]) == ERROR_LIST_IS_NULL, 
 							"Error removing from a NULL list");
-	li = list_create();
-	fail_if(!li, "list_create failed.");
-	fail_unless(list_remove(li, nums[0]) == ERROR_LIST_IS_EMPTY, 
+	li = arraylist_methods.create();
+	fail_if(!li, "arraylist_methods.create failed.");
+	fail_unless(arraylist_methods.remove(li, nums[0]) == ERROR_LIST_IS_EMPTY, 
 							"Error removing from an empty list");
-	fail_unless(list_remove(li, NULL) == ERROR_LIST_ITEM_IS_NULL, 
+	fail_unless(arraylist_methods.remove(li, NULL) == ERROR_LIST_ITEM_IS_NULL, 
 							"Error removing a NULL item");
 
 	for (int i = 0; i < 4; i++) {
-		error = list_add_last(li, nums[i]);
+		error = arraylist_methods.add_last(li, nums[i]);
 		fail_unless(error == SUCCESS_LIST, "Error adding with add_first");
 	}
 
-	error = list_remove(li, nums[1]);
+	error = arraylist_methods.remove(li, nums[1]);
 	fail_unless(error == SUCCESS_LIST, "Error removing middle item");
-	fail_unless(list_size(li) == 3, "Error in size after removing item");
-	error = list_remove(li, nums[0]);
+	fail_unless(arraylist_methods.size(li) == 3, "Error in size after removing item");
+	error = arraylist_methods.remove(li, nums[0]);
 	fail_unless(error == SUCCESS_LIST, "Error removing first item");
-	fail_unless(list_size(li) == 2, "Error in size after removing item");
-	error = list_remove(li, nums[3]);
+	fail_unless(arraylist_methods.size(li) == 2, "Error in size after removing item");
+	error = arraylist_methods.remove(li, nums[3]);
 	fail_unless(error == SUCCESS_LIST, "Error removing last item");
-	fail_unless(list_size(li) == 1, "Error in size after removing item");
+	fail_unless(arraylist_methods.size(li) == 1, "Error in size after removing item");
 
 	for (int i = 0; i < 4; i++)
 		free(nums[i]);
-	list_free(li);
+	arraylist_methods.free(li);
 }
 END_TEST
 

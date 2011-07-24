@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <check.h>
-#include "../src/heap.h"
+#include "../src/arrayheap.h"
 
 heap heap_test;
 
@@ -10,18 +10,18 @@ int int_compare(void *num1, void *num2) {
 }
 
 void setup (void) {
-	heap_test = heap_create(&int_compare);
+	heap_test = arrayheap_methods.create(&int_compare);
 }
 
 void teardown(void) {
-  heap_free(heap_test);
+  arrayheap_methods.free(heap_test);
 }
 
 START_TEST (test_heap_create) {
 	fail_if(!heap_test, "heap_create failed.");
-  fail_unless(heap_size(heap_test) == 0, 
+  fail_unless(arrayheap_methods.size(heap_test) == 0, 
 							"Size not set correctly on creation");
-	fail_unless(heap_is_empty(heap_test), "Error: list is not empty");
+	fail_unless(arrayheap_methods.is_empty(heap_test), "Error: list is not empty");
 }
 END_TEST
 
@@ -36,26 +36,26 @@ START_TEST (test_heap_add1) {
 	
 	heap hp = NULL;
 	
-	error = heap_add(hp, nums[0]);
+	error = arrayheap_methods.add(hp, nums[0]);
 	fail_unless(error == ERROR_HEAP_IS_NULL, "Error adding to NULL heap");
-	fail_unless(heap_size(hp) == ERROR_HEAP_IS_NULL, 
+	fail_unless(arrayheap_methods.size(hp) == ERROR_HEAP_IS_NULL, 
 							"Size incorrect after adding to NULL heap");
 	
-	hp = heap_create(&int_compare);
-	fail_if(!hp, "heap_create failed.");
+	hp = arrayheap_methods.create(&int_compare);
+	fail_if(!hp, "arrayheap_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = heap_add(hp, nums[i]);
+		error = arrayheap_methods.add(hp, nums[i]);
 		fail_unless(error == SUCCESS_HEAP, "Error adding to heap");
-		fail_unless(heap_size(hp) == (i+1), "Size incorrect after add");	
-		item = (int *) heap_peek(hp);
+		fail_unless(arrayheap_methods.size(hp) == (i+1), "Size incorrect after add");	
+		item = (int *) arrayheap_methods.peek(hp);
 		fail_unless(*item == 0, "Error in peek");
-		fail_unless(heap_contains(hp, nums[i]), "Error in heap_contains");
+		fail_unless(arrayheap_methods.contains(hp, nums[i]), "Error in arrayheap_methods.contains");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	heap_free(hp);
+	arrayheap_methods.free(hp);
 }
 END_TEST
 
@@ -70,26 +70,26 @@ START_TEST (test_heap_add2) {
 	
 	heap hp = NULL;
 	
-	error = heap_add(hp, nums[0]);
+	error = arrayheap_methods.add(hp, nums[0]);
 	fail_unless(error == ERROR_HEAP_IS_NULL, "Error adding to NULL heap");
-	fail_unless(heap_size(hp) == ERROR_HEAP_IS_NULL, 
+	fail_unless(arrayheap_methods.size(hp) == ERROR_HEAP_IS_NULL, 
 							"Size incorrect after adding to NULL heap");
 	
-	hp = heap_create(&int_compare);
-	fail_if(!hp, "heap_create failed.");
+	hp = arrayheap_methods.create(&int_compare);
+	fail_if(!hp, "arrayheap_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = heap_add(hp, nums[i]);
+		error = arrayheap_methods.add(hp, nums[i]);
 		fail_unless(error == SUCCESS_HEAP, "Error adding to heap");
-		fail_unless(heap_size(hp) == (i+1), "Size incorrect after add");	
-		item = (int *) heap_peek(hp);
+		fail_unless(arrayheap_methods.size(hp) == (i+1), "Size incorrect after add");	
+		item = (int *) arrayheap_methods.peek(hp);
 		fail_unless(*item == (2 - i), "Error in peek");
-		fail_unless(heap_contains(hp, nums[i]), "Error in heap_contains");
+		fail_unless(arrayheap_methods.contains(hp, nums[i]), "Error in arrayheap_methods.contains");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	heap_free(hp);
+	arrayheap_methods.free(hp);
 }
 END_TEST
 
@@ -104,26 +104,26 @@ START_TEST (test_heap_add3) {
 	
 	heap hp = NULL;
 	
-	error = heap_add(hp, nums[0]);
+	error = arrayheap_methods.add(hp, nums[0]);
 	fail_unless(error == ERROR_HEAP_IS_NULL, "Error adding to NULL heap");
-	fail_unless(heap_size(hp) == ERROR_HEAP_IS_NULL, 
+	fail_unless(arrayheap_methods.size(hp) == ERROR_HEAP_IS_NULL, 
 							"Size incorrect after adding to NULL heap");
 	
-	hp = heap_create(&int_compare);
-	fail_if(!hp, "heap_create failed.");
+	hp = arrayheap_methods.create(&int_compare);
+	fail_if(!hp, "arrayheap_methods.create failed.");
 	
 	for (int i = 0; i < 8; i++) {
-		error = heap_add(hp, nums[i]);
+		error = arrayheap_methods.add(hp, nums[i]);
 		fail_unless(error == SUCCESS_HEAP, "Error adding to heap");
-		fail_unless(heap_size(hp) == (i+1), "Size incorrect after add");	
-		item = (int *) heap_peek(hp);
+		fail_unless(arrayheap_methods.size(hp) == (i+1), "Size incorrect after add");	
+		item = (int *) arrayheap_methods.peek(hp);
 		fail_unless(*item == (7 - i), "Error in peek");
-		fail_unless(heap_contains(hp, nums[i]), "Error in heap_contains");
+		fail_unless(arrayheap_methods.contains(hp, nums[i]), "Error in arrayheap_methods.contains");
 	}
 
 	for (int i = 0; i < 8; i++)
 		free(nums[i]);
-	heap_free(hp);
+	arrayheap_methods.free(hp);
 }
 END_TEST
 
@@ -138,24 +138,24 @@ START_TEST (test_heap_to_array) {
 	
 	heap hp = NULL;
 	
-	error = heap_add(hp, nums[0]);
+	error = arrayheap_methods.add(hp, nums[0]);
 	fail_unless(error == ERROR_HEAP_IS_NULL, "Error adding to NULL heap");
-	fail_unless(heap_size(hp) == ERROR_HEAP_IS_NULL, 
+	fail_unless(arrayheap_methods.size(hp) == ERROR_HEAP_IS_NULL, 
 							"Size incorrect after adding to NULL heap");
 	
-	hp = heap_create(&int_compare);
-	fail_if(!hp, "heap_create failed.");
+	hp = arrayheap_methods.create(&int_compare);
+	fail_if(!hp, "arrayheap_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = heap_add(hp, nums[i]);
+		error = arrayheap_methods.add(hp, nums[i]);
 		fail_unless(error == SUCCESS_HEAP, "Error adding to heap");
-		fail_unless(heap_size(hp) == (i+1), "Size incorrect after add");	
-		item = (int *) heap_peek(hp);
+		fail_unless(arrayheap_methods.size(hp) == (i+1), "Size incorrect after add");	
+		item = (int *) arrayheap_methods.peek(hp);
 		fail_unless(*item == 0, "Error in peek");
-		fail_unless(heap_contains(hp, nums[i]), "Error in heap_contains");
+		fail_unless(arrayheap_methods.contains(hp, nums[i]), "Error in arrayheap_methods.contains");
 	}
 	
-	int **items = (int **) heap_to_array(hp);
+	int **items = (int **) arrayheap_methods.to_array(hp);
 	for (int i = 0; i < 3; i++) {
 		int found = 0;
 		for (int j = 0; j < 3; j++) {
@@ -167,7 +167,7 @@ START_TEST (test_heap_to_array) {
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	heap_free(hp);
+	arrayheap_methods.free(hp);
 }
 END_TEST
 
@@ -182,32 +182,32 @@ START_TEST (test_heap_remove1) {
 	
 	heap hp = NULL;
 	
-	error = heap_add(hp, nums[0]);
+	error = arrayheap_methods.add(hp, nums[0]);
 	fail_unless(error == ERROR_HEAP_IS_NULL, "Error adding to NULL heap");
-	fail_unless(heap_size(hp) == ERROR_HEAP_IS_NULL, 
+	fail_unless(arrayheap_methods.size(hp) == ERROR_HEAP_IS_NULL, 
 							"Size incorrect after adding to NULL heap");
 	
-	hp = heap_create(&int_compare);
-	fail_if(!hp, "heap_create failed.");
+	hp = arrayheap_methods.create(&int_compare);
+	fail_if(!hp, "arrayheap_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = heap_add(hp, nums[i]);
+		error = arrayheap_methods.add(hp, nums[i]);
 		fail_unless(error == SUCCESS_HEAP, "Error adding to heap");
-		fail_unless(heap_size(hp) == (i+1), "Size incorrect after add");	
-		item = (int *) heap_peek(hp);
+		fail_unless(arrayheap_methods.size(hp) == (i+1), "Size incorrect after add");	
+		item = (int *) arrayheap_methods.peek(hp);
 		fail_unless(*item == 0, "Error in peek");
-		fail_unless(heap_contains(hp, nums[i]), "Error in heap_contains");
+		fail_unless(arrayheap_methods.contains(hp, nums[i]), "Error in arrayheap_methods.contains");
 	}
 	
 	for (int i = 0; i < 3; i++) {
-		item = (int *) heap_remove(hp);
+		item = (int *) arrayheap_methods.remove(hp);
 		fail_unless(*item == i, "Error in remove");
-		fail_unless(heap_size(hp) == 2 - i, "Size incorrect after remove");
+		fail_unless(arrayheap_methods.size(hp) == 2 - i, "Size incorrect after remove");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	heap_free(hp);
+	arrayheap_methods.free(hp);
 }
 END_TEST
 
@@ -222,32 +222,32 @@ START_TEST (test_heap_remove2) {
 	
 	heap hp = NULL;
 	
-	error = heap_add(hp, nums[0]);
+	error = arrayheap_methods.add(hp, nums[0]);
 	fail_unless(error == ERROR_HEAP_IS_NULL, "Error adding to NULL heap");
-	fail_unless(heap_size(hp) == ERROR_HEAP_IS_NULL, 
+	fail_unless(arrayheap_methods.size(hp) == ERROR_HEAP_IS_NULL, 
 							"Size incorrect after adding to NULL heap");
 	
-	hp = heap_create(&int_compare);
-	fail_if(!hp, "heap_create failed.");
+	hp = arrayheap_methods.create(&int_compare);
+	fail_if(!hp, "arrayheap_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
-		error = heap_add(hp, nums[i]);
+		error = arrayheap_methods.add(hp, nums[i]);
 		fail_unless(error == SUCCESS_HEAP, "Error adding to heap");
-		fail_unless(heap_size(hp) == (i+1), "Size incorrect after add");	
-		item = (int *) heap_peek(hp);
+		fail_unless(arrayheap_methods.size(hp) == (i+1), "Size incorrect after add");	
+		item = (int *) arrayheap_methods.peek(hp);
 		fail_unless(*item == (2 - i), "Error in peek");
-		fail_unless(heap_contains(hp, nums[i]), "Error in heap_contains");
+		fail_unless(arrayheap_methods.contains(hp, nums[i]), "Error in arrayheap_methods.contains");
 	}
 	
 	for (int i = 0; i < 3; i++) {
-		item = (int *) heap_remove(hp);
+		item = (int *) arrayheap_methods.remove(hp);
 		fail_unless(*item == i, "Error in remove");
-		fail_unless(heap_size(hp) == 2 - i, "Size incorrect after remove");
+		fail_unless(arrayheap_methods.size(hp) == 2 - i, "Size incorrect after remove");
 	}
 
 	for (int i = 0; i < 3; i++)
 		free(nums[i]);
-	heap_free(hp);
+	arrayheap_methods.free(hp);
 }
 END_TEST
 
@@ -262,32 +262,32 @@ START_TEST (test_heap_remove3) {
 	
 	heap hp = NULL;
 	
-	error = heap_add(hp, nums[0]);
+	error = arrayheap_methods.add(hp, nums[0]);
 	fail_unless(error == ERROR_HEAP_IS_NULL, "Error adding to NULL heap");
-	fail_unless(heap_size(hp) == ERROR_HEAP_IS_NULL, 
+	fail_unless(arrayheap_methods.size(hp) == ERROR_HEAP_IS_NULL, 
 							"Size incorrect after adding to NULL heap");
 	
-	hp = heap_create(&int_compare);
-	fail_if(!hp, "heap_create failed.");
+	hp = arrayheap_methods.create(&int_compare);
+	fail_if(!hp, "arrayheap_methods.create failed.");
 	
 	for (int i = 0; i < 8; i++) {
-		error = heap_add(hp, nums[i]);
+		error = arrayheap_methods.add(hp, nums[i]);
 		fail_unless(error == SUCCESS_HEAP, "Error adding to heap");
-		fail_unless(heap_size(hp) == (i+1), "Size incorrect after add");	
-		item = (int *) heap_peek(hp);
+		fail_unless(arrayheap_methods.size(hp) == (i+1), "Size incorrect after add");	
+		item = (int *) arrayheap_methods.peek(hp);
 		fail_unless(*item == (7 - i), "Error in peek");
-		fail_unless(heap_contains(hp, nums[i]), "Error in heap_contains");
+		fail_unless(arrayheap_methods.contains(hp, nums[i]), "Error in arrayheap_methods.contains");
 	}
 	
 	for (int i = 0; i < 8; i++) {
-		item = (int *) heap_remove(hp);
+		item = (int *) arrayheap_methods.remove(hp);
 		fail_unless(*item == i, "Error in remove");
-		fail_unless(heap_size(hp) == 7 - i, "Size incorrect after remove");
+		fail_unless(arrayheap_methods.size(hp) == 7 - i, "Size incorrect after remove");
 	}
 
 	for (int i = 0; i < 8; i++)
 		free(nums[i]);
-	heap_free(hp);
+	arrayheap_methods.free(hp);
 }
 END_TEST
 
@@ -302,21 +302,21 @@ START_TEST (test_heap_merge) {
 	
 	heap hp = NULL;
 	
-	error = heap_add(hp, nums[0]);
+	error = arrayheap_methods.add(hp, nums[0]);
 	fail_unless(error == ERROR_HEAP_IS_NULL, "Error adding to NULL heap");
-	fail_unless(heap_size(hp) == ERROR_HEAP_IS_NULL, 
+	fail_unless(arrayheap_methods.size(hp) == ERROR_HEAP_IS_NULL, 
 							"Size incorrect after adding to NULL heap");
 	
-	hp = heap_create(&int_compare);
-	fail_if(!hp, "heap_create failed.");
+	hp = arrayheap_methods.create(&int_compare);
+	fail_if(!hp, "arrayheap_methods.create failed.");
 	
 	for (int i = 0; i < 8; i++) {
-		error = heap_add(hp, nums[i]);
+		error = arrayheap_methods.add(hp, nums[i]);
 		fail_unless(error == SUCCESS_HEAP, "Error adding to heap");
-		fail_unless(heap_size(hp) == (i+1), "Size incorrect after add");	
-		item = (int *) heap_peek(hp);
+		fail_unless(arrayheap_methods.size(hp) == (i+1), "Size incorrect after add");	
+		item = (int *) arrayheap_methods.peek(hp);
 		fail_unless(*item == (7 - i), "Error in peek");
-		fail_unless(heap_contains(hp, nums[i]), "Error in heap_contains");
+		fail_unless(arrayheap_methods.contains(hp, nums[i]), "Error in arrayheap_methods.contains");
 	}
 	
 	int *nums2[5];
@@ -327,39 +327,39 @@ START_TEST (test_heap_merge) {
 
 	heap hp2 = NULL;
 	
-	error = heap_add(hp2, nums2[0]);
+	error = arrayheap_methods.add(hp2, nums2[0]);
 	fail_unless(error == ERROR_HEAP_IS_NULL, "Error adding to NULL heap");
-	fail_unless(heap_size(hp2) == ERROR_HEAP_IS_NULL, 
+	fail_unless(arrayheap_methods.size(hp2) == ERROR_HEAP_IS_NULL, 
 							"Size incorrect after adding to NULL heap");
 	
-	hp2 = heap_create(&int_compare);
-	fail_if(!hp2, "heap_create failed.");
+	hp2 = arrayheap_methods.create(&int_compare);
+	fail_if(!hp2, "arrayheap_methods.create failed.");
 	
 	for (int i = 0; i < 5; i++) {
-		error = heap_add(hp2, nums2[i]);
+		error = arrayheap_methods.add(hp2, nums2[i]);
 		fail_unless(error == SUCCESS_HEAP, "Error adding to heap");
-		fail_unless(heap_size(hp2) == (i+1), "Size incorrect after add");	
-		item = (int *) heap_peek(hp2);
+		fail_unless(arrayheap_methods.size(hp2) == (i+1), "Size incorrect after add");	
+		item = (int *) arrayheap_methods.peek(hp2);
 		fail_unless(*item == 8, "Error in peek");
-		fail_unless(heap_contains(hp2, nums2[i]), "Error in heap_contains");
+		fail_unless(arrayheap_methods.contains(hp2, nums2[i]), "Error in arrayheap_methods.contains");
 	}
 	
-	heap hp3 = heap_merge(hp, hp2);
+	heap hp3 = arrayheap_methods.merge(hp, hp2);
 	fail_if(hp3 == NULL, "Error in merge");
 	
 	for (int i = 0; i < 12; i++) {
-		item = (int *) heap_remove(hp3);
+		item = (int *) arrayheap_methods.remove(hp3);
 		fail_unless(*item == i, "Error in remove");
-		fail_unless(heap_size(hp3) == (12 - i), "Size incorrect after remove");
+		fail_unless(arrayheap_methods.size(hp3) == (12 - i), "Size incorrect after remove");
 	}
 
 	for (int i = 0; i < 8; i++)
 		free(nums[i]);
-	heap_free(hp);
+	arrayheap_methods.free(hp);
 	for (int i = 0; i < 5; i++)
 		free(nums2[i]);
-	heap_free(hp2);
-	heap_free(hp3);
+	arrayheap_methods.free(hp2);
+	arrayheap_methods.free(hp3);
 }
 END_TEST
 

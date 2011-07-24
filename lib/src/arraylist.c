@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "list.h"
+#include "arraylist.h"
 
 /* We define the initial array size constant. Whenever we need to add more items
  * to the list than the current size of the array, we double the size and copy
@@ -8,14 +8,14 @@
 int _INIT_ARRAY_SIZE = 8;
 
 /* we alias list to be a pointer to this struct */
-struct list {
+struct arraylist {
 	int size;
 	int array_size;
 	void **data;
 };
 
 list _arraylist_create() {
-	list li = malloc(sizeof(struct list));
+	arraylist li = malloc(sizeof(struct arraylist));
 	/* if malloc returned NULL, also return NULL */
 	if (!li)
 		return NULL;
@@ -24,11 +24,12 @@ list _arraylist_create() {
 	li->data = malloc(sizeof(void *) * li->array_size);
 	if (!li->data)
 		return NULL;
-	return li;
+	return (list) li;
 }
 
 /* this does not free the items */
-void _arraylist_free(list li) {
+void _arraylist_free(list lis) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return;
 	free(li->data);
@@ -38,7 +39,7 @@ void _arraylist_free(list li) {
 /* resize the array by doubling it's current array_size. returns 
  * ERROR_LIST_MALLOC_FAIL if malloc fails, or returns ERROR_LIST_IS_NULL if
  * the list is NULL. On success, return SUCCESS_LIST */
-int __arraylist_resize(list li) {
+int __arraylist_resize(arraylist li) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	int new_array_size = li->array_size * 2;
@@ -53,19 +54,22 @@ int __arraylist_resize(list li) {
 	return SUCCESS_LIST;
 }
 
-int _arraylist_size(list li) {
+int _arraylist_size(list lis) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
  	return li->size;
 }
 
-int _arraylist_is_empty(list li) {
+int _arraylist_is_empty(list lis) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
-	return _arraylist_size(li) == 0;
+	return _arraylist_size((list) li) == 0;
 }
 
-int _arraylist_contains(list li, void *item) {
+int _arraylist_contains(list lis, void *item) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -78,7 +82,8 @@ int _arraylist_contains(list li, void *item) {
 	return 0;
 }
  
-void *_arraylist_get_first(list li) {
+void *_arraylist_get_first(list lis) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -86,7 +91,8 @@ void *_arraylist_get_first(list li) {
 	return li->data[0];
 }
 
-void *_arraylist_get_last(list li) {
+void *_arraylist_get_last(list lis) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -94,7 +100,8 @@ void *_arraylist_get_last(list li) {
 	return li->data[li->size - 1];
 }
 
-void *_arraylist_get(list li, int index) {
+void *_arraylist_get(list lis, int index) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -104,7 +111,8 @@ void *_arraylist_get(list li, int index) {
 	return li->data[index];
 }
 
-void **_arraylist_to_array(list li) {
+void **_arraylist_to_array(list lis) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -118,7 +126,8 @@ void **_arraylist_to_array(list li) {
 	return items;
 }
 
-int _arraylist_add_first(list li, void *item) {
+int _arraylist_add_first(list lis, void *item) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -139,7 +148,8 @@ int _arraylist_add_first(list li, void *item) {
 	return SUCCESS_LIST;
 }
 
-int _arraylist_add_last(list li, void *item) {
+int _arraylist_add_last(list lis, void *item) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -156,7 +166,8 @@ int _arraylist_add_last(list li, void *item) {
 	return SUCCESS_LIST;
 }
 
-int _arraylist_set(list li, int index, void *item) {
+int _arraylist_set(list lis, int index, void *item) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -168,7 +179,8 @@ int _arraylist_set(list li, int index, void *item) {
 	return SUCCESS_LIST;
 }
 
-int _arraylist_remove(list li, void *item) {
+int _arraylist_remove(list lis, void *item) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -193,7 +205,8 @@ int _arraylist_remove(list li, void *item) {
 	return SUCCESS_LIST;
 }
 
-void *_arraylist_remove_first(list li) {
+void *_arraylist_remove_first(list lis) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -208,7 +221,8 @@ void *_arraylist_remove_first(list li) {
 	return item;
 }
 
-void *_arraylist_remove_last(list li) {
+void *_arraylist_remove_last(list lis) {
+	arraylist li = (arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
