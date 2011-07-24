@@ -151,6 +151,8 @@ int _treeset_add(set sett, void *item) {
 		return ERROR_SET_IS_NULL;
 	if (!item)
 		return ERROR_SET_ITEM_IS_NULL;
+	if (_treeset_contains((set) se, item))
+		return SUCCESS_SET;
 	
 	/* search for appropriate spot to add item, and update the new root */
 	__treeset_node new_root = __treeset_add_helper(se->compare, se->root, item);

@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -g -std=c99 -Wall
 SLIBS = -lcheck
 SRC = ../src
-INCLUDES = list.h queue.h stack.h heap.h
+INCLUDES = list.h linkedlist.h arraylist.h queue.h linkedqueue.h stack.h linkedstack.h heap.h arrayheap.h priorityqueue.h heappriorityqueue.h set.h treeset.h hashset.h map.h treemap.h hashmap.h
 OBJECTS = check_linkedlist.o check_arraylist.o check_linkedqueue.o check_linkedstack.o check_arrayheap.o check_heappriorityqueue.o check_treeset.o
 TESTS = check_linkedlist check_arraylist check_linkedqueue check_linkedstack check_arrayheap check_heappriorityqueue check_treeset
 

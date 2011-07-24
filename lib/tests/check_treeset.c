@@ -50,6 +50,13 @@ START_TEST (test_set_add1) {
 		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
 	}
 	
+	for (int i = 0; i < 8; i++) {
+		error = treeset_methods.add(se, nums[i]);
+		fail_unless(error == SUCCESS_SET, "Error adding to set");
+		fail_unless(treeset_methods.size(se) == 8, "Size incorrect after add");	
+		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
+	}
+	
 	int **items = (int **) treeset_methods.to_array(se);
 	for (int i = 0; i < 8; i++) {
 		fail_unless(*items[i] == *nums[i], "Error in to_array");
@@ -85,6 +92,13 @@ START_TEST (test_set_add2) {
 		error = treeset_methods.add(se, nums[i]);
 		fail_unless(error == SUCCESS_SET, "Error adding to set");
 		fail_unless(treeset_methods.size(se) == (i+1), "Size incorrect after add");	
+		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
+	}
+	
+	for (int i = 0; i < 8; i++) {
+		error = treeset_methods.add(se, nums[i]);
+		fail_unless(error == SUCCESS_SET, "Error adding to set");
+		fail_unless(treeset_methods.size(se) == 8, "Size incorrect after add");	
 		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
 	}
 	
@@ -132,6 +146,13 @@ START_TEST (test_set_remove1) {
 		error = treeset_methods.add(se, nums[i]);
 		fail_unless(error == SUCCESS_SET, "Error adding to set");
 		fail_unless(treeset_methods.size(se) == (i+1), "Size incorrect after add");	
+		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
+	}
+	
+	for (int i = 0; i < 8; i++) {
+		error = treeset_methods.add(se, nums[i]);
+		fail_unless(error == SUCCESS_SET, "Error adding to set");
+		fail_unless(treeset_methods.size(se) == 8, "Size incorrect after add");	
 		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
 	}
 	
@@ -193,6 +214,13 @@ START_TEST (test_set_remove2) {
 		error = treeset_methods.add(se, nums[i]);
 		fail_unless(error == SUCCESS_SET, "Error adding to set");
 		fail_unless(treeset_methods.size(se) == (i+1), "Size incorrect after add");	
+		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
+	}
+	
+	for (int i = 0; i < 8; i++) {
+		error = treeset_methods.add(se, nums[i]);
+		fail_unless(error == SUCCESS_SET, "Error adding to set");
+		fail_unless(treeset_methods.size(se) == 8, "Size incorrect after add");	
 		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
 	}
 	
@@ -261,6 +289,13 @@ START_TEST (test_set_remove_random1) {
 	}
 	
 	for (int i = 0; i < 8; i++) {
+		error = treeset_methods.add(se, nums[i]);
+		fail_unless(error == SUCCESS_SET, "Error adding to set");
+		fail_unless(treeset_methods.size(se) == 8, "Size incorrect after add");	
+		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
+	}
+	
+	for (int i = 0; i < 8; i++) {
 		item = treeset_methods.remove_random(se);
 		fail_unless(*item == i, "Error removing from set");
 		fail_unless(treeset_methods.size(se) == (7 - i), "Size incorrect after remove");
@@ -307,6 +342,13 @@ START_TEST (test_set_remove_random2) {
 		error = treeset_methods.add(se, nums[i]);
 		fail_unless(error == SUCCESS_SET, "Error adding to set");
 		fail_unless(treeset_methods.size(se) == (i+1), "Size incorrect after add");	
+		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
+	}
+	
+	for (int i = 0; i < 8; i++) {
+		error = treeset_methods.add(se, nums[i]);
+		fail_unless(error == SUCCESS_SET, "Error adding to set");
+		fail_unless(treeset_methods.size(se) == 8, "Size incorrect after add");	
 		fail_unless(treeset_methods.contains(se, nums[i]), "Error in treeset_methods.contains");
 	}
 	
