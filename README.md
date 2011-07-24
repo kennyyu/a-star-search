@@ -85,8 +85,15 @@ REFERENCES
 *	http://stackoverflow.com/questions/1139271/makefiles-with-source-files-in-different-directories
 *	http://www.gnu.org/s/hello/manual/make/Phony-Targets.html
 
+#### C Macros:
+*	http://en.cppreference.com/w/cpp/preprocessor/replace
+*	http://publib.boulder.ibm.com/infocenter/comphelp/v7v91/index.jsp?topic=%2Fcom.ibm.vacpp7a.doc%2Flanguage%2Fref%2Fclrc09cpxmac.htm
+
 #### C iterators:
 *	http://pine.cs.yale.edu/pinewiki/C/Iterators
+
+#### C auto, static, extern
+*	http://knol.google.com/k/auto-static-and-global-variable-c-programming#
 
 #### C arrays:
 *	http://c-faq.com/~scs/cclass/int/sx5.html
@@ -94,6 +101,8 @@ REFERENCES
 #### C function pointers:
 *	http://www.java2s.com/Tutorial/Cpp/0140__Function/Usetypedeftodefineafunctiontypeforfunctionpointer.htm
 *	http://www.newty.de/fpt/fpt.html#r_value
+*	http://pine.cs.yale.edu/pinewiki/C/FunctionPointers
+*	http://stackoverflow.com/questions/2521927/initializing-a-global-struct-in-c
 
 #### Common C errors:
 *	http://www.drpaulcarter.com/cs/common-c-errors.php
