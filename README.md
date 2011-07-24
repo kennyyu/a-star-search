@@ -32,7 +32,7 @@ INSTALL
 	
 *	Also in the a-star-search directory, run the tests and ensure they all pass. To run library tests:
 
-		$ make lcheck
+		$ make libcheck
 	
 *	To use the data structures, include the path to the src folder, and link the appropriate object file. Here's an example including the list.h file and linking the object file linkedlist.o: 
 
