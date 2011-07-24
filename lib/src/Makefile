@@ -10,9 +10,6 @@ PROGRAM =
 
 all: $(OBJECTS)
 
-#$(PROGRAM): $(OBJECTS)
-#	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(SLIBS)
-
 clean:
 	rm -f $(PROGRAM) $(OBJECTS)
 

@@ -8,9 +8,6 @@ TESTS = check_linkedlist check_arraylist check_linkedqueue check_linkedstack che
 
 %.o : %.c $(INCLUDES)
 	$(CC) $(CFLAGS) -c -o $@ $<
-
-#check_%: check_%.o $(SRC)/%.o
-#	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 	
 check_linkedlist: check_linkedlist.o $(SRC)/list.o $(SRC)/linkedlist.o 
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)

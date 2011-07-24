@@ -11,14 +11,20 @@ TODO
 	*	Add an equality function pointer to list
 	
 	*	Add a free_items function to all data structures to optionally free the items
+	
+	*	changed linkedqueue -> listqueue (to follow the convention heappriorityqueue)
 
-	*	Implement treeset (with binary search trees) and hashset (with hash tables)
+	*	Implement hashset (with hash tables)
 	
 	* 	Implement treemap and hashmap with sets.
-
-	*	Implement Set with Dictionaries
 	
 	*	Algorithms (Sorts, Graph algorithms)
+
+*	Documentation
+	
+	*	Find an automatic C documentation generator, or manually add docs
+	
+	*	Or write a script and use regular expressions to parse
 
 INSTALL
 =======
@@ -34,14 +40,14 @@ INSTALL
 
 		$ make libcheck
 	
-*	To use the data structures, include the path to the src folder, and link the library object file directory. Here's an example including the list.h file and linkeding the lib/src/* folder
+*	To use the data structures, include the path to the src folder, and link the library object file directory. Here's an example including the linkedlist.h file and linking the lib/src/* folder
 
 	In hello.c:
 	
 		/*
-	 	 * include the list header file
+	 	 * include the linkedlist header file
 	 	 */
-		include "../lib/src/list.h"
+		include "../lib/src/linkedlist.h"
 		// ...
 	
 	When compiling:
