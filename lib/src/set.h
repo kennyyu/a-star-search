@@ -41,60 +41,65 @@ typedef enum set_error_numbers
 	ERROR_SET_MALLOC_FAIL = -5
 } set_error_numbers;
 
-/* 
- * Initialize a set and returns a pointer to the set. If there is not
- * enough memory, this returns NULL. If creating a treeset, only set_compare
- * will be set and the other two will be NULL. If creating a hashset, 
- * set_compare will be NULL and the other two will be set.
- */
-set set_create(set_compare, set_hash, set_equal);
+typedef struct set_methods set_methods;
 
-/* 
- * Frees the memory held by the set.
- */
-void set_free(set);
+struct set_methods {
+	/* 
+	 * Initialize a set and returns a pointer to the set. If there is not
+	 * enough memory, this returns NULL. If creating a treeset, only set_compare
+	 * will be set and the other two will be NULL. If creating a hashset, 
+	 * set_compare will be NULL and the other two will be set.
+	 */
+	set (*create)(set_compare, set_hash, set_equal);
 
-/* 
- * Returns the length of the set. If the set is NULL, this returns 
- * ERROR_SET_IS_NULL.
- */
-int set_size(set);
+	/* 
+	 * Frees the memory held by the set.
+	 */
+	void (*free)(set);
 
-/* 
- * Returns 1 if the set is empty, otherwise returns 0. If the set is NULL,
- * this returns ERROR_SET_IS_NULL.
- */
-int set_is_empty(set);
+	/* 
+	 * Returns the length of the set. If the set is NULL, this returns 
+	 * ERROR_SET_IS_NULL.
+	 */
+	int (*size)(set);
 
-/* 
- * Returns 1 if the item is in the set, otherwise returns 0. If the set is
- * NULL, this returns ERROR_SET_IS_NULL. If the item is NULL, this returns
- * ERROR_SET_ITEM_IS_NULL.
- */
-int set_contains(set, void *);
+	/* 
+	 * Returns 1 if the set is empty, otherwise returns 0. If the set is NULL,
+	 * this returns ERROR_SET_IS_NULL.
+	 */
+	int (*is_empty)(set);
 
-/*
- * Returns an array of pointers to the items in the set. They will be
- * returned in the order in which they were added, respecting add_first and
- * add_last. The length of the array will be the size of the array. If the
- * set is NULL, this returns NULL. If the length is 0, this returns
- * NULL. If malloc fails, this also returns NULL.
- */
-void **set_to_array(set);
+	/* 
+	 * Returns 1 if the item is in the set, otherwise returns 0. If the set is
+	 * NULL, this returns ERROR_SET_IS_NULL. If the item is NULL, this returns
+	 * ERROR_SET_ITEM_IS_NULL.
+	 */
+	int (*contains)(set, void *);
 
-/* 
- * Adds the item to the set. If successful, this returns SUCCESS_SET. If 
- * the set is NULL, this returns ERROR_SET_IS_NULL.
- */
-int set_add(set, void *);
+	/*
+	 * Returns an array of pointers to the items in the set. They will be
+	 * returned in the order in which they were added, respecting add_first and
+	 * add_last. The length of the array will be the size of the array. If the
+	 * set is NULL, this returns NULL. If the length is 0, this returns
+	 * NULL. If malloc fails, this also returns NULL.
+	 */
+	void **(*to_array)(set);
 
-/* 
- * Removes the item from the set. If the item is not found, this returns
- * ERROR_SET_ITEM_NOT_FOUND. If the item is NULL, this returns
- * ERROR_SET_ITEM_IS_NULL. If the set is empty, this returns
- * ERROR_SET_IS_EMPTY. If the set is NULL, this returns
- * ERROR_SET_IS_NULL. On success, returns SUCCESS_SET.
- */
-int set_remove(set, void *);
+	/* 
+	 * Adds the item to the set. If successful, this returns SUCCESS_SET. If 
+	 * the set is NULL, this returns ERROR_SET_IS_NULL.
+	 */
+	int (*add)(set, void *);
+
+	/* 
+	 * Removes the item from the set. If the item is not found, this returns
+	 * ERROR_SET_ITEM_NOT_FOUND. If the item is NULL, this returns
+	 * ERROR_SET_ITEM_IS_NULL. If the set is empty, this returns
+	 * ERROR_SET_IS_EMPTY. If the set is NULL, this returns
+	 * ERROR_SET_IS_NULL. On success, returns SUCCESS_SET.
+	 */
+	int (*remove)(set, void *);
+
+};
 
 #endif

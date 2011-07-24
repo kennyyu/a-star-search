@@ -4,7 +4,6 @@
 #include "stack.h"
 #include "linkedlist.h"
 
-typedef struct linkedstack *linkedstack;
 extern stack_methods linkedstack_methods;
 
 #endif

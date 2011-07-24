@@ -11,6 +11,8 @@ struct __linkedlist_node {
 typedef struct __linkedlist_node *__linkedlist_node;	
 
 /* we alias list to be a pointer to this struct */
+typedef struct linkedlist *linkedlist;
+
 struct linkedlist {
 	__linkedlist_node head;
 	__linkedlist_node tail;

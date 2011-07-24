@@ -3,7 +3,6 @@
 
 #include "list.h"
 
-typedef struct linkedlist *linkedlist;
 extern list_methods linkedlist_methods;
 
 #endif

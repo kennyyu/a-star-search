@@ -4,7 +4,6 @@
 #include "heap.h"
 #include "arraylist.h"
 
-typedef struct arrayheap *arrayheap;
 extern heap_methods arrayheap_methods;
 
 #endif

@@ -3,7 +3,6 @@
 
 #include "list.h"
 
-typedef struct arraylist *arraylist;
 extern list_methods arraylist_methods;
 
 #endif

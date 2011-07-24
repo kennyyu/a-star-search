@@ -8,6 +8,8 @@
 int _INIT_ARRAY_SIZE = 8;
 
 /* we alias list to be a pointer to this struct */
+typedef struct arraylist *arraylist;
+
 struct arraylist {
 	int size;
 	int array_size;

@@ -6,6 +6,8 @@
  * A heap has an arraylist containing the items and a pointer to a compare
  * function.
  */
+typedef struct arrayheap *arrayheap;
+
 struct arrayheap {
 	list data;
 	heap_compare compare;

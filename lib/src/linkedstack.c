@@ -7,6 +7,7 @@
  * all the list functions directly on a stack pointer, without having to store
  * any extra unnecessary data.
  */
+typedef struct linkedstack *linkedstack;
 struct linkedstack { };
 
 stack _linkedstack_create() {

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "heappriorityqueue.h"
 
+typedef struct heappqueue *heappqueue;
 struct heappqueue { };
 
 pqueue _heappqueue_create(pqueue_compare cmp) {
