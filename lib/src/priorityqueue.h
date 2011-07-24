@@ -1,5 +1,5 @@
-#ifndef _PRIORITY_PQUEUE_H
-#define _PRIORITY_PQUEUE_H
+#ifndef _PRIORITYQUEUE_H
+#define _PRIORITYQUEUE_H
 
 /* 
  * Alias pqueue to be a pointer to a struct pqueue.

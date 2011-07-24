@@ -1,5 +1,5 @@
-#ifndef _LINKEDQUEUE_H
-#define _LINKEDQUEUE_H
+#ifndef _HEAPPRIORITYQUEUE_H
+#define _HEAPPRIORITYQUEUE_H
 
 #include "priorityqueue.h"
 #include "arrayheap.h"
