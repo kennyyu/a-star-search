@@ -34,7 +34,7 @@ INSTALL
 
 		$ make libcheck
 	
-*	To use the data structures, include the path to the src folder, and link the appropriate object file. Here's an example including the list.h file and linking the object file linkedlist.o: 
+*	To use the data structures, include the path to the src folder, and link the library object file directory. Here's an example including the list.h file and linkeding the lib/src/* folder
 
 	In hello.c:
 	
@@ -46,7 +46,7 @@ INSTALL
 	
 	When compiling:
 
-		$ gcc -o hello hello.c ../lib/src/linkedlist.o
+		$ gcc -o hello hello.c ../lib/src/*.o
 
 SOURCE
 ======
