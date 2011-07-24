@@ -7,8 +7,8 @@
  * all the list functions directly on a queue pointer, without having to store
  * any extra unnecessary data.
  */
-typedef struct linkedqueue *linkedqueue;
-struct linkedqueue { };
+typedef struct _linkedqueue *_linkedqueue;
+struct _linkedqueue { };
 
 queue _linkedqueue_create() {
 	return (queue) linkedlist_methods.create();

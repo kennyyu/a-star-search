@@ -8,16 +8,16 @@
 int _INIT_ARRAY_SIZE = 8;
 
 /* we alias list to be a pointer to this struct */
-typedef struct arraylist *arraylist;
+typedef struct _arraylist *_arraylist;
 
-struct arraylist {
+struct _arraylist {
 	int size;
 	int array_size;
 	void **data;
 };
 
 list _arraylist_create() {
-	arraylist li = malloc(sizeof(struct arraylist));
+	_arraylist li = malloc(sizeof(struct _arraylist));
 	/* if malloc returned NULL, also return NULL */
 	if (!li)
 		return NULL;
@@ -31,7 +31,7 @@ list _arraylist_create() {
 
 /* this does not free the items */
 void _arraylist_free(list lis) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return;
 	free(li->data);
@@ -41,7 +41,7 @@ void _arraylist_free(list lis) {
 /* resize the array by doubling it's current array_size. returns 
  * ERROR_LIST_MALLOC_FAIL if malloc fails, or returns ERROR_LIST_IS_NULL if
  * the list is NULL. On success, return SUCCESS_LIST */
-int __arraylist_resize(arraylist li) {
+int __arraylist_resize(_arraylist li) {
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	int new_array_size = li->array_size * 2;
@@ -57,21 +57,21 @@ int __arraylist_resize(arraylist li) {
 }
 
 int _arraylist_size(list lis) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
  	return li->size;
 }
 
 int _arraylist_is_empty(list lis) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	return _arraylist_size((list) li) == 0;
 }
 
 int _arraylist_contains(list lis, void *item) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -85,7 +85,7 @@ int _arraylist_contains(list lis, void *item) {
 }
  
 void *_arraylist_get_first(list lis) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -94,7 +94,7 @@ void *_arraylist_get_first(list lis) {
 }
 
 void *_arraylist_get_last(list lis) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -103,7 +103,7 @@ void *_arraylist_get_last(list lis) {
 }
 
 void *_arraylist_get(list lis, int index) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -114,7 +114,7 @@ void *_arraylist_get(list lis, int index) {
 }
 
 void **_arraylist_to_array(list lis) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -129,7 +129,7 @@ void **_arraylist_to_array(list lis) {
 }
 
 int _arraylist_add_first(list lis, void *item) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -151,7 +151,7 @@ int _arraylist_add_first(list lis, void *item) {
 }
 
 int _arraylist_add_last(list lis, void *item) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -169,7 +169,7 @@ int _arraylist_add_last(list lis, void *item) {
 }
 
 int _arraylist_set(list lis, int index, void *item) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -182,7 +182,7 @@ int _arraylist_set(list lis, int index, void *item) {
 }
 
 int _arraylist_remove(list lis, void *item) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return ERROR_LIST_IS_NULL;
 	if (!item)
@@ -208,7 +208,7 @@ int _arraylist_remove(list lis, void *item) {
 }
 
 void *_arraylist_remove_first(list lis) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)
@@ -224,7 +224,7 @@ void *_arraylist_remove_first(list lis) {
 }
 
 void *_arraylist_remove_last(list lis) {
-	arraylist li = (arraylist) lis;
+	_arraylist li = (_arraylist) lis;
 	if (!li)
 		return NULL;
 	if (!li->size)

@@ -87,7 +87,9 @@ struct set_methods {
 
 	/* 
 	 * Adds the item to the set. If successful, this returns SUCCESS_SET. If 
-	 * the set is NULL, this returns ERROR_SET_IS_NULL.
+	 * the set is NULL, this returns ERROR_SET_IS_NULL. If the item is NULL,
+	 * this returns ERROR_SET_ITEM_IS_NULL. If malloc fails, return
+	 * ERROR_SET_MALLOC_FAIL.
 	 */
 	int (*add)(set, void *);
 
@@ -99,6 +101,13 @@ struct set_methods {
 	 * ERROR_SET_IS_NULL. On success, returns SUCCESS_SET.
 	 */
 	int (*remove)(set, void *);
+	
+	/* 
+	 * For treeset, this removes the minimum item. For hashset, this removes
+	 * a random element. A pointer to the item is returned. This is used for 
+	 * destructive iteration. If the set is NULL or is empty, this returns NULL.
+	 */
+	void *(*remove_random)(set);	
 
 };
 

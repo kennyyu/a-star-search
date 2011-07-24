@@ -6,9 +6,9 @@
  * A heap has an arraylist containing the items and a pointer to a compare
  * function.
  */
-typedef struct arrayheap *arrayheap;
+typedef struct _arrayheap *_arrayheap;
 
-struct arrayheap {
+struct _arrayheap {
 	list data;
 	heap_compare compare;
 };
@@ -19,7 +19,7 @@ struct arrayheap {
 heap _arrayheap_create(heap_compare cmp) {
 	if (!cmp)
 		return NULL;
-	arrayheap hp = malloc(sizeof(struct arrayheap));
+	_arrayheap hp = malloc(sizeof(struct _arrayheap));
 	if (!hp)
 		return NULL;
 	hp->data = arraylist_methods.create();
@@ -30,7 +30,7 @@ heap _arrayheap_create(heap_compare cmp) {
 }
 
 void _arrayheap_free(heap hep) {
-	arrayheap hp = (arrayheap) hep;
+	_arrayheap hp = (_arrayheap) hep;
 	if (!hp)
 		return;
 	arraylist_methods.free(hp->data);
@@ -38,21 +38,21 @@ void _arrayheap_free(heap hep) {
 }
 
 int _arrayheap_size(heap hep) {
-	arrayheap hp = (arrayheap) hep;
+	_arrayheap hp = (_arrayheap) hep;
 	if (!hp)
 		return ERROR_HEAP_IS_NULL;
 	return arraylist_methods.size(hp->data);
 }
 
 int _arrayheap_is_empty(heap hep) {
-	arrayheap hp = (arrayheap) hep;
+	_arrayheap hp = (_arrayheap) hep;
 	if (!hp)
 		return ERROR_HEAP_IS_NULL;
 	return _arrayheap_size((heap) hp) == 0;	
 }
 
 int _arrayheap_contains(heap hep, void *item) {
-	arrayheap hp = (arrayheap) hep;
+	_arrayheap hp = (_arrayheap) hep;
 	if (!hp)
 		return ERROR_HEAP_IS_NULL;
 	if (!item)
@@ -63,14 +63,14 @@ int _arrayheap_contains(heap hep, void *item) {
 }
 
 void **_arrayheap_to_array(heap hep) {
-	arrayheap hp = (arrayheap) hep;
+	_arrayheap hp = (_arrayheap) hep;
 	if (!hp)
 		return NULL;
 	return arraylist_methods.to_array(hp->data);
 }
 
 void *_arrayheap_peek(heap hep) {
-	arrayheap hp = (arrayheap) hep;
+	_arrayheap hp = (_arrayheap) hep;
 	if (!hp)
 		return NULL;
 	if (_arrayheap_is_empty((heap) hp))
@@ -80,7 +80,7 @@ void *_arrayheap_peek(heap hep) {
 
 /* Internal. Do not use. 
  * Swaps the pointers at index1 and index2 in hp->data */
-void __arrayheap_swap(arrayheap hp, int index1, int index2) {
+void __arrayheap_swap(_arrayheap hp, int index1, int index2) {
 	void *temp = arraylist_methods.get(hp->data, index1);
 	arraylist_methods.set(hp->data, index1, arraylist_methods.get(hp->data, index2));
 	arraylist_methods.set(hp->data, index2, temp);
@@ -88,13 +88,13 @@ void __arrayheap_swap(arrayheap hp, int index1, int index2) {
 
 /* Internal. Do not use.
  * Returns the index of the minimum of the items pointed to by the indices */
-int __arrayheap_min(arrayheap hp, int index1, int index2) {
+int __arrayheap_min(_arrayheap hp, int index1, int index2) {
 	return (hp->compare(arraylist_methods.get(hp->data, index1), 
 											arraylist_methods.get(hp->data, index2)) < 0)? index1 : index2;
 }
 
 int _arrayheap_add(heap hep, void *item) {
-	arrayheap hp = (arrayheap) hep;
+	_arrayheap hp = (_arrayheap) hep;
 	if (!hp)
 		return ERROR_HEAP_IS_NULL;
 	if (!item)
@@ -121,7 +121,7 @@ int _arrayheap_add(heap hep, void *item) {
  * item is not found or if the heap is empty or NULL, this returns NULL.
  */
 void *_arrayheap_remove(heap hep) {
-	arrayheap hp = (arrayheap) hep;
+	_arrayheap hp = (_arrayheap) hep;
 	if (!hp)
 		return NULL;
 	if (_arrayheap_is_empty((heap) hp))
@@ -153,12 +153,12 @@ void *_arrayheap_remove(heap hep) {
 }
 
 heap _arrayheap_merge(heap hep1, heap hep2) {
-	arrayheap hp1 = (arrayheap) hep1;
-	arrayheap hp2 = (arrayheap) hep2;
+	_arrayheap hp1 = (_arrayheap) hep1;
+	_arrayheap hp2 = (_arrayheap) hep2;
 	if (!hp1 && !hp2)
 		return NULL;
 		
-	arrayheap hp3 = (arrayheap) _arrayheap_create(hp1->compare);
+	_arrayheap hp3 = (_arrayheap) _arrayheap_create(hp1->compare);
 	if (!hp3)
 		return NULL;
 	
