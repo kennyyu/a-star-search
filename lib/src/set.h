@@ -32,8 +32,7 @@ typedef int (*set_equal) (void *, void *);
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum set_error_numbers 
-{
+typedef enum set_error_numbers {
 	SUCCESS_SET = 1,
 	ERROR_SET_IS_NULL = -1,
 	ERROR_SET_IS_EMPTY = -2,

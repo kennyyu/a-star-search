@@ -11,8 +11,7 @@ struct queue { };
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum queue_error_numbers 
-{
+typedef enum queue_error_numbers {
 	SUCCESS_QUEUE = 1,
 	ERROR_QUEUE_IS_NULL = -1,
 	ERROR_QUEUE_IS_EMPTY = -2,

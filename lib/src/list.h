@@ -11,8 +11,7 @@ struct list { };
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum list_error_numbers 
-{
+typedef enum list_error_numbers {
 	SUCCESS_LIST = 1,
 	ERROR_LIST_IS_NULL = -1,
 	ERROR_LIST_IS_EMPTY = -2,

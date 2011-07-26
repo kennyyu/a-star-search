@@ -18,8 +18,7 @@ typedef int (*heap_compare) (void *, void *);
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum heap_error_numbers 
-{
+typedef enum heap_error_numbers {
 	SUCCESS_HEAP = 1,
 	ERROR_HEAP_IS_NULL = -1,
 	ERROR_HEAP_IS_EMPTY = -2,

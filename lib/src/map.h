@@ -32,8 +32,7 @@ typedef int (*map_equal) (void *, void *);
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum map_error_numbers 
-{
+typedef enum map_error_numbers {
 	SUCCESS_MAP = 1,
 	ERROR_MAP_IS_NULL = -1,
 	ERROR_MAP_IS_EMPTY = -2,

@@ -18,8 +18,7 @@ typedef int (*pqueue_compare) (void *, void *);
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum pqueue_error_numbers 
-{
+typedef enum pqueue_error_numbers {
 	SUCCESS_PQUEUE = 1,
 	ERROR_PQUEUE_IS_NULL = -1,
 	ERROR_PQUEUE_IS_EMPTY = -2,

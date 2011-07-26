@@ -11,8 +11,7 @@ struct stack { };
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum stack_error_numbers 
-{
+typedef enum stack_error_numbers {
 	SUCCESS_STACK = 1,
 	ERROR_STACK_IS_NULL = -1,
 	ERROR_STACK_IS_EMPTY = -2,
