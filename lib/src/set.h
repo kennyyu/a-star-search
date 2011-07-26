@@ -2,7 +2,8 @@
 #define _SET_H
 
 /* 
- * Alias set to be a pointer to a struct set.
+ * Alias set to be a pointer to a struct set. We never instantiate a set, we
+ * only cast pointers into sets.
  */
 typedef struct set *set;
 struct set { };
@@ -32,17 +33,20 @@ typedef int (*set_equal) (void *, void *);
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum set_error_numbers {
+typedef enum set_error_numbers set_error_numbers;
+enum set_error_numbers {
 	SUCCESS_SET = 1,
 	ERROR_SET_IS_NULL = -1,
 	ERROR_SET_IS_EMPTY = -2,
 	ERROR_SET_ITEM_NOT_FOUND = -3,
 	ERROR_SET_ITEM_IS_NULL = -4,
 	ERROR_SET_MALLOC_FAIL = -5
-} set_error_numbers;
+};
 
+/*
+ * This struct contains pointers to operations for manipulating sets.
+ */
 typedef struct set_methods set_methods;
-
 struct set_methods {
 	/* 
 	 * Initialize a set and returns a pointer to the set. If there is not
@@ -108,7 +112,6 @@ struct set_methods {
 	 * destructive iteration. If the set is NULL or is empty, this returns NULL.
 	 */
 	void *(*remove_random)(set);	
-
 };
 
 #endif

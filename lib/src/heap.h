@@ -2,7 +2,8 @@
 #define _HEAP_H
 
 /* 
- * Alias heap to be a pointer to a struct heap.
+ * Alias heap to be a pointer to a struct heap. We never instantiate a heap,
+ * we will only cast pointers into heaps.
  */
 typedef struct heap *heap;
 struct heap { };
@@ -18,16 +19,19 @@ typedef int (*heap_compare) (void *, void *);
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum heap_error_numbers {
+typedef enum heap_error_numbers heap_error_numbers;
+enum heap_error_numbers {
 	SUCCESS_HEAP = 1,
 	ERROR_HEAP_IS_NULL = -1,
 	ERROR_HEAP_IS_EMPTY = -2,
 	ERROR_HEAP_ITEM_IS_NULL = -3,
 	ERROR_HEAP_MALLOC_FAIL = -4
-} heap_error_numbers;
+};
 
+/*
+ * This struct will contain pointers to operations on heaps.
+ */
 typedef struct heap_methods heap_methods;
-
 struct heap_methods {
 	/* 
 	 * Initialize a heap and returns a pointer to the heap. It takes a function 
@@ -93,7 +97,6 @@ struct heap_methods {
 	 * NULL, returns a copy of the other heap.
 	 */
 	heap (*merge)(heap, heap);
-
 };
 
 #endif

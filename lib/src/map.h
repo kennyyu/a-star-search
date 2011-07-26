@@ -2,7 +2,8 @@
 #define _MAP_H
 
 /* 
- * Alias map to be a pointer to a struct map.
+ * Alias map to be a pointer to a struct map. We never instantiate a map, we
+ * only cast pointers into map.
  */
 typedef struct map *map;
 struct map { };
@@ -32,17 +33,20 @@ typedef int (*map_equal) (void *, void *);
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum map_error_numbers {
+typedef enum map_error_numbers map_error_numbers;
+enum map_error_numbers {
 	SUCCESS_MAP = 1,
 	ERROR_MAP_IS_NULL = -1,
 	ERROR_MAP_IS_EMPTY = -2,
 	ERROR_MAP_ITEM_NOT_FOUND = -3,
 	ERROR_MAP_ITEM_IS_NULL = -4,
 	ERROR_MAP_MALLOC_FAIL = -5
-} map_error_numbers;
+};
 
+/*
+ * This struct contains pointers to operations on maps.
+ */
 typedef struct map_methods map_methods;
-
 struct map_methods {
 	/* 
 	 * Initialize a map and returns a pointer to the map. If there is not
@@ -121,7 +125,6 @@ struct map_methods {
 	 * ERROR_MAP_IS_NULL. On success, returns SUCCESS_MAP.
 	 */
 	int (*remove_key)(map, void *);
-
 };
 
 #endif

@@ -2,7 +2,8 @@
 #define _STACK_H
 
 /* 
- * Alias stack to be a pointer to a struct stack.
+ * Alias stack to be a pointer to a struct stack. We never instantiate a stack,
+ * we only cast pointers into stacks.
  */
 typedef struct stack *stack;
 struct stack { };
@@ -11,16 +12,19 @@ struct stack { };
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum stack_error_numbers {
+typedef enum stack_error_numbers stack_error_numbers;
+enum stack_error_numbers {
 	SUCCESS_STACK = 1,
 	ERROR_STACK_IS_NULL = -1,
 	ERROR_STACK_IS_EMPTY = -2,
 	ERROR_STACK_ITEM_IS_NULL = -3,
 	ERROR_STACK_MALLOC_FAIL = -4
-} stack_error_numbers;
+};
 
+/*
+ * This struct contains pointers to operations on stacks.
+ */
 typedef struct stack_methods stack_methods;
-
 struct stack_methods {
 	/* 
 	 * Initialize a stack and returns a pointer to the stack. If there is not
@@ -69,7 +73,6 @@ struct stack_methods {
 	 * item is not found or if the stack is empty or NULL, this returns NULL.
 	 */
 	void *(*pop)(stack);
-
 };
 
 #endif

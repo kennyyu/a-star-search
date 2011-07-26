@@ -2,7 +2,8 @@
 #define _PRIORITYQUEUE_H
 
 /* 
- * Alias pqueue to be a pointer to a struct pqueue.
+ * Alias pqueue to be a pointer to a struct pqueue. We never instantiate a
+ * pqueue, only cast pointers into pqueue.
  */
 typedef struct pqueue *pqueue;
 struct pqueue { };
@@ -18,16 +19,19 @@ typedef int (*pqueue_compare) (void *, void *);
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum pqueue_error_numbers {
+typedef enum pqueue_error_numbers pqueue_error_numbers;
+enum pqueue_error_numbers {
 	SUCCESS_PQUEUE = 1,
 	ERROR_PQUEUE_IS_NULL = -1,
 	ERROR_PQUEUE_IS_EMPTY = -2,
 	ERROR_PQUEUE_ITEM_IS_NULL = -3,
 	ERROR_PQUEUE_MALLOC_FAIL = -4
-} pqueue_error_numbers;
+};
 
+/*
+ * This struct will contain pointers to operations on pqueues.
+ */
 typedef struct pqueue_methods pqueue_methods;
-
 struct pqueue_methods {
 	/* 
 	 * Initialize a pqueue and returns a pointer to the pqueue. If there is not
@@ -76,7 +80,6 @@ struct pqueue_methods {
 	 * item is not found or if the pqueue is empty or NULL, this returns NULL.
 	 */
 	void *(*dequeue)(pqueue);
-
 };
 
 #endif

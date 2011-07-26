@@ -2,7 +2,8 @@
 #define _QUEUE_H
 
 /* 
- * Alias queue to be a pointer to a struct queue.
+ * Alias queue to be a pointer to a struct queue. We never instantiate a queue,
+ * we only cast pointers into queues.
  */
 typedef struct queue *queue;
 struct queue { };
@@ -11,16 +12,19 @@ struct queue { };
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum queue_error_numbers {
+typedef enum queue_error_numbers queue_error_numbers;
+enum queue_error_numbers {
 	SUCCESS_QUEUE = 1,
 	ERROR_QUEUE_IS_NULL = -1,
 	ERROR_QUEUE_IS_EMPTY = -2,
 	ERROR_QUEUE_ITEM_IS_NULL = -3,
 	ERROR_QUEUE_MALLOC_FAIL = -4
-} queue_error_numbers;
+};
 
+/*
+ * This struct contains pointers to operations on queues.
+ */
 typedef struct queue_methods queue_methods;
-
 struct queue_methods {
 	/* 
 	 * Initialize a queue and returns a pointer to the queue. If there is not
@@ -69,7 +73,6 @@ struct queue_methods {
 	 * item is not found or if the queue is empty or NULL, this returns NULL.
 	 */
 	void *(*dequeue)(queue);
-
 };
 
 #endif

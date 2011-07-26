@@ -2,7 +2,8 @@
 #define _LIST_H
 
 /* 
- * Alias list to be a pointer to a struct list.
+ * Alias list to be a pointer to a struct list. We never instantiate a list, we
+ * only cast pointers to a list.
  */
 typedef struct list *list;
 struct list { };
@@ -11,7 +12,8 @@ struct list { };
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
-typedef enum list_error_numbers {
+typedef enum list_error_numbers list_error_numbers;
+enum list_error_numbers {
 	SUCCESS_LIST = 1,
 	ERROR_LIST_IS_NULL = -1,
 	ERROR_LIST_IS_EMPTY = -2,
@@ -19,10 +21,12 @@ typedef enum list_error_numbers {
 	ERROR_LIST_ITEM_IS_NULL = -4,
 	ERROR_LIST_MALLOC_FAIL = -5,
 	ERROR_LIST_OUT_OF_BOUNDS = -6
-} list_error_numbers;
+};
 
+/*
+ * This struct will contain pointers to operations on lists.
+ */
 typedef struct list_methods list_methods;
-
 struct list_methods {
 	/* 
 	 * Initialize a list and returns a pointer to the list. If there is not
