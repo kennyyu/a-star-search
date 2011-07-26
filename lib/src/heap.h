@@ -5,6 +5,7 @@
  * Alias heap to be a pointer to a struct heap.
  */
 typedef struct heap *heap;
+struct heap { };
 
 /*
  * Alias heap_compare to be a function pointer type that takes two pointers to

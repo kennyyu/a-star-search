@@ -5,6 +5,7 @@
  * Alias set to be a pointer to a struct set.
  */
 typedef struct set *set;
+struct set { };
 
 /*
  * Alias set_compare to be a function pointer type that takes two pointers 

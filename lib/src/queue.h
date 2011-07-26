@@ -5,6 +5,7 @@
  * Alias queue to be a pointer to a struct queue.
  */
 typedef struct queue *queue;
+struct queue { };
 
 /*
  * Enumeration of error and success return values for functions that return an

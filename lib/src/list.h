@@ -5,6 +5,7 @@
  * Alias list to be a pointer to a struct list.
  */
 typedef struct list *list;
+struct list { };
 
 /*
  * Enumeration of error and success return values for functions that return an

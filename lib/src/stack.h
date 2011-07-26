@@ -5,6 +5,7 @@
  * Alias stack to be a pointer to a struct stack.
  */
 typedef struct stack *stack;
+struct stack { };
 
 /*
  * Enumeration of error and success return values for functions that return an

@@ -5,6 +5,7 @@
  * Alias pqueue to be a pointer to a struct pqueue.
  */
 typedef struct pqueue *pqueue;
+struct pqueue { };
 
 /*
  * Alias pqueue_compare to be a function pointer type that takes two pointers 

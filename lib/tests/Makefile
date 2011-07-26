@@ -9,25 +9,25 @@ TESTS = check_linkedlist check_arraylist check_linkedqueue check_linkedstack che
 %.o : %.c $(INCLUDES)
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
-check_linkedlist: check_linkedlist.o $(SRC)/list.o $(SRC)/linkedlist.o 
+check_linkedlist: check_linkedlist.o $(SRC)/linkedlist.o 
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
-check_arraylist: check_arraylist.o $(SRC)/list.o $(SRC)/arraylist.o
+check_arraylist: check_arraylist.o $(SRC)/arraylist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 	
-check_linkedqueue: check_linkedqueue.o $(SRC)/list.o $(SRC)/linkedlist.o $(SRC)/queue.o $(SRC)/linkedqueue.o 
+check_linkedqueue: check_linkedqueue.o $(SRC)/linkedlist.o $(SRC)/linkedqueue.o 
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
-check_linkedstack: check_linkedstack.o $(SRC)/list.o $(SRC)/linkedlist.o $(SRC)/stack.o $(SRC)/linkedstack.o
+check_linkedstack: check_linkedstack.o $(SRC)/linkedlist.o $(SRC)/linkedstack.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 	
-check_arrayheap: check_arrayheap.o $(SRC)/list.o $(SRC)/arraylist.o $(SRC)/heap.o $(SRC)/arrayheap.o
+check_arrayheap: check_arrayheap.o $(SRC)/arraylist.o $(SRC)/arrayheap.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 	
-check_heappriorityqueue: check_heappriorityqueue.o $(SRC)/list.o $(SRC)/arraylist.o $(SRC)/heap.o $(SRC)/arrayheap.o $(SRC)/priorityqueue.o $(SRC)/heappriorityqueue.o
+check_heappriorityqueue: check_heappriorityqueue.o $(SRC)/arraylist.o $(SRC)/arrayheap.o $(SRC)/heappriorityqueue.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
-check_treeset: check_treeset.o $(SRC)/set.o $(SRC)/treeset.o 
+check_treeset: check_treeset.o $(SRC)/treeset.o 
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
 all: $(TESTS)

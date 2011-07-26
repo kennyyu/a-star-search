@@ -5,6 +5,7 @@
  * Alias map to be a pointer to a struct map.
  */
 typedef struct map *map;
+struct map { };
 
 /*
  * Alias map_compare to be a function pointer type that takes two pointers 
