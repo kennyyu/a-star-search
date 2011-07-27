@@ -11,6 +11,8 @@ TODO
 	*	Add an equality function pointer to list
 	
 	* 	How to create an anonymous function?
+        
+        *       Implement keys_to_array and key_values_to_array that returns mapnode structs
 	
 	*	Need to add a get(set, void*) to return a pointer to an item of the same value/hash + equality
 	
