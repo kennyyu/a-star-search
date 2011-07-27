@@ -96,6 +96,15 @@ struct set_methods {
 	 * ERROR_SET_MALLOC_FAIL.
 	 */
 	int (*add)(set, void *);
+	
+	/*
+	 * If a treeset, get will return a pointer to the item in the set with
+	 * the same comparison value. If a hashset, get will return a pointer
+	 * to the item in the set with the same hash values and are equal. If
+	 * there is no such item in the set, this returns NULL. If the set or
+	 * item is NULL, this also returns NULL.
+	 */
+	void *(*get)(set, void *);
 
 	/* 
 	 * Removes the item from the set. If the item is not found, this returns

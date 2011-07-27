@@ -109,7 +109,7 @@ struct map_methods {
 	 * the key or value is NULL, this returns ERROR_ITEM_IS_NULL. If the key
 	 * is already in the map, the old value will be clobbered.
 	 */
-	int (*set)(map, void *, void *);
+	int (*add)(map, void *, void *);
 
 	/*
 	 * Gets the value associated with this key. If the map is NULL, this returns

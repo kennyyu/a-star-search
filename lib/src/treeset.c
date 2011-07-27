@@ -163,6 +163,27 @@ int _treeset_add(set sett, void *item) {
 	return SUCCESS_SET;	
 }
 
+void *_treeset_get(set sett, void *item) {
+	_treeset se = (_treeset) sett;
+	if (!se)
+		return NULL;
+	if (!item)
+		return NULL;
+	__treeset_node current = se->root;
+	set_compare cmp = se->compare;
+	int comparison;
+	while (!current) {
+		comparison = cmp(item, current->data);
+		if (comparison < 0)
+			current = current->left;
+		else if (comparison > 0)
+			current = current->right;
+		else
+			return current->data;
+	}
+	return NULL;
+}
+
 /* removes the least item and returns the least item. Returns NULL if node NULL */
 /* if direction == 1, then node == prev->right. */
 __treeset_node __treeset_remove_least(set_compare cmp, __treeset_node prev, __treeset_node node, int direction) {
@@ -270,6 +291,7 @@ set_methods treeset_methods = {
 	.contains = &_treeset_contains,
 	.to_array = &_treeset_to_array,
 	.add = &_treeset_add,
+	.get = &_treeset_get,
 	.remove = &_treeset_remove,
 	.remove_random = &_treeset_remove_random,
 };

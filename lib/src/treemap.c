@@ -3,23 +3,13 @@
 #include "treemap.h"
 
 typedef struct _treemap *_treemap;
-struct _treemap {};
+struct _treemap { };
 
 typedef struct __treemap_node *__treemap_node;
 struct __treemap_node {
         void *key;
         void *value;
 };
-
-/* use macros to change cmp(a,b) to cmp(a->key, b->key) 
- * Or expose in the map_compare interface how to compare two nodes
- * move __treemap_node into map header file
- */
-map_compare _map_compare_to_node_compare(map_compare cmp) {
-        __treemap_node node1 = (__treemap_node) item1;
-        __treemap_node node2 = (__treemap_node) item2;
-        return cmp(node1->key, node2->key);
-}
 
 /* 
  * Initialize a map and returns a pointer to the map. If there is not
@@ -32,8 +22,7 @@ map _treemap_create(map_compare cmp, map_hash hash, map_equal eq) {
                 return NULL;
         if (hash || eq)
                 return NULL;
-        map_compare map_cmp = _map_compare_to_node_compare(cmp);
-        set mp = treeset_methods.create(map_cmp, hash, eq);
+        set mp = treeset_methods.create(cmp, hash, eq);
         if (!mp)
                 return NULL;
         return (map) mp;
@@ -79,6 +68,55 @@ int _treemap_contains_key(map mp, void *item) {
         if (!item)
                 return ERROR_MAP_ITEM_IS_NULL;
         return treeset_methods.contains((set) mp, item);
+}
+
+/* 
+ * Adds the key, value pair to the map. If successful, this returns 
+ * SUCCESS_MAP. If the map is NULL, this returns ERROR_MAP_IS_NULL. If either
+ * the key or value is NULL, this returns ERROR_ITEM_IS_NULL. If the key
+ * is already in the map, the old value will be clobbered.
+ */
+int add(map mp, void *key, void *value) {
+        if (!mp)
+                return ERROR_MAP_IS_NULL;
+        if (!key)
+                return ERROR_MAP_ITEM_IS_NULL;
+        __treemap_node node = (__treemap_node) treeset_methods.get((set) mp, key);
+        if (node) {
+                /* key is already in the set, just reset value to new value */
+                node->value = value;
+                return SUCCESS_MAP;
+        } else {
+                /* we need to add (key,value) to the treeset */
+                node = malloc(sizeof(struct __treemap_node));
+                if (!node) {
+                        free(node);
+                        return ERROR_MAP_MALLOC_FAIL;
+                }
+                node->key = key;
+                node->value = value;
+                int error = treeset_methods.add((set) mp, node);
+                if (error == ERROR_SET_MALLOC_FAIL) {
+                        free(node);
+                        return ERROR_MAP_MALLOC_FAIL;
+                }
+                return SUCCESS_MAP;
+        }
+}
+
+/*
+ * Gets the value associated with this key. If the map is NULL, this returns
+ * NULL. If the key is NULL, this also returns NULL.
+ */
+void *get(map mp, void *key) {
+        if (!mp)
+                return NULL;
+        if (!key)
+                return NULL;
+        __treemap_node node = (__treemap_node) treeset_methods.get((set) mp, key);
+        if (!node)
+                return NULL;
+        return node->key;
 }
 
 /* 
