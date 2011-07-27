@@ -11,6 +11,10 @@ struct __treemap_node {
         void *value;
 };
 
+/* use macros to change cmp(a,b) to cmp(a->key, b->key) 
+ * Or expose in the map_compare interface how to compare two nodes
+ * move __treemap_node into map header file
+ */
 map_compare _map_compare_to_node_compare(map_compare cmp) {
         __treemap_node node1 = (__treemap_node) item1;
         __treemap_node node2 = (__treemap_node) item2;

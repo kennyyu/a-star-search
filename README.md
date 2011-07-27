@@ -10,6 +10,10 @@ TODO
 
 	*	Add an equality function pointer to list
 	
+	* 	How to create an anonymous function?
+	
+	*	Need to add a get(set, void*) to return a pointer to an item of the same value/hash + equality
+	
 	*	Add a free_items function to all data structures to optionally free the items
 	
 	*	changed linkedqueue -> listqueue (to follow the convention heappriorityqueue)
