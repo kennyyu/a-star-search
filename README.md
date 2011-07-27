@@ -12,6 +12,8 @@ TODO
 	
 	* 	How to create an anonymous function?
         
+        *       Can't use macros--it only overrides the header file, not the c file. Have to expose mapnode interface structs
+        
         *       Implement keys_to_array and key_values_to_array that returns mapnode structs
 	
 	*	Need to add a get(set, void*) to return a pointer to an item of the same value/hash + equality
