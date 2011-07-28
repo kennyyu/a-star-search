@@ -13,6 +13,8 @@ TODO
 	* 	How to create an anonymous function?
         
 		*	ffcall library for closures does not work on Snow Leopard (at least not v. 1.1.0 of ffcall)
+                
+                *       Possible solution: implement set using map, instead of map using set
 
         *	Can't use macros--it only overrides the header file, not the c file. Have to expose mapnode interface structs?
         
