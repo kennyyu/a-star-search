@@ -12,9 +12,11 @@ TODO
 	
 	* 	How to create an anonymous function?
         
-        *       Can't use macros--it only overrides the header file, not the c file. Have to expose mapnode interface structs
+		*	ffcall library for closures does not work on Snow Leopard (at least not v. 1.1.0 of ffcall)
+
+        *	Can't use macros--it only overrides the header file, not the c file. Have to expose mapnode interface structs?
         
-        *       Implement keys_to_array and key_values_to_array that returns mapnode structs
+        *	Implement keys_to_array and key_values_to_array that returns mapnode structs
 	
 	*	Need to add a get(set, void*) to return a pointer to an item of the same value/hash + equality
 	
@@ -111,6 +113,13 @@ REFERENCES
 *	http://www.newty.de/fpt/fpt.html#r_value
 *	http://pine.cs.yale.edu/pinewiki/C/FunctionPointers
 *	http://stackoverflow.com/questions/2521927/initializing-a-global-struct-in-c
+
+#### Functional programming in C
+*	http://stackoverflow.com/questions/216037/what-tools-are-there-for-functional-programming-in-c
+*	http://gcc.gnu.org/onlinedocs/gcc/Nested-Functions.html
+*	http://www.haible.de/bruno/packages-ffcall-README.html
+*	http://sourceforge.net/mailarchive/forum.php?thread_name=svd3mc9m1o.fsf%40tbox.wtc.algo&forum_name=clisp-list
+*	http://cvs.savannah.gnu.org/viewvc/libffcall/ffcall/
 
 #### Common C errors:
 *	http://www.drpaulcarter.com/cs/common-c-errors.php
