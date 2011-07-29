@@ -10,15 +10,15 @@ TODO
 
 	*	Add an equality function pointer to list
 	
-	* 	How to create an anonymous function?
-        
+	*	How to create an anonymous function?
+		
 		*	ffcall library for closures does not work on Snow Leopard (at least not v. 1.1.0 of ffcall)
-                
-                *       Possible solution: implement set using map, instead of map using set
+				
+				*	Possible solution: implement set using map, instead of map using set
 
-        *	Can't use macros--it only overrides the header file, not the c file. Have to expose mapnode interface structs?
-        
-        *	Implement keys_to_array and key_values_to_array that returns mapnode structs
+		*	Can't use macros--it only overrides the header file, not the c file. Have to expose mapnode interface structs?
+		
+		*	Implement keys_to_array and key_values_to_array that returns mapnode structs
 	
 	*	Need to add a get(set, void*) to return a pointer to an item of the same value/hash + equality
 	
@@ -28,7 +28,7 @@ TODO
 
 	*	Implement hashset (with hash tables)
 	
-	* 	Implement treemap and hashmap with sets.
+	*	Implement treemap and hashmap with sets.
 	
 	*	Algorithms (Sorts, Graph algorithms)
 
@@ -57,8 +57,8 @@ INSTALL
 	In hello.c:
 	
 		/*
-	 	 * include the linkedlist header file
-	 	 */
+		 * include the linkedlist header file
+		 */
 		include "../lib/src/linkedlist.h"
 		// ...
 	
