@@ -124,13 +124,11 @@ struct map_methods {
 	void *(*get)(map, void *);
 
 	/* 
-	 * Removes the key from the map. If the key is not found, this returns
-	 * ERROR_MAP_ITEM_NOT_FOUND. If the key is NULL, this returns
-	 * ERROR_MAP_ITEM_IS_NULL. If the map is empty, this returns
-	 * ERROR_MAP_IS_EMPTY. If the map is NULL, this returns
-	 * ERROR_MAP_IS_NULL. On success, returns SUCCESS_MAP.
+	 * Removes the key from the map and returns the associated value. If the
+	 * the map is NULL, the map is empty, the key is NULL, or the key is not
+	 * found, this returns NULL 
 	 */
-	int (*remove)(map, void *);
+	void *(*remove)(map, void *);
 };
 
 #endif
