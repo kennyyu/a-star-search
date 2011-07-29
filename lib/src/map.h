@@ -9,6 +9,16 @@ typedef struct map *map;
 struct map { };
 
 /*
+ * The to_array function will return an array of structs containing (key,value)
+ * pairs.
+ */
+typedef struct treemap_node *treemap_node;
+struct treemap_node {
+	void *key;
+	void *value;
+};
+
+/*
  * Alias map_compare to be a function pointer type that takes two pointers 
  * to items and compares them. Returns + if the first item > second item, 0 if
  * the first item = second item, - if the first item < second item. This will
@@ -78,30 +88,26 @@ struct map_methods {
 	 * NULL, this returns ERROR_MAP_IS_NULL. If the key is NULL, this returns
 	 * ERROR_MAP_ITEM_IS_NULL.
 	 */
-	int (*contains_key)(map, void *);
-
-	/* 
-	 * Returns 1 if the value is in the map, otherwise returns 0. If the map is
-	 * NULL, this returns ERROR_MAP_IS_NULL. If the value is NULL, this returns
-	 * ERROR_MAP_ITEM_IS_NULL.
-	 */
-	int (*contains_value)(map, void *);
+	int (*contains)(map, void *);
 
 	/*
 	 * Returns an array of pointers to the keys in the map. The number of keys 
 	 * will be the size of the array. If the map is NULL, this returns NULL. If 
 	 * the number of keys is 0, this returns NULL. If malloc fails, this also 
 	 * returns NULL.
+	 *
+	 * WARNING: Do not change the values of the keys.
 	 */
 	void **(*keys_to_array)(map);
 
 	/*
-	 * Returns an array of pointers to the value in the map. The number of
-	 * distinct values will be the size of the array. If the map is NULL, this 
-	 * returns NULL. If the number of distinct values is 0, this returns NULL. 
-	 * If malloc fails, this also returns NULL.
+	 * Returns a pointer to an array of structs containing (key,value) pairs.
+	 * The key and value fields will reference the actual values in the map.
+	 * The number of keys will be the size of the array. If the map is NULL,
+	 * this returns NULL. If the number of keys is 0, this returns NULL. If
+	 * malloc fails, this also returns NULL.
 	 */
-	void **(*values_to_array)(map);
+	treemap_node (*to_array)(map);
 
 	/* 
 	 * Adds the key, value pair to the map. If successful, this returns 
@@ -124,7 +130,7 @@ struct map_methods {
 	 * ERROR_MAP_IS_EMPTY. If the map is NULL, this returns
 	 * ERROR_MAP_IS_NULL. On success, returns SUCCESS_MAP.
 	 */
-	int (*remove_key)(map, void *);
+	int (*remove)(map, void *);
 };
 
 #endif
