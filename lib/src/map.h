@@ -12,8 +12,8 @@ struct map { };
  * The to_array function will return an array of structs containing (key,value)
  * pairs.
  */
-typedef struct treemap_node *treemap_node;
-struct treemap_node {
+typedef struct map_node *map_node;
+struct map_node {
 	void *key;
 	void *value;
 };
@@ -107,7 +107,7 @@ struct map_methods {
 	 * this returns NULL. If the number of keys is 0, this returns NULL. If
 	 * malloc fails, this also returns NULL.
 	 */
-	treemap_node (*to_array)(map);
+	map_node *(*to_array)(map);
 
 	/* 
 	 * Adds the key, value pair to the map. If successful, this returns 

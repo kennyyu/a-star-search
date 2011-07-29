@@ -4,7 +4,7 @@
 
 typedef struct __binarytree_node *__binarytree_node;	
 struct __binarytree_node {
-	treemap_node data;
+	map_node data;
 	__binarytree_node left;
 	__binarytree_node right;
 };
@@ -35,6 +35,7 @@ void __treemap_free_helper(__binarytree_node node) {
 		return;
 	__treemap_free_helper(node->left);
 	__treemap_free_helper(node->right);
+        free(node->data);
 	free(node);
 }
 
@@ -63,8 +64,9 @@ int _treemap_is_empty(map mapp) {
 int __treemap_contains_helper(map_compare cmp, __binarytree_node node, void *key) {
 	if (!node)
 		return 0;
-	if ((*cmp)(node->data->key, key) == 0)
+	if (cmp(node->data->key, key) == 0) {
 		return 1;
+	}
 	return __treemap_contains_helper(cmp, node->left, key) || 
 		__treemap_contains_helper(cmp, node->right, key);
 }
@@ -109,24 +111,23 @@ void **_treemap_keys_to_array(map mapp) {
 }
 
 /* in-order traversal (left, this, right) */
-int __treemap_to_array_helper(treemap_node nodes, __binarytree_node node, int position) {
+int __treemap_to_array_helper(map_node *nodes, __binarytree_node node, int position) {
 	if (!nodes)
 		return 0;
 	if (!node)
 		return position;
 	int new_position = __treemap_to_array_helper(nodes, node->left, position);
-	nodes[new_position].key = node->data->key;
-        nodes[new_position].value = node->data->value;
+	nodes[new_position] = node->data;
 	return __treemap_to_array_helper(nodes, node->right, new_position + 1);
 }
 
-treemap_node _treemap_to_array(map mapp) {
+map_node *_treemap_to_array(map mapp) {
 	_treemap mp = (_treemap) mapp;
 	if (!mp)
 		return NULL;
 	if (!mp->size)
 		return NULL;
-	treemap_node nodes = malloc(sizeof(struct treemap_node) * mp->size);
+	map_node *nodes = malloc(sizeof(map_node) * mp->size);
 	if (!nodes)
 		return NULL;
 	int num_nodes_added = __treemap_to_array_helper(nodes, mp->root, 0);
@@ -152,7 +153,7 @@ int _treemap_add(map mapp, void *key, void *value) {
                 current = malloc(sizeof(struct __binarytree_node));
 		if (!current)
 			return ERROR_MAP_MALLOC_FAIL;
-		current->data = malloc(sizeof(struct treemap_node));
+		current->data = malloc(sizeof(struct map_node));
 		if (!current->data) {
                         free(current);
 			return ERROR_MAP_MALLOC_FAIL;
@@ -169,7 +170,7 @@ int _treemap_add(map mapp, void *key, void *value) {
 	map_compare cmp = mp->compare;
 	int comparison;
 	while (!current) {
-		comparison = (*cmp)(key, current->data->key);
+		comparison = cmp(key, current->data->key);
 		if (comparison < 0) {
                         previous = current;
 			current = current->left;
@@ -189,7 +190,7 @@ int _treemap_add(map mapp, void *key, void *value) {
         current = malloc(sizeof(struct __binarytree_node));
         if (!current)
                 return ERROR_MAP_MALLOC_FAIL;
-        current->data = malloc(sizeof(struct treemap_node));
+        current->data = malloc(sizeof(struct map_node));
         if (!current->data) {
                 free(current);
                 return ERROR_MAP_MALLOC_FAIL;
@@ -214,7 +215,7 @@ void *_treemap_get(map mapp, void *key) {
 	map_compare cmp = mp->compare;
 	int comparison;
 	while (!current) {
-		comparison = (*cmp)(key, current->data->key);
+		comparison = cmp(key, current->data->key);
 		if (comparison < 0)
 			current = current->left;
 		else if (comparison > 0)
@@ -225,7 +226,7 @@ void *_treemap_get(map mapp, void *key) {
 	return NULL;
 }
 
-__binarytree_node __treemap_remove_least(map_compare cmp, __binarytree_node node, treemap_node least) {
+__binarytree_node __treemap_remove_least(map_compare cmp, __binarytree_node node, map_node least) {
         if (!node) {
                 return NULL;
                 least->key = NULL;
@@ -269,7 +270,7 @@ void *_treemap_remove(map mapp, void *key) {
 	map_compare cmp = mp->compare;
 	int comparison;
 	while (!current) {
-		comparison = (*cmp)(key, current->data->key);
+		comparison = cmp(key, current->data->key);
 		if (comparison < 0) {
                         previous = current;
 			current = current->left;
@@ -291,7 +292,7 @@ void *_treemap_remove(map mapp, void *key) {
                         /* remove least item from the right subtree of current
                          * and store the least node in the address of least.
                          * remove_least will return the new root after the removal */
-                        treemap_node least = malloc(sizeof(struct treemap_node));
+                        map_node least = malloc(sizeof(struct map_node));
                         least->key = NULL;
                         __binarytree_node new_root = __treemap_remove_least(cmp, current->right, least);
                         if (new_root && !least->key)
@@ -307,7 +308,7 @@ void *_treemap_remove(map mapp, void *key) {
                                 /* set least's right to the remaining right subtree
                                  * set least's left to current's left subtree
                                  * replace current with least by updating previous*/
-                                __binarytree_node new_current = malloc(sizeof(struct treemap_node));
+                                __binarytree_node new_current = malloc(sizeof(struct map_node));
                                 if (!new_current)
                                         return NULL;
                                 new_current->data = least;
