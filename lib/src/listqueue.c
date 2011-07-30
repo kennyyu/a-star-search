@@ -1,36 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linkedqueue.h"
+#include "listqueue.h"
 
 /* 
  * We cast a linkedlist pointer into a queue pointer. This allows us to use
  * all the list functions directly on a queue pointer, without having to store
  * any extra unnecessary data.
  */
-typedef struct _linkedqueue *_linkedqueue;
-struct _linkedqueue { };
+typedef struct _listqueue *_listqueue;
+struct _listqueue { };
 
-queue _linkedqueue_create() {
+queue _listqueue_create() {
 	return (queue) linkedlist_methods.create();
 }
 
-void _linkedqueue_free(queue qu) {
+void _listqueue_free(queue qu) {
 	linkedlist_methods.free((list) qu);
 }
 
-int _linkedqueue_size(queue qu) {
+int _listqueue_size(queue qu) {
 	if (!qu)
 		return ERROR_QUEUE_IS_NULL;
 	return linkedlist_methods.size((list) qu);
 }
 
-int _linkedqueue_is_empty(queue qu) {
+int _listqueue_is_empty(queue qu) {
 	if (!qu)
 		return ERROR_QUEUE_IS_NULL;
 	return linkedlist_methods.is_empty((list) qu);
 }
 
-int _linkedqueue_contains(queue qu, void *item) {
+int _listqueue_contains(queue qu, void *item) {
 	if (!qu)
 		return ERROR_QUEUE_IS_NULL;
 	if (!item)
@@ -38,11 +38,11 @@ int _linkedqueue_contains(queue qu, void *item) {
 	return linkedlist_methods.contains((list) qu, item);
 }
 
-void *_linkedqueue_peek(queue qu) {
+void *_listqueue_peek(queue qu) {
 	return linkedlist_methods.get_first((list) qu);
 }
 
-int _linkedqueue_enqueue(queue qu, void *item) {
+int _listqueue_enqueue(queue qu, void *item) {
 	if (!qu)
 		return ERROR_QUEUE_IS_NULL;
 	if (!item)
@@ -54,17 +54,17 @@ int _linkedqueue_enqueue(queue qu, void *item) {
 	return SUCCESS_QUEUE;
 }
 
-void *_linkedqueue_dequeue(queue qu) {
+void *_listqueue_dequeue(queue qu) {
 	return linkedlist_methods.remove_first((list) qu);
 }
 
-queue_methods linkedqueue_methods = {
-	.create = &_linkedqueue_create,
-	.free = &_linkedqueue_free,
-	.size = &_linkedqueue_size,
-	.is_empty = &_linkedqueue_is_empty,
-	.contains = &_linkedqueue_contains,
-	.peek = &_linkedqueue_peek,
-	.enqueue = &_linkedqueue_enqueue,
-	.dequeue = &_linkedqueue_dequeue,
+queue_methods listqueue_methods = {
+	.create = &_listqueue_create,
+	.free = &_listqueue_free,
+	.size = &_listqueue_size,
+	.is_empty = &_listqueue_is_empty,
+	.contains = &_listqueue_contains,
+	.peek = &_listqueue_peek,
+	.enqueue = &_listqueue_enqueue,
+	.dequeue = &_listqueue_dequeue,
 };
