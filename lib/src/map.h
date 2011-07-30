@@ -129,6 +129,14 @@ struct map_methods {
 	 * found, this returns NULL 
 	 */
 	void *(*remove)(map, void *);
+	
+	/*
+	 * Removes a random element from the map and returns it as a map_node pointer.
+	 * For treemaps, this will return elements in order by key. For hashmaps, 
+	 * this will return in a random order. If the map is NULL, is empty, or malloc 
+	 * fails, this returns NULL.
+	 */
+	map_node (*remove_random)(map);
 };
 
 #endif

@@ -244,11 +244,12 @@ __binarytree_node __treemap_remove_least(map_compare cmp, __binarytree_node node
   /* current is NULL, previous is least */
   least->key = previous->data->key;
   least->value = previous->data->value;
+	printf("least: key: %d, value: %d\n", *(int *)least->key, *(int *)least->value);
   if (previousprevious == NULL) {
-		printf("least: key: %d, value: %d\n", *(int *)least->key, *(int *)least->value);
     /* previous is the root of the tree */
     free(previous->data);
     free(previous);
+		printf("ok_go\n");
     return node->right;
   } else {
     /* the root of the subtree did not change */
@@ -343,6 +344,25 @@ void *_treemap_remove(map mapp, void *key) {
   return NULL;
 }
 
+map_node _treemap_remove_random(map mapp) {
+	_treemap mp = (_treemap) mapp;
+	if (!mp)
+		return NULL;
+	if (!mp->root)
+		return NULL;
+		
+	map_node least = malloc(sizeof(struct map_node));
+  least->key = NULL;
+	printf("--------------------------ok\n");
+  __binarytree_node new_root = __treemap_remove_least(mp->compare, mp->root, least);
+	printf("--------------------------past remove last\n");
+	if (!least->key)
+		return NULL;
+	mp->root = new_root;
+	mp->size--;
+	return least;
+}
+
 map_methods treemap_methods = {
 	.create = &_treemap_create,
 	.free = &_treemap_free,
@@ -354,4 +374,5 @@ map_methods treemap_methods = {
 	.add = &_treemap_add,
 	.get = &_treemap_get,
 	.remove = &_treemap_remove,
+	.remove_random = &_treemap_remove_random,
 };

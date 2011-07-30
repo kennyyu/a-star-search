@@ -310,6 +310,158 @@ START_TEST (test_map_remove2) {
 }
 END_TEST
 
+START_TEST (test_map_remove_random1) {
+	int error;
+	int *item;
+	map_node node;
+	int *values[8];
+	int *nums[8];
+	int temp[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+	for (int i = 0; i < 8; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = temp[i];
+		values[i] = malloc(sizeof(int));
+		*values[i] = 7 - temp[i];
+	}
+	
+	map mp = NULL;
+	
+	error = treemap_methods.add(mp, nums[0], values[0]);
+	fail_unless(error == ERROR_MAP_IS_NULL, "Error adding to NULL map");
+	fail_unless(treemap_methods.size(mp) == ERROR_MAP_IS_NULL, 
+							"Size incorrect after adding to NULL map");
+	
+	node = treemap_methods.remove_random(mp);
+	fail_unless(node == NULL, "Error removing random from NULL map");
+	fail_unless(treemap_methods.size(mp) == ERROR_MAP_IS_NULL, 
+							"Size incorrect after adding to NULL map");
+	
+	mp = treemap_methods.create(&int_compare, NULL, NULL);
+	fail_if(!mp, "treemap_methods.create failed.");
+
+	node = treemap_methods.remove_random(mp);
+	fail_unless(node == NULL, "Error removing random from NULL map");
+	fail_unless(treemap_methods.size(mp) == 0, 
+							"Size incorrect after adding to NULL map");
+	
+	for (int i = 0; i < 8; i++) {
+		error = treemap_methods.add(mp, nums[i], values[i]);
+		fail_unless(error == SUCCESS_MAP, "Error adding to map");
+		fail_unless(treemap_methods.size(mp) == (i+1), "Size incorrect after add");
+		fail_unless(treemap_methods.contains(mp, nums[i]), "Error in treemap_methods.contains");
+		item = (int *) treemap_methods.get(mp, nums[i]);
+		fail_unless(*item == 7 - temp[i], "Error in get"); 
+	}
+
+	for (int i = 0; i < 8; i++) {
+		error = treemap_methods.add(mp, nums[i], values[i]);
+		fail_unless(error == SUCCESS_MAP, "Error adding to map");
+		fail_unless(treemap_methods.size(mp) == 8, "Size incorrect after add");	
+		fail_unless(treemap_methods.contains(mp, nums[i]), "Error in treemap_methods.contains");
+		item = (int *) treemap_methods.get(mp, nums[i]);
+		fail_unless(*item == 7 - temp[i], "Error in get");
+	}
+	
+	for (int i = 0; i < 8; i++) {
+		printf("i: %d\n",i);
+		node = treemap_methods.remove_random(mp);
+		printf("----------------------key: %d, value %d\n", *(int *)node->key, *(int *)node->value);
+		fail_unless(*(int *)node->key == i, "Error removing from map");
+		fail_unless(*(int *)node->value == 7 - i, "Error removing from map");
+		fail_unless(treemap_methods.size(mp) == (7 - i), "Size incorrect after remove");
+		fail_if(treemap_methods.contains(mp, node->key), "Error in treemap_methods.contains");
+	}
+	
+	int **items = (int **) treemap_methods.keys_to_array(mp);
+	fail_unless(items == NULL, "Error keys_to_array after remove");
+
+	map_node *pairs = treemap_methods.to_array(mp);
+	fail_unless(pairs == NULL, "Error to_array after remove");
+
+	for (int i = 0; i < 8; i++) {
+		free(nums[i]);
+		free(values[i]);
+	}
+	treemap_methods.free(mp);
+}
+END_TEST
+
+START_TEST (test_map_remove_random2) {
+	int error;
+	int *item;
+	map_node node;
+	int *values[8];
+	int *nums[8];
+	int temp[8] = {4, 2, 6, 1, 7, 0, 3, 5};
+	for (int i = 0; i < 8; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = temp[i];
+		values[i] = malloc(sizeof(int));
+		*values[i] = 7 - temp[i];
+	}
+	
+	map mp = NULL;
+	
+	error = treemap_methods.add(mp, nums[0], values[0]);
+	fail_unless(error == ERROR_MAP_IS_NULL, "Error adding to NULL map");
+	fail_unless(treemap_methods.size(mp) == ERROR_MAP_IS_NULL, 
+							"Size incorrect after adding to NULL map");
+	
+	node = treemap_methods.remove_random(mp);
+	fail_unless(node == NULL, "Error removing random from NULL map");
+	fail_unless(treemap_methods.size(mp) == ERROR_MAP_IS_NULL, 
+							"Size incorrect after adding to NULL map");
+	
+	mp = treemap_methods.create(&int_compare, NULL, NULL);
+	fail_if(!mp, "treemap_methods.create failed.");
+
+	node = treemap_methods.remove_random(mp);
+	fail_unless(node == NULL, "Error removing random from NULL map");
+	fail_unless(treemap_methods.size(mp) == 0, 
+							"Size incorrect after adding to NULL map");
+	
+	for (int i = 0; i < 8; i++) {
+		error = treemap_methods.add(mp, nums[i], values[i]);
+		fail_unless(error == SUCCESS_MAP, "Error adding to map");
+		fail_unless(treemap_methods.size(mp) == (i+1), "Size incorrect after add");
+		fail_unless(treemap_methods.contains(mp, nums[i]), "Error in treemap_methods.contains");
+		item = (int *) treemap_methods.get(mp, nums[i]);
+		fail_unless(*item == 7 - temp[i], "Error in get"); 
+	}
+
+	for (int i = 0; i < 8; i++) {
+		error = treemap_methods.add(mp, nums[i], values[i]);
+		fail_unless(error == SUCCESS_MAP, "Error adding to map");
+		fail_unless(treemap_methods.size(mp) == 8, "Size incorrect after add");	
+		fail_unless(treemap_methods.contains(mp, nums[i]), "Error in treemap_methods.contains");
+		item = (int *) treemap_methods.get(mp, nums[i]);
+		fail_unless(*item == 7 - temp[i], "Error in get");
+	}
+	
+	for (int i = 0; i < 8; i++) {
+		printf("i: %d\n",i);
+		node = treemap_methods.remove_random(mp);
+		printf("----------------------key: %d, value %d\n", *(int *)node->key, *(int *)node->value);
+		//fail_unless(*(int *)node->key == i, "Error removing from map");
+		//fail_unless(*(int *)node->value == 7 - i, "Error removing from map");
+		fail_unless(treemap_methods.size(mp) == (7 - i), "Size incorrect after remove");
+		fail_if(treemap_methods.contains(mp, node->key), "Error in treemap_methods.contains");
+	}
+	
+	int **items = (int **) treemap_methods.keys_to_array(mp);
+	fail_unless(items == NULL, "Error keys_to_array after remove");
+
+	map_node *pairs = treemap_methods.to_array(mp);
+	fail_unless(pairs == NULL, "Error to_array after remove");
+
+	for (int i = 0; i < 8; i++) {
+		free(nums[i]);
+		free(values[i]);
+	}
+	treemap_methods.free(mp);
+}
+END_TEST
+
 Suite *map_suite(void) {
   Suite *s = suite_create("TreeMap");
 
@@ -331,11 +483,11 @@ Suite *map_suite(void) {
 	tcase_add_test(tc_remove, test_map_remove2);
   suite_add_tcase(s, tc_remove);
 
-  /* test remove random *//*
+  /* test remove random */
   TCase *tc_remove_random = tcase_create("Map Remove Random");
   tcase_add_test(tc_remove_random, test_map_remove_random1);
 	tcase_add_test(tc_remove_random, test_map_remove_random2);
-  suite_add_tcase(s, tc_remove_random);*/
+  suite_add_tcase(s, tc_remove_random);
 
   return s;
 }
