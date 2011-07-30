@@ -1,3 +1,17 @@
 # Object files #
 ################
 *.o
+*~
+
+# Test executables #
+###################
+lib/tests/check_arrayheap
+lib/tests/check_arraylist
+lib/tests/check_heappriorityqueue
+lib/tests/check_linkedlist
+lib/tests/check_listqueue
+lib/tests/check_liststack
+lib/tests/check_treemap
+lib/tests/check_hashmap
+lib/tests/check_treeset
+lib/tests/check_hashset
