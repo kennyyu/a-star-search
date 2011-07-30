@@ -208,7 +208,6 @@ START_TEST (test_map_remove1) {
 	free(missing);
 	
 	for (int i = 0; i < 8; i++) {
-		printf("i: %d\n",i);
 		item = treemap_methods.remove(mp, nums[i]);
 		fail_unless(*item == *values[i], "Error removing from map");
 		fail_unless(treemap_methods.size(mp) == (7 - i), "Size incorrect after remove");
@@ -289,7 +288,6 @@ START_TEST (test_map_remove2) {
 	free(missing);
 	
 	for (int i = 0; i < 8; i++) {
-		printf("i: %d\n",i);
 		item = treemap_methods.remove(mp, nums[i]);
 		fail_unless(*item == *values[i], "Error removing from map");
 		fail_unless(treemap_methods.size(mp) == (7 - i), "Size incorrect after remove");
@@ -363,9 +361,7 @@ START_TEST (test_map_remove_random1) {
 	}
 	
 	for (int i = 0; i < 8; i++) {
-		printf("i: %d\n",i);
 		node = treemap_methods.remove_random(mp);
-		printf("----------------------key: %d, value %d\n", *(int *)node->key, *(int *)node->value);
 		fail_unless(*(int *)node->key == i, "Error removing from map");
 		fail_unless(*(int *)node->value == 7 - i, "Error removing from map");
 		fail_unless(treemap_methods.size(mp) == (7 - i), "Size incorrect after remove");
@@ -439,11 +435,9 @@ START_TEST (test_map_remove_random2) {
 	}
 	
 	for (int i = 0; i < 8; i++) {
-		printf("i: %d\n",i);
 		node = treemap_methods.remove_random(mp);
-		printf("----------------------key: %d, value %d\n", *(int *)node->key, *(int *)node->value);
-		//fail_unless(*(int *)node->key == i, "Error removing from map");
-		//fail_unless(*(int *)node->value == 7 - i, "Error removing from map");
+		fail_unless(*(int *)node->key == i, "Error removing from map");
+		fail_unless(*(int *)node->value == 7 - i, "Error removing from map");
 		fail_unless(treemap_methods.size(mp) == (7 - i), "Size incorrect after remove");
 		fail_if(treemap_methods.contains(mp, node->key), "Error in treemap_methods.contains");
 	}

@@ -244,12 +244,10 @@ __binarytree_node __treemap_remove_least(map_compare cmp, __binarytree_node node
   /* current is NULL, previous is least */
   least->key = previous->data->key;
   least->value = previous->data->value;
-	//printf("least: key: %d, value: %d\n", *(int *)least->key, *(int *)least->value);
   if (previousprevious == NULL) {
     /* previous is the root of the tree */
     free(previous->data);
     free(previous);
-		printf("ok_go\n");
     return node->right;
   } else {
     /* the root of the subtree did not change */
@@ -270,14 +268,11 @@ void *_treemap_remove(map mapp, void *key) {
   if (current == NULL)
 		return NULL;
 
-	printf("key: %d\n",*(int *)key);
-
   __binarytree_node previous = NULL;
 	map_compare cmp = mp->compare;
 	int comparison;
 	while (current) {
 		comparison = cmp(key, current->data->key);
-		printf("entering while key: %d, current: %d, comparison: %d\n", *(int *)key, *(int *)current->data->key, comparison);
 		if (comparison < 0) {
       previous = current;
 			current = current->left;
@@ -287,9 +282,6 @@ void *_treemap_remove(map mapp, void *key) {
 			current = current->right;
 		}
 		else {
-			/* remove root of the tree */
-			//printf("mproot: key: %d, value: %d\n", *(int *)mp->root->data->key, *(int *)mp->root->data->value);
-			//printf("equal, key: %d, current: %d\n", *(int *)key, *(int *)current->data->key);
       /* remove least item from the right subtree of current
        * and store the least node in the address of least.
        * remove_least will return the new root after the removal */
@@ -299,7 +291,6 @@ void *_treemap_remove(map mapp, void *key) {
       if (new_root && !least->key)
         return NULL;                    
       if (!new_root && !least->key) {
-				//printf("no subtree, key: %d, current: %d\n", *(int *)key, *(int *)current->data->key);
         /* there was nothing in the right subtree
          * replace current with left subtree */
 				if (current == mp->root) {
@@ -312,7 +303,6 @@ void *_treemap_remove(map mapp, void *key) {
 	          previous->right = current->left;
 				}
       } else {
-				//printf("one item in subtree, key: %d, current: %d\n", *(int *)key, *(int *)current->data->key);
         /* set least's right to the remaining right subtree
          * set least's left to current's left subtree
          * replace current with least by updating previous*/
@@ -325,7 +315,6 @@ void *_treemap_remove(map mapp, void *key) {
 				if (current == mp->root) {
 					/* remove root of tree */
 					mp->root = new_current;
-					//printf("new mproot: key: %d, value: %d\n", *(int *)mp->root->data->key, *(int *)mp->root->data->value);
 				} else {
 	        if (previous->left == current)
 	          previous->left = new_current;
@@ -353,9 +342,7 @@ map_node _treemap_remove_random(map mapp) {
 		
 	map_node least = malloc(sizeof(struct map_node));
   least->key = NULL;
-	printf("--------------------------ok\n");
   __binarytree_node new_root = __treemap_remove_least(mp->compare, mp->root, least);
-	printf("--------------------------past remove last\n");
 	if (!least->key)
 		return NULL;
 	mp->root = new_root;
