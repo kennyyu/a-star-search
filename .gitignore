@@ -1,10 +1,13 @@
 # Object files #
 ################
 *.o
+
+# Temp files #
+##############
 *~
 
 # Test executables #
-###################
+####################
 lib/tests/check_arrayheap
 lib/tests/check_arraylist
 lib/tests/check_heappriorityqueue
