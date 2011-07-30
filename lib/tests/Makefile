@@ -30,7 +30,7 @@ check_heappriorityqueue: check_heappriorityqueue.o $(SRC)/arraylist.o $(SRC)/arr
 check_treemap: check_treemap.o $(SRC)/treemap.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
-check_treeset: check_treeset.o $(SRC)/treeset.o 
+check_treeset: check_treeset.o $(SRC)/treeset.o $(SRC)/treemap.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
 all: $(TESTS)
