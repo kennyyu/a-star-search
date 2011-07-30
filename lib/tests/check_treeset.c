@@ -378,7 +378,7 @@ START_TEST (test_set_remove_random2) {
 END_TEST
 
 Suite *set_suite(void) {
-  Suite *s = suite_create("TreeSet");
+  Suite *s = suite_create("TreeMap Set");
 
   /* test constructors and destructors */
   TCase *tc_init = tcase_create("Intialize");
