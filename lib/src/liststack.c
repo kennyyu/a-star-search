@@ -1,36 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linkedstack.h"
+#include "liststack.h"
 
 /* 
  * We cast a linkedlist pointer into a stack pointer. This allows us to use
  * all the list functions directly on a stack pointer, without having to store
  * any extra unnecessary data.
  */
-typedef struct _linkedstack *_linkedstack;
-struct _linkedstack { };
+typedef struct _liststack *_liststack;
+struct _liststack { };
 
-stack _linkedstack_create() {
+stack _liststack_create() {
 	return (stack) linkedlist_methods.create();
 }
 
-void _linkedstack_free(stack st) {
+void _liststack_free(stack st) {
 	linkedlist_methods.free((list) st);
 }
 
-int _linkedstack_size(stack st) {
+int _liststack_size(stack st) {
 	if (!st)
 		return ERROR_STACK_IS_NULL;
 	return linkedlist_methods.size((list) st);
 }
 
-int _linkedstack_is_empty(stack st) {
+int _liststack_is_empty(stack st) {
 	if (!st)
 		return ERROR_STACK_IS_NULL;
 	return linkedlist_methods.is_empty((list) st);
 }
 
-int _linkedstack_contains(stack st, void *item) {
+int _liststack_contains(stack st, void *item) {
 	if (!st)
 		return ERROR_STACK_IS_NULL;
 	if (!item)
@@ -38,11 +38,11 @@ int _linkedstack_contains(stack st, void *item) {
 	return linkedlist_methods.contains((list) st, item);
 }
 
-void *_linkedstack_peek(stack st) {
+void *_liststack_peek(stack st) {
 	return linkedlist_methods.get_first((list) st);
 }
 
-int _linkedstack_push(stack st, void *item) {
+int _liststack_push(stack st, void *item) {
 	if (!st)
 		return ERROR_STACK_IS_NULL;
 	if (!item)
@@ -54,17 +54,17 @@ int _linkedstack_push(stack st, void *item) {
 	return SUCCESS_STACK;
 }
 
-void *_linkedstack_pop(stack st) {
+void *_liststack_pop(stack st) {
 	return linkedlist_methods.remove_first((list) st);
 }
 
-stack_methods linkedstack_methods = {
-	.create = &_linkedstack_create,
-	.free = &_linkedstack_free,
-	.size = &_linkedstack_size,
-	.is_empty = &_linkedstack_is_empty,
-	.contains = &_linkedstack_contains,
-	.peek = &_linkedstack_peek,
-	.push = &_linkedstack_push,
-	.pop = &_linkedstack_pop,
+stack_methods liststack_methods = {
+	.create = &_liststack_create,
+	.free = &_liststack_free,
+	.size = &_liststack_size,
+	.is_empty = &_liststack_is_empty,
+	.contains = &_liststack_contains,
+	.peek = &_liststack_peek,
+	.push = &_liststack_push,
+	.pop = &_liststack_pop,
 };
