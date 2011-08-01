@@ -10,7 +10,7 @@ set _treeset_create(set_compare cmp, set_hash hash, set_equal eq) {
     return NULL;
   if (hash || eq)
     return NULL;
-  map se = treemap_methods.create(cmp, hash, eq);
+  map se = treemap_methods.create(cmp, hash, eq, -1);
   if (!se)
     return NULL;
   return (set) se;

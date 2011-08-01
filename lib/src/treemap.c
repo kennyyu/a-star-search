@@ -16,7 +16,7 @@ struct _treemap {
   __binarytree_node root;
 };
 
-map _treemap_create(map_compare cmp, map_hash hash, map_equal eq) {
+map _treemap_create(map_compare cmp, map_hash hash, map_equal eq, int bucket_size) {
   if (!cmp)
     return NULL;
   if (hash || eq)

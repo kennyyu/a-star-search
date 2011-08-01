@@ -10,7 +10,7 @@ int int_compare(void *num1, void *num2) {
 }
 
 void setup (void) {
-	map_test = treemap_methods.create(&int_compare, NULL, NULL);
+	map_test = treemap_methods.create(&int_compare, NULL, NULL, -1);
 }
 
 void teardown(void) {
@@ -44,7 +44,7 @@ START_TEST (test_map_add1) {
 	fail_unless(treemap_methods.size(mp) == ERROR_MAP_IS_NULL, 
 							"Size incorrect after adding to NULL map");
 	
-	mp = treemap_methods.create(&int_compare, NULL, NULL);
+	mp = treemap_methods.create(&int_compare, NULL, NULL, -1);
 	fail_if(!mp, "treemap_methods.create failed.");
 
 	for (int i = 0; i < 8; i++) {
@@ -106,7 +106,7 @@ START_TEST (test_map_add2) {
 	fail_unless(treemap_methods.size(mp) == ERROR_MAP_IS_NULL, 
 							"Size incorrect after adding to NULL map");
 	
-	mp = treemap_methods.create(&int_compare, NULL, NULL);
+	mp = treemap_methods.create(&int_compare, NULL, NULL, -1);
 	fail_if(!mp, "treemap_methods.create failed.");
 
 	for (int i = 0; i < 8; i++) {
@@ -173,7 +173,7 @@ START_TEST (test_map_remove1) {
 	fail_unless(treemap_methods.size(mp) == ERROR_MAP_IS_NULL, 
 							"Size incorrect after adding to NULL map");
 	
-	mp = treemap_methods.create(&int_compare, NULL, NULL);
+	mp = treemap_methods.create(&int_compare, NULL, NULL, -1);
 	fail_if(!mp, "treemap_methods.create failed.");
 
 	item = (int *) treemap_methods.remove(mp, nums[0]);
@@ -253,7 +253,7 @@ START_TEST (test_map_remove2) {
 	fail_unless(treemap_methods.size(mp) == ERROR_MAP_IS_NULL, 
 							"Size incorrect after adding to NULL map");
 	
-	mp = treemap_methods.create(&int_compare, NULL, NULL);
+	mp = treemap_methods.create(&int_compare, NULL, NULL, -1);
 	fail_if(!mp, "treemap_methods.create failed.");
 
 	item = (int *) treemap_methods.remove(mp, nums[0]);
@@ -334,7 +334,7 @@ START_TEST (test_map_remove_random1) {
 	fail_unless(treemap_methods.size(mp) == ERROR_MAP_IS_NULL, 
 							"Size incorrect after adding to NULL map");
 	
-	mp = treemap_methods.create(&int_compare, NULL, NULL);
+	mp = treemap_methods.create(&int_compare, NULL, NULL, -1);
 	fail_if(!mp, "treemap_methods.create failed.");
 
 	node = treemap_methods.remove_random(mp);
@@ -408,7 +408,7 @@ START_TEST (test_map_remove_random2) {
 	fail_unless(treemap_methods.size(mp) == ERROR_MAP_IS_NULL, 
 							"Size incorrect after adding to NULL map");
 	
-	mp = treemap_methods.create(&int_compare, NULL, NULL);
+	mp = treemap_methods.create(&int_compare, NULL, NULL, -1);
 	fail_if(!mp, "treemap_methods.create failed.");
 
 	node = treemap_methods.remove_random(mp);

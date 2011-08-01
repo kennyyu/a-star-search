@@ -62,9 +62,11 @@ struct map_methods {
 	 * Initialize a map and returns a pointer to the map. If there is not
 	 * enough memory, this returns NULL. If creating a treemap, only map_compare
 	 * will be set and the other two will be NULL. If creating a hashmap, 
-	 * map_compare will be NULL and the other two will be set.
+	 * map_compare will be NULL and the other two will be set. If the
+	 * bucket_size is -1, a default value will be chosen. Treeset will
+	 * ignore the value for bucket_size.
 	 */
-	map (*create)(map_compare, map_hash, map_equal);
+	map (*create)(map_compare, map_hash, map_equal, int);
 
 	/* 
 	 * Frees the memory held by the map.
