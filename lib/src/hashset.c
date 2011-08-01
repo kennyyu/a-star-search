@@ -3,7 +3,4 @@
 #include "hashset.h"
 
 typedef struct _hashset *_hashset;
-
-struct _hashset {
-	
-};
+struct _hashset { };

@@ -5,7 +5,6 @@
 int _DEFAULT_BUCKET_SIZE = 100;
 
 typedef struct _hashmap *_hashmap;
-
 struct _hashmap {
         int bucket_size;
         list *buckets; /* pointer to an array of pointers to lists */        

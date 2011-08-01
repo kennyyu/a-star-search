@@ -9,12 +9,10 @@ TODO
 *   Library:
 
     *   Implement hashmap and hashset (with hash tables)
-
-    *   Add an equality function pointer to list
+    
+    *   Have a queue (or list) bucket changes to allow for random access, to array functions
     
     *   Add a free_items function to all data structures to optionally free the items
-    
-    *   change linkedqueue -> listqueue (to follow the convention heappriorityqueue)
     
     *   Algorithms (Sorts, Graph algorithms)
 
