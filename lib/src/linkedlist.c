@@ -4,7 +4,6 @@
 
 /* Internal. Do not use. */
 typedef struct __linkedlist_node *__linkedlist_node;	
-
 struct __linkedlist_node {
 	void *data;
 	__linkedlist_node next;
@@ -13,14 +12,18 @@ struct __linkedlist_node {
 
 /* we alias list to be a pointer to this struct */
 typedef struct _linkedlist *_linkedlist;
-
 struct _linkedlist {
 	__linkedlist_node head;
 	__linkedlist_node tail;
 	int size;
+	list_equal equal;
 };
 
-list _linkedlist_create() {
+int _list_equal_pointers(void *item1, void *item2) {
+	return item1 == item2;
+}
+
+list _linkedlist_create(list_equal eq) {
 	_linkedlist li = malloc(sizeof(struct _linkedlist));
 	/* if malloc returned NULL, also return NULL */
 	if (!li)
@@ -28,6 +31,7 @@ list _linkedlist_create() {
 	li->head = NULL;
 	li->tail = NULL;
 	li->size = 0;
+	li->equal = (eq) ? eq : &_list_equal_pointers;
 	return (list) li;
 }
 
@@ -73,7 +77,7 @@ int _linkedlist_contains(list lis, void *item) {
 	
 	__linkedlist_node current = li->head;
 	while (current) {
-		if (item == current->data) 
+		if (li->equal(item,current->data))
 			return 1;
 		else
 			current = current->next;
@@ -275,7 +279,7 @@ int _linkedlist_remove(list lis, void *item) {
 	
 	__linkedlist_node current = li->head;
 	while (current) {
-		if (current->data == item) {
+		if (li->equal(current->data,item)) {
 			__linkedlist_node node = current;
 			if (current->prev) {
 				current->prev->next = current->next;

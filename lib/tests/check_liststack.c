@@ -6,7 +6,7 @@
 stack st_test;
 
 void setup (void) {
-	st_test = liststack_methods.create();
+	st_test = liststack_methods.create(NULL);
 }
 
 void teardown(void) {
@@ -37,7 +37,7 @@ START_TEST (test_stack_push) {
 	fail_unless(liststack_methods.size(st) == ERROR_STACK_IS_NULL, 
 							"Size incorrect after adding to NULL stack");
 	
-	st = liststack_methods.create();
+	st = liststack_methods.create(NULL);
 	fail_if(!st, "liststack_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
@@ -71,7 +71,7 @@ START_TEST (test_stack_pop) {
 	fail_unless(liststack_methods.size(st) == ERROR_STACK_IS_NULL, 
 							"Size incorrect after adding to NULL stack");
 	
-	st = liststack_methods.create();
+	st = liststack_methods.create(NULL);
 	fail_if(!st, "liststack_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {

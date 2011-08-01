@@ -10,8 +10,8 @@
 typedef struct _liststack *_liststack;
 struct _liststack { };
 
-stack _liststack_create() {
-	return (stack) linkedlist_methods.create();
+stack _liststack_create(stack_equal eq) {
+	return (stack) linkedlist_methods.create(eq);
 }
 
 void _liststack_free(stack st) {

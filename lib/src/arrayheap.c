@@ -22,7 +22,7 @@ heap _arrayheap_create(heap_compare cmp) {
 	_arrayheap hp = malloc(sizeof(struct _arrayheap));
 	if (!hp)
 		return NULL;
-	hp->data = arraylist_methods.create();
+	hp->data = arraylist_methods.create(NULL);
 	if (!hp->data)
 		return NULL;
 	hp->compare = cmp;

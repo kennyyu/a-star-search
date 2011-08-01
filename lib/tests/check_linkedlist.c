@@ -6,7 +6,7 @@
 list li_test;
 
 void setup (void) {
-	li_test = linkedlist_methods.create();
+	li_test = linkedlist_methods.create(NULL);
 }
 
 void teardown(void) {
@@ -33,7 +33,7 @@ START_TEST (test_get_first) {
 	list li = NULL;
 	fail_unless(linkedlist_methods.get_first(li) == NULL, 
 							"Error getting from a NULL list");
-	li = linkedlist_methods.create();
+	li = linkedlist_methods.create(NULL);
 	fail_if(!li, "linkedlist_methods.create failed.");
 	fail_unless(linkedlist_methods.get_first(li) == NULL,
 							"Error getting from an empty list");
@@ -64,7 +64,7 @@ START_TEST (test_get_last) {
 	list li = NULL;
 	fail_unless(linkedlist_methods.get_last(li) == NULL, 
 							"Error getting from a NULL list");
-	li = linkedlist_methods.create();
+	li = linkedlist_methods.create(NULL);
 	fail_if(!li, "linkedlist_methods.create failed.");
 	fail_unless(linkedlist_methods.get_last(li) == NULL,
 							"Error getting from an empty list");
@@ -95,7 +95,7 @@ START_TEST (test_get) {
 	list li = NULL;
 	fail_unless(linkedlist_methods.get(li, 0) == NULL, 
 							"Error getting from a NULL list");
-	li = linkedlist_methods.create();
+	li = linkedlist_methods.create(NULL);
 	fail_if(!li, "linkedlist_methods.create failed.");
 	fail_unless(linkedlist_methods.get(li, 0) == NULL,
 							"Error getting from an empty list");
@@ -127,7 +127,7 @@ START_TEST (test_to_array) {
 		*nums[i] = i;
 	}
 	
-	list li = linkedlist_methods.create();
+	list li = linkedlist_methods.create(NULL);
 	fail_if(!li, "linkedlist_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
@@ -163,7 +163,7 @@ START_TEST (test_add_first) {
 	fail_unless(linkedlist_methods.size(li) == ERROR_LIST_IS_NULL, 
 							"Size incorrect after adding to NULL list");
 	
-	li = linkedlist_methods.create();
+	li = linkedlist_methods.create(NULL);
 	fail_if(!li, "linkedlist_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
@@ -199,7 +199,7 @@ START_TEST (test_add_last) {
 	fail_unless(linkedlist_methods.size(li) == ERROR_LIST_IS_NULL, 
 							"Size incorrect after adding to NULL list");
 	
-	li = linkedlist_methods.create();
+	li = linkedlist_methods.create(NULL);
 	fail_if(!li, "linkedlist_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
@@ -235,7 +235,7 @@ START_TEST (test_set) {
 	fail_unless(linkedlist_methods.size(li) == ERROR_LIST_IS_NULL, 
 							"Size incorrect after adding to NULL list");
 
-	li = linkedlist_methods.create();
+	li = linkedlist_methods.create(NULL);
 	fail_if(!li, "linkedlist_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
@@ -279,7 +279,7 @@ START_TEST (test_remove_first) {
 	list li = NULL;
 	fail_unless(linkedlist_methods.remove_first(li) == NULL, 
 							"Error removing from a NULL list");
-	li = linkedlist_methods.create();
+	li = linkedlist_methods.create(NULL);
 	fail_if(!li, "linkedlist_methods.create failed.");
 	fail_unless(linkedlist_methods.remove_first(li) == NULL, 
 							"Error removing from an empty list");			
@@ -313,7 +313,7 @@ START_TEST (test_remove_last) {
 	list li = NULL;
 	fail_unless(linkedlist_methods.remove_last(li) == NULL, 
 							"Error removing from a NULL list");
-	li = linkedlist_methods.create();
+	li = linkedlist_methods.create(NULL);
 	fail_if(!li, "linkedlist_methods.create failed.");
 	fail_unless(linkedlist_methods.remove_last(li) == NULL, 
 							"Error removing from an empty list");			
@@ -347,7 +347,7 @@ START_TEST (test_remove) {
 	list li = NULL;
 	fail_unless(linkedlist_methods.remove(li, nums[0]) == ERROR_LIST_IS_NULL, 
 							"Error removing from a NULL list");
-	li = linkedlist_methods.create();
+	li = linkedlist_methods.create(NULL);
 	fail_if(!li, "linkedlist_methods.create failed.");
 	fail_unless(linkedlist_methods.remove(li, nums[0]) == ERROR_LIST_IS_EMPTY, 
 							"Error removing from an empty list");

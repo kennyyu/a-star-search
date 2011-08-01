@@ -22,6 +22,12 @@ enum queue_error_numbers {
 };
 
 /*
+ * This will return 1 if the two items are equal, 0 otherwise. If NULL is passed
+ * in for create, the queue will use pointer equality.
+ */
+typedef int (*queue_equal)(void *, void *);
+
+/*
  * This struct contains pointers to operations on queues.
  */
 typedef struct queue_methods queue_methods;
@@ -30,7 +36,7 @@ struct queue_methods {
 	 * Initialize a queue and returns a pointer to the queue. If there is not
 	 * enough memory, this returns NULL.
 	 */
-	queue (*create)();
+	queue (*create)(queue_equal);
 
 	/* 
 	 * Frees the memory held by the queue.

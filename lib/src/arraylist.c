@@ -14,9 +14,14 @@ struct _arraylist {
 	int size;
 	int array_size;
 	void **data;
+	list_equal equal;
 };
 
-list _arraylist_create() {
+int _list_equal_pointers(void *item1, void *item2) {
+	return item1 == item2;
+}
+
+list _arraylist_create(list_equal eq) {
 	_arraylist li = malloc(sizeof(struct _arraylist));
 	/* if malloc returned NULL, also return NULL */
 	if (!li)
@@ -26,6 +31,7 @@ list _arraylist_create() {
 	li->data = malloc(sizeof(void *) * li->array_size);
 	if (!li->data)
 		return NULL;
+	li->equal = (eq) ? eq : _list_equal_pointers;
 	return (list) li;
 }
 
@@ -78,7 +84,7 @@ int _arraylist_contains(list lis, void *item) {
 		return ERROR_LIST_ITEM_IS_NULL;
 	
 	for (int i = 0; i < li->size; i++) {
-		if (li->data[i] == item)
+		if (li->equal(li->data[i],item))
 			return 1;
 	}
 	return 0;
@@ -193,7 +199,7 @@ int _arraylist_remove(list lis, void *item) {
 	/* find position of the item in the list */
 	int item_index = 0;
 	for (int i = 0; i < li->size; i++) {
-		if (item == li->data[i]) {
+		if (li->equal(item,li->data[i])) {
 			item_index = i;
 			break;
 		}

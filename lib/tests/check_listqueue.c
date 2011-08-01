@@ -6,7 +6,7 @@
 queue qu_test;
 
 void setup (void) {
-	qu_test = listqueue_methods.create();
+	qu_test = listqueue_methods.create(NULL);
 }
 
 void teardown(void) {
@@ -37,7 +37,7 @@ START_TEST (test_queue_enqueue) {
 	fail_unless(listqueue_methods.size(qu) == ERROR_QUEUE_IS_NULL, 
 							"Size incorrect after adding to NULL queue");
 	
-	qu = listqueue_methods.create();
+	qu = listqueue_methods.create(NULL);
 	fail_if(!qu, "listqueue_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {
@@ -71,7 +71,7 @@ START_TEST (test_queue_dequeue) {
 	fail_unless(listqueue_methods.size(qu) == ERROR_QUEUE_IS_NULL, 
 							"Size incorrect after adding to NULL queue");
 	
-	qu = listqueue_methods.create();
+	qu = listqueue_methods.create(NULL);
 	fail_if(!qu, "listqueue_methods.create failed.");
 	
 	for (int i = 0; i < 3; i++) {

@@ -10,8 +10,8 @@
 typedef struct _listqueue *_listqueue;
 struct _listqueue { };
 
-queue _listqueue_create() {
-	return (queue) linkedlist_methods.create();
+queue _listqueue_create(queue_equal eq) {
+	return (queue) linkedlist_methods.create(eq);
 }
 
 void _listqueue_free(queue qu) {

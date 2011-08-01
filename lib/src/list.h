@@ -23,6 +23,10 @@ enum list_error_numbers {
 	ERROR_LIST_OUT_OF_BOUNDS = -6
 };
 
+/* This returns 1 if the two items pointed to are equal, otherwise 0. If NULL
+ * is passed in, pointer equality will be used. */
+typedef int (*list_equal)(void *, void *);
+
 /*
  * This struct will contain pointers to operations on lists.
  */
@@ -32,7 +36,7 @@ struct list_methods {
 	 * Initialize a list and returns a pointer to the list. If there is not
 	 * enough memory, this returns NULL.
 	 */
-	list (*create)();
+	list (*create)(list_equal);
 
 	/* 
 	 * Frees the memory held by the list.

@@ -22,6 +22,12 @@ enum stack_error_numbers {
 };
 
 /*
+ * This will return 1 if the two items are equal, 0 otherwise. If NULL is passed
+ * into create, the stack will use pointer equality.
+ */
+typedef int (*stack_equal)(void *, void *);
+
+/*
  * This struct contains pointers to operations on stacks.
  */
 typedef struct stack_methods stack_methods;
@@ -30,7 +36,7 @@ struct stack_methods {
 	 * Initialize a stack and returns a pointer to the stack. If there is not
 	 * enough memory, this returns NULL.
 	 */
-	stack (*create)();
+	stack (*create)(stack_equal);
 
 	/* 
 	 * Frees the memory held by the stack.
