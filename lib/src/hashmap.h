@@ -2,7 +2,7 @@
 #define _HASHMAP_H
 
 #include "map.h"
-#include "linkedlist.h"
+#include "arraylist.h"
 
 extern map_methods hashmap_methods;
 
