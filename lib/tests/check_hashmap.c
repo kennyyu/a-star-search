@@ -14,7 +14,7 @@ int int_equal(void *num1, void *num2) {
 }
 
 void setup (void) {
-	map_test = hashmap_methods.create(NULL, &int_hash, &int_equal, 14);
+	map_test = hashmap_methods.create(NULL, &int_hash, &int_equal, 6);
 }
 
 void teardown(void) {
@@ -48,7 +48,7 @@ START_TEST (test_map_add1) {
 	fail_unless(hashmap_methods.size(mp) == ERROR_MAP_IS_NULL, 
 							"Size incorrect after adding to NULL map");
 	
-	mp = hashmap_methods.create(NULL, &int_hash, &int_equal, 14);
+	mp = hashmap_methods.create(NULL, &int_hash, &int_equal, 6);
 	fail_if(!mp, "hashmap_methods.create failed.");
 
 	
@@ -73,14 +73,23 @@ START_TEST (test_map_add1) {
 	
 	int **items = (int **) hashmap_methods.keys_to_array(mp);
 	for (int i = 0; i < 8; i++) {
-		fail_unless(*items[i] == *nums[i], "Error in to_array");
+		int is_contained = 0;
+		for (int j = 0; j < 8; j++) {
+			if (*items[j] == *nums[i])
+				is_contained = 1;
+		}
+		fail_unless(is_contained, "Error in to_array");
 	}
 	free(items);
 	
 	map_node *pairs = hashmap_methods.to_array(mp);
 	for (int i = 0; i < 8; i++) {
-		fail_unless(*((int *) pairs[i]->key) == *nums[i], "Error in keys_to_array key");
-		fail_unless(*((int *) pairs[i]->value) == *values[i], "Error in values_to_array key");
+		int is_contained = 0;
+		for (int j = 0; j < 8; j++) {
+			if ((*((int *) pairs[j]->key) == *nums[i]) && (*((int *) pairs[j]->value) == *values[i]))
+				is_contained = 1;
+		}
+		fail_unless(is_contained, "Error in keys_to_array");
 	}
 	free(pairs);
 
@@ -112,7 +121,7 @@ START_TEST (test_map_add2) {
 	fail_unless(hashmap_methods.size(mp) == ERROR_MAP_IS_NULL, 
 							"Size incorrect after adding to NULL map");
 	
-	mp = hashmap_methods.create(NULL, &int_hash, &int_equal, 14);
+	mp = hashmap_methods.create(NULL, &int_hash, &int_equal, 6);
 	fail_if(!mp, "hashmap_methods.create failed.");
 
 	for (int i = 0; i < 8; i++) {
@@ -135,14 +144,23 @@ START_TEST (test_map_add2) {
 	
 	int **items = (int **) hashmap_methods.keys_to_array(mp);
 	for (int i = 0; i < 8; i++) {
-		fail_unless(*items[i] == i, "Error in to_array");
+		int is_contained = 0;
+		for (int j = 0; j < 8; j++) {
+			if (*items[j] == *nums[i])
+				is_contained = 1;
+		}
+		fail_unless(is_contained, "Error in to_array");
 	}
 	free(items);
 	
 	map_node *pairs = hashmap_methods.to_array(mp);
 	for (int i = 0; i < 8; i++) {
-		fail_unless(*((int *) pairs[i]->key) == i, "Error in keys_to_array key");
-		fail_unless(*((int *) pairs[i]->value) == 7 - i, "Error in values_to_array key");
+		int is_contained = 0;
+		for (int j = 0; j < 8; j++) {
+			if ((*((int *) pairs[j]->key) == *nums[i]) && (*((int *) pairs[j]->value) == *values[i]))
+				is_contained = 1;
+		}
+		fail_unless(is_contained, "Error in keys_to_array");
 	}
 	free(pairs);
 
@@ -179,7 +197,7 @@ START_TEST (test_map_remove1) {
 	fail_unless(hashmap_methods.size(mp) == ERROR_MAP_IS_NULL, 
 							"Size incorrect after adding to NULL map");
 	
-	mp = hashmap_methods.create(NULL, &int_hash, &int_equal, 14);
+	mp = hashmap_methods.create(NULL, &int_hash, &int_equal, 6);
 	fail_if(!mp, "hashmap_methods.create failed.");
 
 	item = (int *) hashmap_methods.remove(mp, nums[0]);
@@ -259,7 +277,7 @@ START_TEST (test_map_remove2) {
 	fail_unless(hashmap_methods.size(mp) == ERROR_MAP_IS_NULL, 
 							"Size incorrect after adding to NULL map");
 	
-	mp = hashmap_methods.create(NULL, &int_hash, &int_equal, 14);
+	mp = hashmap_methods.create(NULL, &int_hash, &int_equal, 6);
 	fail_if(!mp, "hashmap_methods.create failed.");
 
 	item = (int *) hashmap_methods.remove(mp, nums[0]);
