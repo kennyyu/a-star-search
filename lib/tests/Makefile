@@ -36,7 +36,7 @@ check_treeset: check_treeset.o $(SRC)/treeset.o $(SRC)/treemap.o
 check_hashmap: check_hashmap.o $(SRC)/hashmap.o $(SRC)/arraylist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
-check_hashset: check_hashset.o $(SRC)/hashset.o $(SRC)/hashset.o $(SRC)/arraylist.o
+check_hashset: check_hashset.o $(SRC)/hashset.o $(SRC)/hashmap.o $(SRC)/arraylist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
 all: $(TESTS)
