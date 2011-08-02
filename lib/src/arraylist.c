@@ -29,8 +29,10 @@ list _arraylist_create(list_equal eq) {
 	li->size = 0;
 	li->array_size = _INIT_ARRAY_SIZE;
 	li->data = malloc(sizeof(void *) * li->array_size);
-	if (!li->data)
+	if (!li->data) {
+		free(li);
 		return NULL;
+	}
 	li->equal = (eq) ? eq : _list_equal_pointers;
 	return (list) li;
 }

@@ -3,8 +3,8 @@ CFLAGS = -g -std=c99 -Wall
 SLIBS = -lcheck
 SRC = ../src
 INCLUDES = list.h linkedlist.h arraylist.h queue.h listqueue.h stack.h liststack.h heap.h arrayheap.h priorityqueue.h heappriorityqueue.h set.h treeset.h hashset.h map.h treemap.h hashmap.h
-OBJECTS = check_linkedlist.o check_arraylist.o check_listqueue.o check_liststack.o check_arrayheap.o check_heappriorityqueue.o check_treemap.o check_treeset.o
-TESTS = check_linkedlist check_arraylist check_listqueue check_liststack check_arrayheap check_heappriorityqueue check_treemap check_treeset
+OBJECTS = check_linkedlist.o check_arraylist.o check_listqueue.o check_liststack.o check_arrayheap.o check_heappriorityqueue.o check_treemap.o check_treeset.o check_hashmap.o
+TESTS = check_linkedlist check_arraylist check_listqueue check_liststack check_arrayheap check_heappriorityqueue check_treemap check_treeset check_hashmap
 
 %.o : %.c $(INCLUDES)
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -33,10 +33,10 @@ check_treemap: check_treemap.o $(SRC)/treemap.o
 check_treeset: check_treeset.o $(SRC)/treeset.o $(SRC)/treemap.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
-check_hashmap: check_hashmap.o $(SRC)/hashmap.o $(SRC)/linkedlist.o
+check_hashmap: check_hashmap.o $(SRC)/hashmap.o $(SRC)/arraylist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
-check_hashset: check_hashset.o $(SRC)/hashset.o $(SRC)/hashset.o $(SRC)/linkedlist.o
+check_hashset: check_hashset.o $(SRC)/hashset.o $(SRC)/hashset.o $(SRC)/arraylist.o
 	$(CC) $(CFLAGS) -o $@ $^ $(SLIBS)
 
 all: $(TESTS)
