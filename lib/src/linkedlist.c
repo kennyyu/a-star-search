@@ -19,7 +19,7 @@ struct _linkedlist {
 	list_equal equal;
 };
 
-int _list_equal_pointers(void *item1, void *item2) {
+int _linkedlist_equal_pointers(void *item1, void *item2) {
 	return item1 == item2;
 }
 
@@ -31,7 +31,7 @@ list _linkedlist_create(list_equal eq) {
 	li->head = NULL;
 	li->tail = NULL;
 	li->size = 0;
-	li->equal = (eq) ? eq : &_list_equal_pointers;
+	li->equal = (eq) ? eq : &_linkedlist_equal_pointers;
 	return (list) li;
 }
 

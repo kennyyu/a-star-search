@@ -3,6 +3,7 @@
 
 #include "map.h"
 #include "arraylist.h"
+#include "linkedlist.h"
 
 extern map_methods hashmap_methods;
 

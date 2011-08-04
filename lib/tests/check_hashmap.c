@@ -332,6 +332,162 @@ START_TEST (test_map_remove2) {
 }
 END_TEST
 
+START_TEST (test_map_remove_random1) {
+	int error;
+	int *item;
+	map_node node;
+	int *values[8];
+	int *nums[8];
+	int temp[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+	for (int i = 0; i < 8; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = temp[i];
+		values[i] = malloc(sizeof(int));
+		*values[i] = 7 - temp[i];
+	}
+
+	map mp = NULL;
+
+	error = hashmap_methods.add(mp, nums[0], values[0]);
+	fail_unless(error == ERROR_MAP_IS_NULL, "Error adding to NULL map");
+	fail_unless(hashmap_methods.size(mp) == ERROR_MAP_IS_NULL, 
+							"Size incorrect after adding to NULL map");
+
+	node = hashmap_methods.remove_random(mp);
+	fail_unless(node == NULL, "Error removing random from NULL map");
+	fail_unless(hashmap_methods.size(mp) == ERROR_MAP_IS_NULL, 
+							"Size incorrect after adding to NULL map");
+
+	mp = hashmap_methods.create(NULL, &int_hash, &int_equal, 6);
+	fail_if(!mp, "hashmap_methods.create failed.");
+
+	node = hashmap_methods.remove_random(mp);
+	fail_unless(node == NULL, "Error removing random from NULL map");
+	fail_unless(hashmap_methods.size(mp) == 0, 
+							"Size incorrect after adding to NULL map");
+
+	for (int i = 0; i < 8; i++) {
+		error = hashmap_methods.add(mp, nums[i], values[i]);
+		fail_unless(error == SUCCESS_MAP, "Error adding to map");
+		fail_unless(hashmap_methods.size(mp) == (i+1), "Size incorrect after add");
+		fail_unless(hashmap_methods.contains(mp, nums[i]), "Error in hashmap_methods.contains");
+		item = (int *) hashmap_methods.get(mp, nums[i]);
+		fail_unless(*item == 7 - temp[i], "Error in get"); 
+	}
+
+	for (int i = 0; i < 8; i++) {
+		error = hashmap_methods.add(mp, nums[i], values[i]);
+		fail_unless(error == SUCCESS_MAP, "Error adding to map");
+		fail_unless(hashmap_methods.size(mp) == 8, "Size incorrect after add");	
+		fail_unless(hashmap_methods.contains(mp, nums[i]), "Error in hashmap_methods.contains");
+		item = (int *) hashmap_methods.get(mp, nums[i]);
+		fail_unless(*item == 7 - temp[i], "Error in get");
+	}
+
+	for (int i = 0; i < 8; i++) {
+		node = hashmap_methods.remove_random(mp);
+		int is_contained = 0;
+		for (int j = 0; j < 8; j++) {
+			if ((*((int *) node->key) == *nums[j]) && (*((int *) node->value) == *values[j]))
+				is_contained = 1;
+		}
+		fail_unless(is_contained, "Error in remove_random");		
+		fail_unless(hashmap_methods.size(mp) == (7 - i), "Size incorrect after remove");
+		fail_if(hashmap_methods.contains(mp, node->key), "Error in hashmap_methods.contains");
+	}
+
+	int **items = (int **) hashmap_methods.keys_to_array(mp);
+	fail_unless(items == NULL, "Error keys_to_array after remove");
+
+	map_node *pairs = hashmap_methods.to_array(mp);
+	fail_unless(pairs == NULL, "Error to_array after remove");
+
+	for (int i = 0; i < 8; i++) {
+		free(nums[i]);
+		free(values[i]);
+	}
+	hashmap_methods.free(mp);
+}
+END_TEST
+
+START_TEST (test_map_remove_random2) {
+	int error;
+	int *item;
+	map_node node;
+	int *values[8];
+	int *nums[8];
+	int temp[8] = {4, 2, 6, 1, 7, 0, 3, 5};
+	for (int i = 0; i < 8; i++) {
+		nums[i] = malloc(sizeof(int));
+		*nums[i] = temp[i];
+		values[i] = malloc(sizeof(int));
+		*values[i] = 7 - temp[i];
+	}
+
+	map mp = NULL;
+
+	error = hashmap_methods.add(mp, nums[0], values[0]);
+	fail_unless(error == ERROR_MAP_IS_NULL, "Error adding to NULL map");
+	fail_unless(hashmap_methods.size(mp) == ERROR_MAP_IS_NULL, 
+							"Size incorrect after adding to NULL map");
+
+	node = hashmap_methods.remove_random(mp);
+	fail_unless(node == NULL, "Error removing random from NULL map");
+	fail_unless(hashmap_methods.size(mp) == ERROR_MAP_IS_NULL, 
+							"Size incorrect after adding to NULL map");
+
+	mp = hashmap_methods.create(NULL, &int_hash, &int_equal, 6);
+	fail_if(!mp, "hashmap_methods.create failed.");
+
+	node = hashmap_methods.remove_random(mp);
+	fail_unless(node == NULL, "Error removing random from NULL map");
+	fail_unless(hashmap_methods.size(mp) == 0, 
+							"Size incorrect after adding to NULL map");
+
+	for (int i = 0; i < 8; i++) {
+		error = hashmap_methods.add(mp, nums[i], values[i]);
+		fail_unless(error == SUCCESS_MAP, "Error adding to map");
+		fail_unless(hashmap_methods.size(mp) == (i+1), "Size incorrect after add");
+		fail_unless(hashmap_methods.contains(mp, nums[i]), "Error in hashmap_methods.contains");
+		item = (int *) hashmap_methods.get(mp, nums[i]);
+		fail_unless(*item == 7 - temp[i], "Error in get"); 
+	}
+
+	for (int i = 0; i < 8; i++) {
+		error = hashmap_methods.add(mp, nums[i], values[i]);
+		fail_unless(error == SUCCESS_MAP, "Error adding to map");
+		fail_unless(hashmap_methods.size(mp) == 8, "Size incorrect after add");	
+		fail_unless(hashmap_methods.contains(mp, nums[i]), "Error in hashmap_methods.contains");
+		item = (int *) hashmap_methods.get(mp, nums[i]);
+		fail_unless(*item == 7 - temp[i], "Error in get");
+	}
+
+	for (int i = 0; i < 8; i++) {
+		node = hashmap_methods.remove_random(mp);
+		int is_contained = 0;
+		for (int j = 0; j < 8; j++) {
+			if ((*((int *) node->key) == *nums[j]) && (*((int *) node->value) == *values[j]))
+				is_contained = 1;
+		}
+		fail_unless(is_contained, "Error in remove_random");		
+		fail_unless(hashmap_methods.size(mp) == (7 - i), "Size incorrect after remove");
+		fail_if(hashmap_methods.contains(mp, node->key), "Error in hashmap_methods.contains");
+	}
+
+	int **items = (int **) hashmap_methods.keys_to_array(mp);
+	fail_unless(items == NULL, "Error keys_to_array after remove");
+
+	map_node *pairs = hashmap_methods.to_array(mp);
+	fail_unless(pairs == NULL, "Error to_array after remove");
+
+	for (int i = 0; i < 8; i++) {
+		free(nums[i]);
+		free(values[i]);
+	}
+	hashmap_methods.free(mp);
+}
+END_TEST
+
 Suite *map_suite(void) {
   Suite *s = suite_create("HashMap");
 
@@ -353,11 +509,11 @@ Suite *map_suite(void) {
 	tcase_add_test(tc_remove, test_map_remove2);
   suite_add_tcase(s, tc_remove);
 
-  /* test remove random *//*
+  /* test remove random */
   TCase *tc_remove_random = tcase_create("Map Remove Random");
   tcase_add_test(tc_remove_random, test_map_remove_random1);
 	tcase_add_test(tc_remove_random, test_map_remove_random2);
-  suite_add_tcase(s, tc_remove_random);*/
+  suite_add_tcase(s, tc_remove_random);
 
   return s;
 }

@@ -17,7 +17,7 @@ struct _arraylist {
 	list_equal equal;
 };
 
-int _list_equal_pointers(void *item1, void *item2) {
+int _arraylist_equal_pointers(void *item1, void *item2) {
 	return item1 == item2;
 }
 
@@ -33,7 +33,7 @@ list _arraylist_create(list_equal eq) {
 		free(li);
 		return NULL;
 	}
-	li->equal = (eq) ? eq : _list_equal_pointers;
+	li->equal = (eq) ? eq : _arraylist_equal_pointers;
 	return (list) li;
 }
 
