@@ -120,3 +120,6 @@ REFERENCES
 
 #### Dereferencing Void Pointers:
 *   http://forums.devshed.com/c-programming-42/dereference-void-pointer-229122.html
+
+#### Printing with color
+*	http://cc.byexamples.com/2007/01/20/print-color-string-without-ncurses/
