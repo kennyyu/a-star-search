@@ -214,8 +214,12 @@ int _hashmap_add(map mapp, void *key, void *value) {
       return ERROR_MAP_MALLOC_FAIL;
     mp->buckets[bucket] = li;
     mp->size++;
-		/* add a reference to the list in bucket_changes */
-		linkedlist_methods.add_first(mp->bucket_changes, mp->buckets[bucket]);
+    /* add a reference to the list in bucket_changes */
+    int *bucket_change = malloc(sizeof(int));
+    if (!bucket_change)
+        return ERROR_MAP_MALLOC_FAIL;
+    *bucket_change = bucket;
+    linkedlist_methods.add_first(mp->bucket_changes, bucket_change);
     return SUCCESS_MAP;
   }
   /* otherwise look for the item in the list. if it's in the list, update
@@ -309,23 +313,20 @@ map_node _hashmap_remove_random(map mapp) {
     return NULL;
   if (_hashmap_is_empty((map) mp))
     return NULL;
-	printf("bucket_changes size: %d\n",linkedlist_methods.size(mp->bucket_changes));
 	while (linkedlist_methods.size(mp->bucket_changes)) {
-		printf("got here\n");
 		/* iterate through all the buckets pointed to by bucket_changes
 		 * remove a node from the first list. if the list is NULL or there
 		 * are no elements, remove the bucket from bucket_changes */
-		list current = (list) linkedlist_methods.get_first(mp->bucket_changes);
+		int current = *(int *) linkedlist_methods.get_first(mp->bucket_changes);
 		printf("%d\n",(int) current);
-		if (!current) {
+                if (!mp->buckets[current]) {
 			linkedlist_methods.remove_first(mp->bucket_changes);
 			printf("NULL\n");
 			continue;
 		}
-		printf("current size before: %d\n",arraylist_methods.size(current));
-		if (arraylist_methods.size(current)) {
+		if (!arraylist_methods.is_empty(mp->buckets[current])) {
 			printf("326\n");
-			map_node node = (map_node) arraylist_methods.get_first(current);
+			map_node node = (map_node) arraylist_methods.get_first(mp->buckets[current]);
 			printf("328\n");
 			if (!node)
 				return NULL;
@@ -339,18 +340,15 @@ map_node _hashmap_remove_random(map mapp) {
 			/* remove the key,value pair from the map */
 			void *value2 = _hashmap_remove((map) mp, key);
 			printf("value2: %d\n", *(int*)value2);
-			printf("current size after: %d\n",arraylist_methods.size(current));
 			/* if there are no more elements in the current list, remove it from bucket_changes */
-			if (arraylist_methods.is_empty(current))
+			if (arraylist_methods.is_empty(mp->buckets[current]))
 				linkedlist_methods.remove_first(mp->bucket_changes);
 			printf("339\n");
 			node->key = key;
 			node->value = value;
 			return node;
-			
-			/* put the hash in the buckets_change */
 		} else {
-			linkedlist_methods.remove_first(mp->bucket_changes);
+                        mp->buckets[current] = NULL;
 			printf("empty\n");
 			continue;
 		}
