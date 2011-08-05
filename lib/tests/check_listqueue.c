@@ -49,9 +49,7 @@ START_TEST (test_queue_enqueue) {
 		fail_unless(listqueue_methods.contains(qu, nums[i]), "Error in listqueue_methods.contains");
 	}
 
-	for (int i = 0; i < 3; i++)
-		free(nums[i]);
-	listqueue_methods.free(qu);
+	listqueue_methods.free_items(qu, NULL);
 }
 END_TEST
 

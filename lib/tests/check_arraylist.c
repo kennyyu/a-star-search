@@ -77,9 +77,7 @@ START_TEST (test_get_last) {
 	item = arraylist_methods.get_last(li);
 	fail_unless(*item == 2, "Error getting first item");
 	
-	for (int i = 0; i < 3; i++)
-		free(nums[i]);
-	arraylist_methods.free(li);
+	arraylist_methods.free_items(li, NULL);
 }
 END_TEST
 
@@ -213,9 +211,7 @@ START_TEST (test_add_last) {
 		fail_unless(arraylist_methods.contains(li, nums[i]), "Error in arraylist_methods.contains");
 	}
 
-	for (int i = 0; i < 3; i++)
-		free(nums[i]);
-	arraylist_methods.free(li);
+	arraylist_methods.free_items(li, NULL);
 }
 END_TEST
 

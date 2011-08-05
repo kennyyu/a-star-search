@@ -87,9 +87,7 @@ START_TEST (test_heap_add2) {
 		fail_unless(arrayheap_methods.contains(hp, nums[i]), "Error in arrayheap_methods.contains");
 	}
 
-	for (int i = 0; i < 3; i++)
-		free(nums[i]);
-	arrayheap_methods.free(hp);
+	arrayheap_methods.free_items(hp,NULL);
 }
 END_TEST
 
@@ -245,9 +243,7 @@ START_TEST (test_heap_remove2) {
 		fail_unless(arrayheap_methods.size(hp) == 2 - i, "Size incorrect after remove");
 	}
 
-	for (int i = 0; i < 3; i++)
-		free(nums[i]);
-	arrayheap_methods.free(hp);
+	arrayheap_methods.free_items(hp, NULL);
 }
 END_TEST
 

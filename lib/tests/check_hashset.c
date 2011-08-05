@@ -66,10 +66,7 @@ START_TEST (test_set_add1) {
 		fail_unless(*items[i] == *nums[i], "Error in to_array");
 	}
 
-	for (int i = 0; i < 8; i++)
-		free(nums[i]);
-	free(items);	
-	hashset_methods.free(se);
+	hashset_methods.free_items(se, NULL);
 }
 END_TEST
 
@@ -178,10 +175,7 @@ START_TEST (test_set_remove1) {
 	int **items = (int **) hashset_methods.to_array(se);
 	fail_unless(items == NULL, "Error to_array after remove");
 
-	for (int i = 0; i < 8; i++)
-		free(nums[i]);
-	free(items);	
-	hashset_methods.free(se);
+	hashset_methods.free_items(se, NULL);
 }
 END_TEST
 

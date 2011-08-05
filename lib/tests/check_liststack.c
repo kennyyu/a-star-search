@@ -49,9 +49,7 @@ START_TEST (test_stack_push) {
 		fail_unless(liststack_methods.contains(st, nums[i]), "Error in liststack_methods.contains");
 	}
 
-	for (int i = 0; i < 3; i++)
-		free(nums[i]);
-	liststack_methods.free(st);
+	liststack_methods.free_items(st, NULL);
 }
 END_TEST
 

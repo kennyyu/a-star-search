@@ -74,22 +74,20 @@ void _hashmap_free_items(map mapp, map_free_key free_key, map_free_value free_va
   _hashmap mp = (_hashmap) mapp;
   if (!mp)
     return;
-    while (!linkedlist_methods.is_empty(mp->bucket_changes)) {
-        void *item = linkedlist_methods.remove_first(mp->bucket_changes);
-        free(item);
-    }
-  linkedlist_methods.free(mp->bucket_changes);
+  free_key = (free_key) ? free_key : &free;
+  free_value = (free_value) ? free_value : &free;
+
   for (int i = 0; i < mp->bucket_size; i++) {
     if (mp->buckets[i]) {
-      while (!arraylist_methods.is_empty(mp->buckets[i])) {
-        map_node node = (map_node) arraylist_methods.remove_last(mp->buckets[i]);
+      for (int j = 0; j < arraylist_methods.size(mp->buckets[i]); j++) {
+        map_node node = (map_node) arraylist_methods.get(mp->buckets[i], j);
         free_key(node->key);
         free_value(node->value);
         free(node);
       }
-      arraylist_methods.free(mp->buckets[i]);
     }
   }
+  linkedlist_methods.free_items(mp->bucket_changes, NULL);
   free(mp->buckets);
   free(mp);
 }

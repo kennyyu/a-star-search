@@ -8,11 +8,7 @@ TODO
 
 *   Library:
 
-    *   Implement hashmap and hashset (with hash tables)
-    
-    *   Have a queue (or list) bucket changes to allow for random access, to array functions
-    
-    *   Add a free_items function to all data structures to optionally free the items
+    *   Clean up source code, add better comments. Wiki?
     
     *   Algorithms (Sorts, Graph algorithms)
 

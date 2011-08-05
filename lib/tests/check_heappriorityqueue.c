@@ -53,9 +53,7 @@ START_TEST (test_pqueue_enpqueue) {
 		fail_unless(heappqueue_methods.contains(pq, nums[i]), "Error in heappqueue_methods.contains");
 	}
 
-	for (int i = 0; i < 3; i++)
-		free(nums[i]);
-	heappqueue_methods.free(pq);
+	heappqueue_methods.free_items(pq, NULL);
 }
 END_TEST
 

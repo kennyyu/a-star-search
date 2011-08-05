@@ -78,11 +78,7 @@ START_TEST (test_map_add1) {
 	}
 	free(pairs);
 
-	for (int i = 0; i < 8; i++) {
-		free(nums[i]);
-		free(values[i]);
-	}
-	treemap_methods.free(mp);
+	treemap_methods.free_items(mp, NULL, NULL);
 }
 END_TEST
 
@@ -220,11 +216,7 @@ START_TEST (test_map_remove1) {
 	map_node *pairs = treemap_methods.to_array(mp);
 	fail_unless(pairs == NULL, "Error to_array after remove");
 
-	for (int i = 0; i < 8; i++) {
-		free(nums[i]);
-		free(values[i]);
-	}
-	treemap_methods.free(mp);
+	treemap_methods.free_items(mp, NULL, NULL);
 }
 END_TEST
 
