@@ -2,9 +2,9 @@ CC = gcc
 CFLAGS = -g -std=c99 -Wall
 SLIBS = -lcheck
 SRC = ../src
-INCLUDES = list.h linkedlist.h arraylist.h queue.h listqueue.h stack.h liststack.h heap.h arrayheap.h priorityqueue.h heappriorityqueue.h set.h treeset.h hashset.h map.h treemap.h hashmap.h
-OBJECTS = check_linkedlist.o check_arraylist.o check_listqueue.o check_liststack.o check_arrayheap.o check_heappriorityqueue.o check_treemap.o check_treeset.o check_hashmap.o
-TESTS = check_linkedlist check_arraylist check_listqueue check_liststack check_arrayheap check_heappriorityqueue check_treemap check_treeset check_hashmap
+INCLUDES = list.h linkedlist.h arraylist.h queue.h listqueue.h stack.h liststack.h heap.h arrayheap.h priorityqueue.h heappriorityqueue.h set.h treeset.h hashset.h map.h treemap.h hashmap.h hashset.h
+OBJECTS = check_linkedlist.o check_arraylist.o check_listqueue.o check_liststack.o check_arrayheap.o check_heappriorityqueue.o check_treemap.o check_treeset.o check_hashmap.o check_hashset.o
+TESTS = check_linkedlist check_arraylist check_listqueue check_liststack check_arrayheap check_heappriorityqueue check_treemap check_treeset check_hashmap check_hashset
 
 %.o : %.c $(INCLUDES)
 	$(CC) $(CFLAGS) -c -o $@ $<
