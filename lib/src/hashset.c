@@ -24,6 +24,17 @@ void _hashset_free(set se) {
   hashmap_methods.free((map) se);
 }
 
+void __hashset_dummy_free_value(void *value) {
+  return;
+}
+
+void _hashset_free_items(set se, set_free_item free_func) {
+  if (!se)
+    return;
+  free_func = (free_func) ? free_func : &free;
+  hashmap_methods.free_items((map) se, (map_free_key) free_func, &__hashset_dummy_free_value);
+}
+
 int _hashset_size(set se) {
   if (!se)
     return ERROR_SET_IS_NULL;
@@ -86,6 +97,7 @@ void *_hashset_remove_random(set se) {
 set_methods hashset_methods = {
   .create = &_hashset_create,
   .free = &_hashset_free,
+  .free_items = &_hashset_free_items,
   .size = &_hashset_size,
   .is_empty = &_hashset_is_empty,
   .contains = &_hashset_contains,

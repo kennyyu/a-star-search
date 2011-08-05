@@ -16,6 +16,12 @@ struct pqueue { };
 typedef int (*pqueue_compare) (void *, void *);
 
 /*
+ * This is a function that frees an item in the pqueue. A pointer to this kind of
+ * function will be passed into free_items.
+ */
+typedef void (*pqueue_free_item)(void *);
+
+/*
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
@@ -43,6 +49,12 @@ struct pqueue_methods {
 	 * Frees the memory held by the pqueue.
 	 */
 	void (*free)(pqueue);
+
+	/*
+	 * Frees the pqueue and the items inside the pqueue. If the the free_item
+	 * function is NULL, this function will just use free.
+	 */
+	void (*free_items)(pqueue, pqueue_free_item);
 
 	/* 
 	 * Returns the length of the pqueue. If the pqueue is NULL, this returns 

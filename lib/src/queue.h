@@ -9,6 +9,18 @@ typedef struct queue *queue;
 struct queue { };
 
 /*
+ * This will return 1 if the two items are equal, 0 otherwise. If NULL is passed
+ * in for create, the queue will use pointer equality.
+ */
+typedef int (*queue_equal)(void *, void *);
+
+/*
+ * This is a function that frees an item in the queue. A pointer to this kind of
+ * function will be passed into free_items.
+ */
+typedef void (*queue_free_item)(void *);
+
+/*
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
@@ -20,12 +32,6 @@ enum queue_error_numbers {
 	ERROR_QUEUE_ITEM_IS_NULL = -3,
 	ERROR_QUEUE_MALLOC_FAIL = -4
 };
-
-/*
- * This will return 1 if the two items are equal, 0 otherwise. If NULL is passed
- * in for create, the queue will use pointer equality.
- */
-typedef int (*queue_equal)(void *, void *);
 
 /*
  * This struct contains pointers to operations on queues.
@@ -42,6 +48,12 @@ struct queue_methods {
 	 * Frees the memory held by the queue.
 	 */
 	void (*free)(queue);
+	
+	/*
+	 * Frees the queue and the items inside the queue. If the the free_item
+	 * function is NULL, this function will just use free.
+	 */
+	void (*free_items)(queue, queue_free_item);
 
 	/* 
 	 * Returns the length of the queue. If the queue is NULL, this returns 

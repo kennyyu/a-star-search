@@ -17,6 +17,12 @@ void _heappqueue_free(pqueue pq) {
 	arrayheap_methods.free((heap) pq);
 }
 
+void _heappqueue_free_items(pqueue pq, pqueue_free_item free_func) {
+	if (!pq)
+		return;
+	arrayheap_methods.free_items((heap) pq, (heap_free_item) free_func);
+}
+
 int _heappqueue_size(pqueue pq) {
 	if (!pq)
 		return ERROR_PQUEUE_IS_NULL;
@@ -60,6 +66,7 @@ void *_heappqueue_dequeue(pqueue pq) {
 pqueue_methods heappqueue_methods = {
 	.create = &_heappqueue_create,
 	.free = &_heappqueue_free,
+	.free_items = &_heappqueue_free_items,
 	.size = &_heappqueue_size,
 	.is_empty = &_heappqueue_is_empty,
 	.contains = &_heappqueue_contains,

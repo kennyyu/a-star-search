@@ -30,6 +30,12 @@ typedef int (*set_hash) (void *);
 typedef int (*set_equal) (void *, void *);
 
 /*
+ * This is a function that frees an item in the set. A pointer to this kind of
+ * function will be passed into free_items.
+ */
+typedef void (*set_free_item)(void *);
+
+/*
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
@@ -60,6 +66,12 @@ struct set_methods {
 	 * Frees the memory held by the set.
 	 */
 	void (*free)(set);
+
+	/*
+	 * Frees the set and the items inside the set. If the the free_item
+	 * function is NULL, this function will just use free.
+	 */
+	void (*free_items)(set, set_free_item);
 
 	/* 
 	 * Returns the length of the set. If the set is NULL, this returns 

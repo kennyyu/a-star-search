@@ -18,6 +18,10 @@ void _liststack_free(stack st) {
 	linkedlist_methods.free((list) st);
 }
 
+void _liststack_free_items(stack st, stack_free_item free_func) {
+	linkedlist_methods.free_items((list) st, (list_free_item) free_func);
+}
+
 int _liststack_size(stack st) {
 	if (!st)
 		return ERROR_STACK_IS_NULL;
@@ -61,6 +65,7 @@ void *_liststack_pop(stack st) {
 stack_methods liststack_methods = {
 	.create = &_liststack_create,
 	.free = &_liststack_free,
+	.free_items = &_liststack_free_items,
 	.size = &_liststack_size,
 	.is_empty = &_liststack_is_empty,
 	.contains = &_liststack_contains,

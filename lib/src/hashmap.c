@@ -57,7 +57,7 @@ map _hashmap_create(map_compare cmp, map_hash hash, map_equal eq, int bucket_siz
 /* 
  * Frees the memory held by the map.
  */
-void _hashmap_free(map mapp){
+void _hashmap_free(map mapp) {
   _hashmap mp = (_hashmap) mapp;
   if (!mp)
     return;
@@ -65,6 +65,30 @@ void _hashmap_free(map mapp){
   for (int i = 0; i < mp->bucket_size; i++) {
     if (mp->buckets[i])
       arraylist_methods.free(mp->buckets[i]);
+  }
+  free(mp->buckets);
+  free(mp);
+}
+
+void _hashmap_free_items(map mapp, map_free_key free_key, map_free_value free_value) {
+  _hashmap mp = (_hashmap) mapp;
+  if (!mp)
+    return;
+    while (!linkedlist_methods.is_empty(mp->bucket_changes)) {
+        void *item = linkedlist_methods.remove_first(mp->bucket_changes);
+        free(item);
+    }
+  linkedlist_methods.free(mp->bucket_changes);
+  for (int i = 0; i < mp->bucket_size; i++) {
+    if (mp->buckets[i]) {
+      while (!arraylist_methods.is_empty(mp->buckets[i])) {
+        map_node node = (map_node) arraylist_methods.remove_last(mp->buckets[i]);
+        free_key(node->key);
+        free_value(node->value);
+        free(node);
+      }
+      arraylist_methods.free(mp->buckets[i]);
+    }
   }
   free(mp->buckets);
   free(mp);
@@ -350,6 +374,7 @@ map_node _hashmap_remove_random(map mapp) {
 map_methods hashmap_methods = {
   .create = &_hashmap_create,
   .free = &_hashmap_free,
+  .free_items = &_hashmap_free_items,
   .size = &_hashmap_size,
   .is_empty = &_hashmap_is_empty,
   .contains = &_hashmap_contains,

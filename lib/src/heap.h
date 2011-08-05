@@ -16,6 +16,12 @@ struct heap { };
 typedef int (*heap_compare) (void *, void *);
 
 /*
+ * This is a function that frees an item in the heap. A pointer to this kind of
+ * function will be passed into free_items.
+ */
+typedef void (*heap_free_item)(void *);
+
+/*
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
@@ -44,6 +50,12 @@ struct heap_methods {
 	 * Frees the memory held by the heap.
 	 */
 	void (*free)(heap);
+
+	/*
+	 * Frees the heap and the items inside the heap. If the the free_item
+	 * function is NULL, this function will just use free.
+	 */
+	void (*free_items)(heap, heap_free_item);
 
 	/* 
 	 * Returns the number of elements in the heap. If the queue is NULL, this 

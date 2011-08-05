@@ -22,6 +22,17 @@ void _treeset_free(set se) {
   treemap_methods.free((map) se);
 }
 
+void __treeset_dummy_free_value(void *value) {
+  return;
+}
+
+void _treeset_free_items(set se, set_free_item free_func) {
+  if (!se)
+    return;
+  free_func = (free_func) ? free_func : &free;
+  treemap_methods.free_items((map) se, (map_free_key) free_func, &__treeset_dummy_free_value);
+}
+
 int _treeset_size(set se) {
   if (!se)
     return ERROR_SET_IS_NULL;
@@ -85,6 +96,7 @@ void *_treeset_remove_random(set se) {
 set_methods treeset_methods = {
   .create = &_treeset_create,
   .free = &_treeset_free,
+  .free_items = &_treeset_free_items,
   .size = &_treeset_size,
   .is_empty = &_treeset_is_empty,
   .contains = &_treeset_contains,

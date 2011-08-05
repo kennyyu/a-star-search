@@ -37,6 +37,14 @@ void _arrayheap_free(heap hep) {
 	free(hp);
 }
 
+void _arrayheap_free_items(heap hep, heap_free_item free_func) {
+	_arrayheap hp = (_arrayheap) hep;
+	if (!hp)
+		return;
+	arraylist_methods.free_items(hp->data, (list_free_item) free_func);
+	free(hp);
+}
+
 int _arrayheap_size(heap hep) {
 	_arrayheap hp = (_arrayheap) hep;
 	if (!hp)
@@ -192,6 +200,7 @@ heap _arrayheap_merge(heap hep1, heap hep2) {
 heap_methods arrayheap_methods = {
 	.create = &_arrayheap_create,
 	.free = &_arrayheap_free,
+	.free_items = &_arrayheap_free_items,
 	.size = &_arrayheap_size,
 	.is_empty = &_arrayheap_is_empty,
 	.contains = &_arrayheap_contains,

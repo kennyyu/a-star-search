@@ -47,6 +47,27 @@ void _treemap_free(map mapp) {
   free(mp);
 }
 
+void __treemap_free_items_helper(__binarytree_node node, map_free_key free_key, map_free_value free_value) {
+  if (!node)
+    return;
+  __treemap_free_helper(node->left);
+  __treemap_free_helper(node->right);
+  free_key(node->data->key);
+  free_value(node->data->value);
+  free(node->data);
+  free(node);
+}
+
+void _treemap_free_items(map mapp, map_free_key free_key, map_free_value free_value) {
+  _treemap mp = (_treemap) mapp;
+  if (!mp)
+    return;
+  free_key = (free_key) ? free_key : &free;
+  free_value = (free_value) ? free_value : &free;
+  __treemap_free_items_helper(mp->root, free_key, free_value);
+  free(mp);
+}
+
 int _treemap_size(map mapp) {
   _treemap mp = (_treemap) mapp;
   if (!mp)
@@ -353,6 +374,7 @@ map_node _treemap_remove_random(map mapp) {
 map_methods treemap_methods = {
   .create = &_treemap_create,
   .free = &_treemap_free,
+  .free_items = &_treemap_free_items,
   .size = &_treemap_size,
   .is_empty = &_treemap_is_empty,
   .contains = &_treemap_contains,

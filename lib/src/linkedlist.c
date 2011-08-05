@@ -54,6 +54,28 @@ void _linkedlist_free(list lis) {
 	free(li);
 }
 
+void _linkedlist_free_items(list lis, list_free_item free_func) {
+	_linkedlist li = (_linkedlist) lis;
+	if (!li)
+		return;
+	free_func = (free_func) ? free_func : &free;
+	
+	__linkedlist_node current = li->head;
+	while (current) {
+		if (!current->next) {
+			/* current is the last node */
+			free_func(current->data);
+			free(current);
+			break;
+		} else {
+			current = current->next;
+			free_func(current->prev->data);
+			free(current->prev);
+		}
+	}
+	free(li);
+}
+
 int _linkedlist_size(list lis) {
 	_linkedlist li = (_linkedlist) lis;
 	if (!li)
@@ -315,6 +337,7 @@ int _linkedlist_remove(list lis, void *item) {
 list_methods linkedlist_methods = {
 	.create = &_linkedlist_create,
 	.free = &_linkedlist_free,
+	.free_items = &_linkedlist_free_items,
 	.size = &_linkedlist_size,
 	.is_empty = &_linkedlist_is_empty,
 	.contains = &_linkedlist_contains,

@@ -40,6 +40,18 @@ typedef int (*map_hash) (void *);
 typedef int (*map_equal) (void *, void *);
 
 /*
+ * This is a function that frees a key in the map. A pointer to this kind of
+ * function will be passed into free_items.
+ */
+typedef void (*map_free_key)(void *);
+
+/*
+ * This is a function that frees a value in the map. A pointer to this kind of
+ * function will be passed into free_items.
+ */
+typedef void (*map_free_value)(void *);
+
+/*
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
@@ -72,6 +84,12 @@ struct map_methods {
 	 * Frees the memory held by the map.
 	 */
 	void (*free)(map);
+
+	/*
+	 * Frees the map and the items inside the map. The standard free() call
+	 * will be used if NULL is passed in.
+	 */
+	void (*free_items)(map, map_free_key, map_free_value);
 
 	/* 
 	 * Returns the number of keys in the map. If the map is NULL, this returns 

@@ -9,6 +9,18 @@ typedef struct list *list;
 struct list { };
 
 /*
+ * This returns 1 if the two items pointed to are equal, otherwise 0. If NULL
+ * is passed in, pointer equality will be used.
+ */
+typedef int (*list_equal)(void *, void *);
+
+/*
+ * This is a function that frees an item in the list. A pointer to this kind of
+ * function will be passed into free_items.
+ */
+typedef void (*list_free_item)(void *);
+
+/*
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
@@ -22,10 +34,6 @@ enum list_error_numbers {
 	ERROR_LIST_MALLOC_FAIL = -5,
 	ERROR_LIST_OUT_OF_BOUNDS = -6
 };
-
-/* This returns 1 if the two items pointed to are equal, otherwise 0. If NULL
- * is passed in, pointer equality will be used. */
-typedef int (*list_equal)(void *, void *);
 
 /*
  * This struct will contain pointers to operations on lists.
@@ -42,6 +50,12 @@ struct list_methods {
 	 * Frees the memory held by the list.
 	 */
 	void (*free)(list);
+	
+	/*
+	 * Frees the list and the items inside the list. If the list_free_item
+	 * function is NULL, this function will just use free().
+	 */
+	void (*free_items)(list, list_free_item);
 
 	/* 
 	 * Returns the length of the list. If the list is NULL, this returns 

@@ -18,6 +18,10 @@ void _listqueue_free(queue qu) {
 	linkedlist_methods.free((list) qu);
 }
 
+void _listqueue_free_items(queue qu, queue_free_item free_func) {
+	linkedlist_methods.free_items((list) qu, (list_free_item) free_func);
+}
+
 int _listqueue_size(queue qu) {
 	if (!qu)
 		return ERROR_QUEUE_IS_NULL;
@@ -61,6 +65,7 @@ void *_listqueue_dequeue(queue qu) {
 queue_methods listqueue_methods = {
 	.create = &_listqueue_create,
 	.free = &_listqueue_free,
+	.free_items = &_listqueue_free_items,
 	.size = &_listqueue_size,
 	.is_empty = &_listqueue_is_empty,
 	.contains = &_listqueue_contains,

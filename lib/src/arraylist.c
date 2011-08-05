@@ -46,6 +46,17 @@ void _arraylist_free(list lis) {
 	free(li);
 }
 
+void _arraylist_free_items(list lis, list_free_item free_func) {
+	_arraylist li = (_arraylist) lis;
+	if (!li)
+		return;
+	free_func = (free_func) ? free_func : &free;
+	for (int i = 0; i < li->size; i++)
+		free_func(li->data[i]);
+	free(li->data);
+	free(li);
+}
+
 /* resize the array by doubling it's current array_size. returns 
  * ERROR_LIST_MALLOC_FAIL if malloc fails, or returns ERROR_LIST_IS_NULL if
  * the list is NULL. On success, return SUCCESS_LIST */
@@ -247,6 +258,7 @@ void *_arraylist_remove_last(list lis) {
 list_methods arraylist_methods = {
 	.create = &_arraylist_create,
 	.free = &_arraylist_free,
+	.free_items = &_arraylist_free_items,
 	.size = &_arraylist_size,
 	.is_empty = &_arraylist_is_empty,
 	.contains = &_arraylist_contains,

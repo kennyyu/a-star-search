@@ -9,6 +9,18 @@ typedef struct stack *stack;
 struct stack { };
 
 /*
+ * This will return 1 if the two items are equal, 0 otherwise. If NULL is passed
+ * into create, the stack will use pointer equality.
+ */
+typedef int (*stack_equal)(void *, void *);
+
+/*
+ * This is a function that frees an item in the stack. A pointer to this kind of
+ * function will be passed into free_items.
+ */
+typedef void (*stack_free_item)(void *);
+
+/*
  * Enumeration of error and success return values for functions that return an
  * int. 
  */
@@ -20,12 +32,6 @@ enum stack_error_numbers {
 	ERROR_STACK_ITEM_IS_NULL = -3,
 	ERROR_STACK_MALLOC_FAIL = -4
 };
-
-/*
- * This will return 1 if the two items are equal, 0 otherwise. If NULL is passed
- * into create, the stack will use pointer equality.
- */
-typedef int (*stack_equal)(void *, void *);
 
 /*
  * This struct contains pointers to operations on stacks.
@@ -42,6 +48,12 @@ struct stack_methods {
 	 * Frees the memory held by the stack.
 	 */
 	void (*free)(stack);
+
+	/*
+	 * Frees the stack and the items inside the stack. If the the free_item
+	 * function is NULL, this function will just use free.
+	 */
+	void (*free_items)(stack, stack_free_item);
 
 	/* 
 	 * Returns the length of the stack. If the stackis NULL, this returns 
