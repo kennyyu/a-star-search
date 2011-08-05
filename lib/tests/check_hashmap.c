@@ -500,19 +500,19 @@ Suite *map_suite(void) {
   /* test add */
   TCase *tc_add = tcase_create("Map Add");
   tcase_add_test(tc_add, test_map_add1);
-	tcase_add_test(tc_add, test_map_add2);
+  tcase_add_test(tc_add, test_map_add2);
   suite_add_tcase(s, tc_add);
 
   /* test remove */
   TCase *tc_remove = tcase_create("Map Remove");
   tcase_add_test(tc_remove, test_map_remove1);
-	tcase_add_test(tc_remove, test_map_remove2);
+  tcase_add_test(tc_remove, test_map_remove2);
   suite_add_tcase(s, tc_remove);
 
   /* test remove random */
   TCase *tc_remove_random = tcase_create("Map Remove Random");
   tcase_add_test(tc_remove_random, test_map_remove_random1);
-	tcase_add_test(tc_remove_random, test_map_remove_random2);
+  tcase_add_test(tc_remove_random, test_map_remove_random2);
   suite_add_tcase(s, tc_remove_random);
 
   return s;
