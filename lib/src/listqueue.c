@@ -11,65 +11,65 @@ typedef struct _listqueue *_listqueue;
 struct _listqueue { };
 
 queue _listqueue_create(queue_equal eq) {
-	return (queue) linkedlist_methods.create(eq);
+  return (queue) linkedlist_methods.create(eq);
 }
 
 void _listqueue_free(queue qu) {
-	linkedlist_methods.free((list) qu);
+  linkedlist_methods.free((list) qu);
 }
 
 void _listqueue_free_items(queue qu, queue_free_item free_func) {
-	linkedlist_methods.free_items((list) qu, (list_free_item) free_func);
+  linkedlist_methods.free_items((list) qu, (list_free_item) free_func);
 }
 
 int _listqueue_size(queue qu) {
-	if (!qu)
-		return ERROR_QUEUE_IS_NULL;
-	return linkedlist_methods.size((list) qu);
+  if (!qu)
+    return ERROR_QUEUE_IS_NULL;
+  return linkedlist_methods.size((list) qu);
 }
 
 int _listqueue_is_empty(queue qu) {
-	if (!qu)
-		return ERROR_QUEUE_IS_NULL;
-	return linkedlist_methods.is_empty((list) qu);
+  if (!qu)
+    return ERROR_QUEUE_IS_NULL;
+  return linkedlist_methods.is_empty((list) qu);
 }
 
 int _listqueue_contains(queue qu, void *item) {
-	if (!qu)
-		return ERROR_QUEUE_IS_NULL;
-	if (!item)
-		return ERROR_QUEUE_ITEM_IS_NULL;
-	return linkedlist_methods.contains((list) qu, item);
+  if (!qu)
+    return ERROR_QUEUE_IS_NULL;
+  if (!item)
+    return ERROR_QUEUE_ITEM_IS_NULL;
+  return linkedlist_methods.contains((list) qu, item);
 }
 
 void *_listqueue_peek(queue qu) {
-	return linkedlist_methods.get_first((list) qu);
+  return linkedlist_methods.get_first((list) qu);
 }
 
 int _listqueue_enqueue(queue qu, void *item) {
-	if (!qu)
-		return ERROR_QUEUE_IS_NULL;
-	if (!item)
-		return ERROR_QUEUE_ITEM_IS_NULL;
-		
-	int error = linkedlist_methods.add_last((list) qu, item);
-	if (error == ERROR_LIST_MALLOC_FAIL)
-		return ERROR_QUEUE_MALLOC_FAIL;
-	return SUCCESS_QUEUE;
+  if (!qu)
+    return ERROR_QUEUE_IS_NULL;
+  if (!item)
+    return ERROR_QUEUE_ITEM_IS_NULL;
+    
+  int error = linkedlist_methods.add_last((list) qu, item);
+  if (error == ERROR_LIST_MALLOC_FAIL)
+    return ERROR_QUEUE_MALLOC_FAIL;
+  return SUCCESS_QUEUE;
 }
 
 void *_listqueue_dequeue(queue qu) {
-	return linkedlist_methods.remove_first((list) qu);
+  return linkedlist_methods.remove_first((list) qu);
 }
 
 queue_methods listqueue_methods = {
-	.create = &_listqueue_create,
-	.free = &_listqueue_free,
-	.free_items = &_listqueue_free_items,
-	.size = &_listqueue_size,
-	.is_empty = &_listqueue_is_empty,
-	.contains = &_listqueue_contains,
-	.peek = &_listqueue_peek,
-	.enqueue = &_listqueue_enqueue,
-	.dequeue = &_listqueue_dequeue,
+  .create = &_listqueue_create,
+  .free = &_listqueue_free,
+  .free_items = &_listqueue_free_items,
+  .size = &_listqueue_size,
+  .is_empty = &_listqueue_is_empty,
+  .contains = &_listqueue_contains,
+  .peek = &_listqueue_peek,
+  .enqueue = &_listqueue_enqueue,
+  .dequeue = &_listqueue_dequeue,
 };

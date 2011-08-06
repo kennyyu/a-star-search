@@ -26,11 +26,11 @@ typedef void (*stack_free_item)(void *);
  */
 typedef enum stack_error_numbers stack_error_numbers;
 enum stack_error_numbers {
-	SUCCESS_STACK = 1,
-	ERROR_STACK_IS_NULL = -1,
-	ERROR_STACK_IS_EMPTY = -2,
-	ERROR_STACK_ITEM_IS_NULL = -3,
-	ERROR_STACK_MALLOC_FAIL = -4
+  SUCCESS_STACK = 1,
+  ERROR_STACK_IS_NULL = -1,
+  ERROR_STACK_IS_EMPTY = -2,
+  ERROR_STACK_ITEM_IS_NULL = -3,
+  ERROR_STACK_MALLOC_FAIL = -4
 };
 
 /*
@@ -38,59 +38,59 @@ enum stack_error_numbers {
  */
 typedef struct stack_methods stack_methods;
 struct stack_methods {
-	/* 
-	 * Initialize a stack and returns a pointer to the stack. If there is not
-	 * enough memory, this returns NULL.
-	 */
-	stack (*create)(stack_equal);
+  /* 
+   * Initialize a stack and returns a pointer to the stack. If there is not
+   * enough memory, this returns NULL.
+   */
+  stack (*create)(stack_equal);
 
-	/* 
-	 * Frees the memory held by the stack.
-	 */
-	void (*free)(stack);
+  /* 
+   * Frees the memory held by the stack.
+   */
+  void (*free)(stack);
 
-	/*
-	 * Frees the stack and the items inside the stack. If the the free_item
-	 * function is NULL, this function will just use free.
-	 */
-	void (*free_items)(stack, stack_free_item);
+  /*
+   * Frees the stack and the items inside the stack. If the the free_item
+   * function is NULL, this function will just use free.
+   */
+  void (*free_items)(stack, stack_free_item);
 
-	/* 
-	 * Returns the length of the stack. If the stackis NULL, this returns 
-	 * ERROR_STACK_IS_NULL.
-	 */
-	int (*size)(stack);
+  /* 
+   * Returns the length of the stack. If the stackis NULL, this returns 
+   * ERROR_STACK_IS_NULL.
+   */
+  int (*size)(stack);
 
-	/* 
-	 * Returns 1 if the stack is empty, otherwise returns 0. If the stack is NULL,
-	 * this returns ERROR_STACK_IS_NULL.
-	 */
-	int (*is_empty)(stack);
+  /* 
+   * Returns 1 if the stack is empty, otherwise returns 0. If the stack is NULL,
+   * this returns ERROR_STACK_IS_NULL.
+   */
+  int (*is_empty)(stack);
 
-	/* 
-	 * Returns 1 if the item is in the stack, otherwise returns 0. If the stack is
-	 * NULL, this returns ERROR_STACK_IS_NULL. If the item is NULL, this returns
-	 * ERROR_STACK_ITEM_IS_NULL.
-	 */
-	int (*contains)(stack, void *);
+  /* 
+   * Returns 1 if the item is in the stack, otherwise returns 0. If the stack is
+   * NULL, this returns ERROR_STACK_IS_NULL. If the item is NULL, this returns
+   * ERROR_STACK_ITEM_IS_NULL.
+   */
+  int (*contains)(stack, void *);
 
-	/* 
-	 * Returns a pointer to the top item in the stack. If the stack is NULL
-	 * or is empty, this returns NULL.
-	 */
-	void *(*peek)(stack);
+  /* 
+   * Returns a pointer to the top item in the stack. If the stack is NULL
+   * or is empty, this returns NULL.
+   */
+  void *(*peek)(stack);
 
-	/* 
-	 * Adds the item to the stack. If successful, this returns SUCCESS_STACK. If 
-	 * the stack is NULL, this returns ERROR_STACK_IS_NULL.
-	 */
-	int (*push)(stack, void *);
+  /* 
+   * Adds the item to the stack. If successful, this returns SUCCESS_STACK. If 
+   * the stack is NULL, this returns ERROR_STACK_IS_NULL.
+   */
+  int (*push)(stack, void *);
 
-	/* 
-	 * Removes the top item from the stack and returns a pointer to it. If the 
-	 * item is not found or if the stack is empty or NULL, this returns NULL.
-	 */
-	void *(*pop)(stack);
+  /* 
+   * Removes the top item from the stack and returns a pointer to it. If the 
+   * item is not found or if the stack is empty or NULL, this returns NULL.
+   */
+  void *(*pop)(stack);
 };
 
 #endif

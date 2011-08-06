@@ -14,12 +14,6 @@ struct _hashmap {
   list bucket_changes; /* keeps track of insertions/deletions. if no item in bucket, remove and move to next */
 };
 
-/* 
- * Initialize a map and returns a pointer to the map. If there is not
- * enough memory, this returns NULL. If creating a treemap, only map_compare
- * will be set and the other two will be NULL. If creating a hashmap, 
- * map_compare will be NULL and the other two will be set.
- */
 map _hashmap_create(map_compare cmp, map_hash hash, map_equal eq, int bucket_size) {
   if (!hash || !eq)
     return NULL;
@@ -92,10 +86,6 @@ void _hashmap_free_items(map mapp, map_free_key free_key, map_free_value free_va
   free(mp);
 }
 
-/* 
- * Returns the number of keys in the map. If the map is NULL, this returns 
- * ERROR_MAP_IS_NULL.
- */
 int _hashmap_size(map mapp) {
   _hashmap mp = (_hashmap) mapp;
   if (!mp)
@@ -103,10 +93,6 @@ int _hashmap_size(map mapp) {
   return mp->size;
 }
 
-/* 
- * Returns 1 if the map has no keys, otherwise returns 0. If the map is NULL,
- * this returns ERROR_MAP_IS_NULL.
- */
 int _hashmap_is_empty(map mapp) {
   _hashmap mp = (_hashmap) mapp;
   if (!mp)
@@ -118,11 +104,6 @@ int __hashmap_bucket(_hashmap mp, void *item) {
   return mp->hash(item) % mp->bucket_size;
 }
 
-/* 
- * Returns 1 if the key is in the map, otherwise returns 0. If the map is
- * NULL, this returns ERROR_MAP_IS_NULL. If the key is NULL, this returns
- * ERROR_MAP_ITEM_IS_NULL.
- */
 int _hashmap_contains(map mapp, void *key) {
   _hashmap mp = (_hashmap) mapp;
   if (!mp)
@@ -140,14 +121,6 @@ int _hashmap_contains(map mapp, void *key) {
   return 0;
 }
 
-/*
- * Returns an array of pointers to the keys in the map. The number of keys 
- * will be the size of the array. If the map is NULL, this returns NULL. If 
- * the number of keys is 0, this returns NULL. If malloc fails, this also 
- * returns NULL.
- *
- * WARNING: Do not change the values of the keys.
- */
 void **_hashmap_keys_to_array(map mapp) {
   _hashmap mp = (_hashmap) mapp;
   if (!mp)
@@ -174,13 +147,6 @@ void **_hashmap_keys_to_array(map mapp) {
   return keys;
 }
 
-/*
- * Returns a pointer to an array of structs containing (key,value) pairs.
- * The key and value fields will reference the actual values in the map.
- * The number of keys will be the size of the array. If the map is NULL,
- * this returns NULL. If the number of keys is 0, this returns NULL. If
- * malloc fails, this also returns NULL.
- */
 map_node *_hashmap_to_array(map mapp) {
   _hashmap mp = (_hashmap) mapp;
   if (!mp)
@@ -207,12 +173,6 @@ map_node *_hashmap_to_array(map mapp) {
   return nodes; 
 }
 
-/* 
- * Adds the key, value pair to the map. If successful, this returns 
- * SUCCESS_MAP. If the map is NULL, this returns ERROR_MAP_IS_NULL. If either
- * the key or value is NULL, this returns ERROR_ITEM_IS_NULL. If the key
- * is already in the map, the old value will be clobbered.
- */
 int _hashmap_add(map mapp, void *key, void *value) {
   _hashmap mp = (_hashmap) mapp;
   if (!mp)
@@ -263,14 +223,10 @@ int _hashmap_add(map mapp, void *key, void *value) {
   if (error != SUCCESS_LIST)
     return ERROR_MAP_MALLOC_FAIL;
   mp->size++;
-	linkedlist_methods.add_first(mp->bucket_changes, li);
+  linkedlist_methods.add_first(mp->bucket_changes, li);
   return SUCCESS_MAP;
 }
 
-/*
- * Gets the value associated with this key. If the map is NULL, this returns
- * NULL. If the key is NULL, this also returns NULL.
- */
 void *_hashmap_get(map mapp, void *key) {
   _hashmap mp = (_hashmap) mapp;
   if (!mp)
@@ -289,11 +245,6 @@ void *_hashmap_get(map mapp, void *key) {
   return NULL;
 }
 
-/* 
- * Removes the key from the map and returns the associated value. If the
- * the map is NULL, the map is empty, the key is NULL, or the key is not
- * found, this returns NULL 
- */
 void *_hashmap_remove(map mapp, void *key) {
   _hashmap mp = (_hashmap) mapp;
   if (!mp)
@@ -323,50 +274,44 @@ void *_hashmap_remove(map mapp, void *key) {
   return NULL;
 }
 
-/*
- * Removes a random element from the map and returns it as a map_node pointer.
- * For treemaps, this will return elements in order by key. For hashmaps, 
- * this will return in a random order. If the map is NULL, is empty, or malloc 
- * fails, this returns NULL.
- */
 map_node _hashmap_remove_random(map mapp) {
-    _hashmap mp = (_hashmap) mapp;
-    if (!mp)
-        return NULL;
-    if (_hashmap_is_empty((map) mp))
-        return NULL;
-    while (linkedlist_methods.size(mp->bucket_changes)) {
-        /* iterate through all the buckets pointed to by bucket_changes
-         * remove a node from the first list. if the list is NULL or there
-         * are no elements, remove the bucket from bucket_changes */
-        int current = *(int *) linkedlist_methods.get_first(mp->bucket_changes);
-        if (!mp->buckets[current]) {
-            linkedlist_methods.remove_first(mp->bucket_changes);
-            continue;
-        }
-        if (!arraylist_methods.is_empty(mp->buckets[current])) {
-            map_node node = (map_node) arraylist_methods.get_first(mp->buckets[current]);
-            if (!node)
-                return NULL;
-            void *key = node->key;
-            void *value = node->value;
-            node = malloc(sizeof(struct map_node));
-            if (!node)
-                return NULL;
-            /* remove the key,value pair from the map. if there are no more
-             * elements in the current list, remove it from bucket_changes */
-            _hashmap_remove((map) mp, key); /* will set empty lists to NULL */
-            if (arraylist_methods.is_empty(mp->buckets[current]))
-                linkedlist_methods.remove_first(mp->bucket_changes);
-            node->key = key;
-            node->value = value;
-            return node;
-        } else {
-            mp->buckets[current] = NULL;
-            continue;
-        }
-    }
+  _hashmap mp = (_hashmap) mapp;
+  if (!mp)
     return NULL;
+  if (_hashmap_is_empty((map) mp))
+    return NULL;
+  while (linkedlist_methods.size(mp->bucket_changes)) {
+    /* iterate through all the buckets pointed to by bucket_changes
+     * remove a node from the first list. if the list is NULL or there
+     * are no elements, remove the bucket from bucket_changes */
+    int current = *(int *) linkedlist_methods.get_first(mp->bucket_changes);
+    if (!mp->buckets[current]) {
+      linkedlist_methods.remove_first(mp->bucket_changes);
+      continue;
+    }
+    if (!arraylist_methods.is_empty(mp->buckets[current])) {
+      map_node node = (map_node) arraylist_methods.get_first(mp->buckets[current]);
+      if (!node)
+        return NULL;
+      void *key = node->key;
+      void *value = node->value;
+      node = malloc(sizeof(struct map_node));
+      if (!node)
+        return NULL;
+      /* remove the key,value pair from the map. if there are no more
+       * elements in the current list, remove it from bucket_changes */
+      _hashmap_remove((map) mp, key); /* will set empty lists to NULL */
+      if (arraylist_methods.is_empty(mp->buckets[current]))
+        linkedlist_methods.remove_first(mp->bucket_changes);
+      node->key = key;
+      node->value = value;
+      return node;
+    } else {
+      mp->buckets[current] = NULL;
+      continue;
+    }
+  }
+  return NULL;
 }
 
 map_methods hashmap_methods = {
