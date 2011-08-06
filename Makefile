@@ -10,6 +10,7 @@ libcheck: $(TESTS)
 	
 clean:
 	$(MAKE) --directory=$(LIB) clean
+	$(MAKE) --directory=$(APP) clean
 
 help:
 	@echo "make" or "make all" to build lib and fifteen_puzzle
