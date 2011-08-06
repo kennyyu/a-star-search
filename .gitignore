@@ -18,3 +18,7 @@ lib/tests/check_treemap
 lib/tests/check_hashmap
 lib/tests/check_treeset
 lib/tests/check_hashset
+
+# FIFTEEN PUZZLE BINARIES #
+###########################
+fifteen_puzzle/solver

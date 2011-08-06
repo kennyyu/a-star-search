@@ -3,6 +3,7 @@ APP = fifteen_puzzle
 
 all: $(LIB) $(APP)
 	$(MAKE) --directory=$(LIB) all
+	$(MAKE) --directory=$(APP) all
 
 libcheck: $(TESTS)
 	$(MAKE) --silent --directory=$(LIB) check
