@@ -4,7 +4,7 @@
 #include <string.h>
 
 /* 
- * usage: solver [--help] [--verbose] [--max <int>] <dimension> <int 1> <int 2> ... <int dimension * dimension>
+ * usage: solver [--help] [--verbose] [--max <int>] <dim> <pos 1> <pos 2> ... <pos dimension * dimension>
  */
 void print_help(int help, char *progname) {
 	if (help) {
@@ -42,6 +42,7 @@ void solve(int verbose, int max, int dimension, int positions[]) {
 	printf("]\n");
 }
 
+/* parse the command line arguments and call solve with the parameters */
 int main(int argc, char *argv[]) {
 	/* initialize optional arguments to default values */
 	int help = 0;
