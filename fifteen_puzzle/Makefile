@@ -2,8 +2,9 @@ CC = gcc
 CFLAGS = -g -std=c99 -Wall
 SLIBS =
 LIBRARY = ../lib/src
-OBJECTS = solver.o
-INCLUDES = $(LIBRARY)/*.h
+OBJECTS = solver.o board.o
+PROGINCLUDES = board.h
+LIBINCLUDES = $(LIBRARY)/*.h
 PROGRAM = solver
 
 %.o : %.c $(INCLUDES)

@@ -4,21 +4,9 @@
 #include "../lib/src/list.h"
 
 typedef struct node *node;
-struct node {
-	int dimension;
-	int board[];
-	int heuristic;
-}
 
 typedef enum board_directions board_directions;
-enum board_directions {
-	UP, 
-	DOWN,
-	LEFT,
-	RIGHT
-};
 
-node node_create(dimension, int board[]);
 node node_create_in_direction(node, board_directions);
 void node_free(node);
 
