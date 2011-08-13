@@ -119,3 +119,7 @@ REFERENCES
 
 #### Printing with color
 *	http://cc.byexamples.com/2007/01/20/print-color-string-without-ncurses/
+
+#### C Command Line Options
+*	Argtable library: http://argtable.sourceforge.net/example/index.html
+*	http://www.cs.caltech.edu/courses/cs11/material/c/mike/misc/cmdline_args.html
