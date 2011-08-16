@@ -4,10 +4,24 @@
 #include "../../lib/src/list.h"
 
 typedef struct node *node;
+struct node {
+  int dimension;
+  int *board;
+  int distance_so_far;
+  int heuristic;
+  int total_distance;
+};
+
 extern node GOAL;
 extern node START;
 
 typedef enum board_directions board_directions;
+enum board_directions {
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT
+};
 
 node node_create_in_direction(node, board_directions);
 void node_free(node);

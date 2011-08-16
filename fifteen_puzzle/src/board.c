@@ -5,21 +5,6 @@
 #include "board.h"
 #include "../../lib/src/linkedlist.h"
 
-struct node {
-	int dimension;
-	int *board;
-	int distance_so_far;
-	int heuristic;
-	int total_distance;
-};
-
-enum board_directions {
-	UP, 
-	DOWN,
-	LEFT,
-	RIGHT
-};
-
 int node_hash(node n) {
 	if (!n)
 		return -1;
@@ -168,6 +153,7 @@ node node_create_in_direction(node n, board_directions direction) {
 		free(board);
 		return NULL;
 	}
+	new_node->dimension = n->dimension;
 	new_node->board = board;
 	for (int i = 0; i < n->dimension * n->dimension; i++)
 		new_node->board[i] = n->board[i];
