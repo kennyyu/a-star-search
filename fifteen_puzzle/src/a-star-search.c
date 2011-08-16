@@ -145,6 +145,9 @@ list a_star_search(node start, node goal) {
       if (tentative_is_better) {
 	/* parent of neighbor is minimum */
 	hashmap_methods.add(came_from, neighbor, minimum);
+	neighbor->distance_so_far = tentative_g_score;
+	neighbor->heuristic = node_heuristic(neighbor, GOAL);
+	neighbor->total_distance = neighbor->distance_so_far + neighbor->heuristic;
 
 	printf("neighbor:\n");
 	node_print(neighbor);

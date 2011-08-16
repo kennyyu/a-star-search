@@ -6,7 +6,7 @@
 #include "../../lib/src/linkedlist.h"
 
 int node_compare(node n1, node n2) {
-  return n1->total_distance - n2->total_distance;
+  return n1->heuristic - n2->heuristic;
 }
 
 int node_hash(node n) {
