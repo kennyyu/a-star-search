@@ -5,6 +5,10 @@
 #include "board.h"
 #include "../../lib/src/linkedlist.h"
 
+int node_compare(node n1, node n2) {
+  return n1->total_distance - n2->total_distance;
+}
+
 int node_hash(node n) {
 	if (!n)
 		return -1;

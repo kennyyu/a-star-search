@@ -29,6 +29,7 @@ node node_create_start(int dimension, int board[]);
 node node_create_in_direction(node, board_directions);
 void node_free(node);
 
+int node_compare(node, node);
 int node_hash(node);
 int node_equal(node, node);
 list node_get_neighbors(node);
