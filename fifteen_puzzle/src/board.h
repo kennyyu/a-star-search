@@ -1,7 +1,7 @@
 #ifndef _FIFTEEN_PUZZLE_BOARD
 #define _FIFTEEN_PUZZLE_BOARD
 
-#include "../lib/src/list.h"
+#include "../../lib/src/list.h"
 
 typedef struct node *node;
 extern node GOAL;

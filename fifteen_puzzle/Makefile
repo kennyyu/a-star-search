@@ -1,22 +1,17 @@
-CC = gcc
-CFLAGS = -g -std=c99 -Wall
-SLIBS =
-LIBRARY = ../lib/src
-OBJECTS = solver.o board.o a-star-search.o
-PROGINCLUDES = board.h
-LIBINCLUDES = $(LIBRARY)/*.h
-PROGRAM = solver
+SOURCE = src
+TESTS = tests
 
-%.o : %.c $(INCLUDES)
-	$(CC) $(CFLAGS) -c -o $@ $<
+all: $(SOURCE) $(TESTS)
+	$(MAKE) --directory=$(SOURCE) all
+	$(MAKE) --directory=$(TESTS) all
 
-solver : $(OBJECTS) $(LIBRARY)/*.o
-	$(CC) $(CFLAGS) -o $@ $+
-
-all: $(PROGRAM)
-
+check: $(TESTS)
+	$(MAKE) --silent --directory=$(TESTS) check
+	
 clean:
-	rm -f $(PROGRAM) $(OBJECTS)
+	$(MAKE) --directory=$(SOURCE) clean
+	$(MAKE) --directory=$(TESTS) clean
 
 help:
-	@echo "make" or "make all" to build src
+	@echo "make" or "make all" to build src and tests
+	@echo "make check" to run tests

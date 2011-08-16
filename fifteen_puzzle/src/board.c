@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include "board.h"
-#include "../lib/src/linkedlist.h"
+#include "../../lib/src/linkedlist.h"
 
 struct node {
 	int dimension;
