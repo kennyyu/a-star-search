@@ -21,4 +21,4 @@ lib/tests/check_hashset
 
 # FIFTEEN PUZZLE BINARIES #
 ###########################
-fifteen_puzzle/solver
+fifteen_puzzle/src/solver
