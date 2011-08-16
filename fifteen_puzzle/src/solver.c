@@ -43,21 +43,21 @@ void solve(int verbose, int max, int dimension, int positions[]) {
 		if (i + 1 < dimension * dimension)
 			printf(", ");
 	}
-	printf("]\n");
+	printf("]\n\n");
 	setup_start_and_goal(dimension, positions);
 	list solution = a_star_search(START, GOAL);
-	printf("printing solution now\n");
-	printf("size of solution: %d\n", linkedlist_methods.size(solution));
 
 	if (!solution)
-	  printf("ERROR OCCURRED\n");
+	  printf("NO SOLUTION\n");
+	else
+	  printf("SOLUTION:\n");
 
 	while (!linkedlist_methods.is_empty(solution)) {
-	  printf("step %d\n", linkedlist_methods.size(solution));
+	  printf("steps left: %d\n\n", linkedlist_methods.size(solution));
 	  node current = (node) linkedlist_methods.remove_first(solution);
 	  node_print(current);
-	  printf("\n");
 	}
+	printf("SOLVED\n");
 }
 
 /* parse the command line arguments and call solve with the parameters */

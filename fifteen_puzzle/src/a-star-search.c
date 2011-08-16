@@ -33,26 +33,21 @@ void setup_start_and_goal(int dimension, int positions[]) {
 }
 
 void reconstruct_path_helper(map came_from, node current, list path) {
-  printf("inside reconstruct path helper\n");
   int error = linkedlist_methods.add_first(path, current);
-  printf("error while adding current to path: %d\n", error);
-  printf("added current to path\n");
-  printf("size after adding: %d\n", linkedlist_methods.size(path));
-  node parent = (node) hashmap_methods.get(came_from, current);
-  if (parent) {
-    printf("adding parents\n");
-    reconstruct_path_helper(came_from, parent, path);
+  if (!error) {
+    linkedlist_methods.free(path);
+    return;
   }
+  node parent = (node) hashmap_methods.get(came_from, current);
+  if (parent)
+    reconstruct_path_helper(came_from, parent, path);
 }
 
 list reconstruct_path(map came_from, node current) {
-  printf("inside reconstruct path\n");
   list path = linkedlist_methods.create(NULL);
   if (!path)
     return NULL;
   reconstruct_path_helper(came_from, current, path);
-  printf("leaving reconstruct path\n");
-  printf("size before leaving: %d\n", linkedlist_methods.size(path));
   return path;
 }
 
@@ -103,15 +98,10 @@ list a_star_search(node start, node goal) {
     printf("\n");
 
     /* we've reached our goal */    
-    printf("calling node_equal\n");
     if (node_equal(minimum, goal) == 1) {
       list solution = reconstruct_path(came_from, goal);
-      printf("before returning to solver\n");
-      printf("size: %d\n", linkedlist_methods.size(solution));
       return solution;
     }
-
-    printf("past node_equal\n");
 
     /* otherwise evaluate this node and check its neighbors */
     hashset_methods.add(closed_set, minimum);
@@ -129,6 +119,7 @@ list a_star_search(node start, node goal) {
       int tentative_is_better;
       
       if (!hashset_methods.contains(open_set, neighbor)) {
+	/* add to the open set and priority queue */
 	neighbor->distance_so_far = tentative_g_score;
 	neighbor->heuristic = node_heuristic(neighbor, GOAL);
 	neighbor->total_distance = neighbor->distance_so_far + neighbor->heuristic;
@@ -143,7 +134,7 @@ list a_star_search(node start, node goal) {
       }
 
       if (tentative_is_better) {
-	/* parent of neighbor is minimum */
+	/* if the tentative score is better, update scores and parent */
 	hashmap_methods.add(came_from, neighbor, minimum);
 	neighbor->distance_so_far = tentative_g_score;
 	neighbor->heuristic = node_heuristic(neighbor, GOAL);
