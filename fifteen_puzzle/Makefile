@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -g -std=c99 -Wall
 SLIBS =
 LIBRARY = ../lib/src
-OBJECTS = solver.o board.o
+OBJECTS = solver.o board.o a-star-search.o
 PROGINCLUDES = board.h
 LIBINCLUDES = $(LIBRARY)/*.h
 PROGRAM = solver

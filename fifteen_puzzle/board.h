@@ -4,6 +4,8 @@
 #include "../lib/src/list.h"
 
 typedef struct node *node;
+extern node GOAL;
+extern node START;
 
 typedef enum board_directions board_directions;
 
@@ -16,7 +18,7 @@ list node_get_neighbors(node);
 
 int node_distance_so_far(node);
 int node_distance(node, node);
-int node_heuristic(node);
+int node_heuristic(node, node);
 int node_total_distance(node);
 
 void print_node(node);
