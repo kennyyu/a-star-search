@@ -38,8 +38,9 @@ int node_equal(node n1, node n2) {
 		return -1;
 
 	for (int i = 0; i < (n1->dimension) * (n1->dimension); i++) {
-		if (n1->board[i] != n2->board[i])
-			return 0;
+	        if (n1->board[i] != n2->board[i]) {
+		       return 0;
+		}
 	}
 	return 1;
 }
@@ -59,6 +60,10 @@ int node_heuristic(node current, node goal) {
 			distance++;
 	}
 	return distance;
+}
+
+int node_distance(node n1, node n2) {
+  return 1;
 }
 
 node node_create_from_board(int dimension, int board[]) {
@@ -165,6 +170,7 @@ node node_create_in_direction(node n, board_directions direction) {
 		new_node->board[i] = n->board[i];
 	new_node->board[empty_position] = n->board[swap_position];
 	new_node->board[swap_position] = 0;
+	// don't set the distances and heuristic here
 	return new_node;
 }
 
@@ -192,10 +198,14 @@ void node_print(node n) {
 		return;
 	for (int i = 0; i < n->dimension; i++) {
 		for (int j = 0; j < n->dimension; j++) {
-			if (j + 1 < n->dimension)
-				printf("%d\t", n->board[i * n->dimension + j]);
-			else
-				printf("%d\n", n->board[i * n->dimension + j]);
+		  if (n->board[i * n->dimension + j] == 0)
+		    printf("");
+		  else
+		    printf("%d",n->board[i* n->dimension + j]);
+		  if (j + 1 < n->dimension)
+		    printf("\t");
+		  else
+		    printf("\n");
 		}
 	}
 }

@@ -23,9 +23,9 @@ enum board_directions {
   RIGHT
 };
 
-node node_create_from_board(int dimension, int board[]);
-node node_create_goal(int dimension, int board[]);
-node node_create_start(int dimension, int board[]);
+node node_create_from_board(int, int[]);
+node node_create_goal(int, int[]);
+node node_create_start(int, int[]);
 node node_create_in_direction(node, board_directions);
 void node_free(node);
 

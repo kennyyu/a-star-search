@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "a-star-search.h"
+#include "../../lib/src/linkedlist.h"
+
+
 /* 
  * usage: solver [--help] [--verbose] [--max <int>] <dim> <pos 1> <pos 2> ... <pos dimension * dimension>
  */
@@ -41,6 +45,19 @@ void solve(int verbose, int max, int dimension, int positions[]) {
 	}
 	printf("]\n");
 	setup_start_and_goal(dimension, positions);
+	list solution = a_star_search(START, GOAL);
+	printf("printing solution now\n");
+	printf("size of solution: %d\n", linkedlist_methods.size(solution));
+
+	if (!solution)
+	  printf("ERROR OCCURRED\n");
+
+	while (!linkedlist_methods.is_empty(solution)) {
+	  printf("step %d\n", linkedlist_methods.size(solution));
+	  node current = (node) linkedlist_methods.remove_first(solution);
+	  node_print(current);
+	  printf("\n");
+	}
 }
 
 /* parse the command line arguments and call solve with the parameters */
