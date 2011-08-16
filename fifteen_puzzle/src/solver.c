@@ -47,10 +47,11 @@ void solve(int verbose, int max, int dimension, int positions[]) {
 	setup_start_and_goal(dimension, positions);
 	list solution = a_star_search(START, GOAL);
 
-	if (!solution)
+	if (!solution) {
 	  printf("NO SOLUTION\n");
-	else
-	  printf("SOLUTION:\n");
+	  return;
+	}
+	printf("SOLUTION:\n");
 
 	while (!linkedlist_methods.is_empty(solution)) {
 	  printf("steps left: %d\n\n", linkedlist_methods.size(solution));
