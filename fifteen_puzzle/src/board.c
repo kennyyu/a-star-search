@@ -199,7 +199,7 @@ void node_print(node n) {
 	for (int i = 0; i < n->dimension; i++) {
 		for (int j = 0; j < n->dimension; j++) {
 		  if (n->board[i * n->dimension + j] == 0)
-		    printf("");
+		    printf(" ");
 		  else
 		    printf("%d",n->board[i* n->dimension + j]);
 		  if (j + 1 < n->dimension)
