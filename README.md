@@ -5,6 +5,12 @@ This is collection of C library data structures and a solution for the [fifteen 
 TODO
 ====
 *   A* Search
+    
+    *	Add verbose printing options
+
+    *	Add color printing
+    
+    *	Use parity to check solvability
 
 *   Library:
 
@@ -123,3 +129,6 @@ REFERENCES
 #### C Command Line Options
 *	Argtable library: http://argtable.sourceforge.net/example/index.html
 *	http://www.cs.caltech.edu/courses/cs11/material/c/mike/misc/cmdline_args.html
+
+#### Fifteen Puzzle Parity
+*    http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
