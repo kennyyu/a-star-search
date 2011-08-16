@@ -10,6 +10,18 @@
 node GOAL = NULL;
 node START = NULL;
 
+int __node_compare(void *n1, void *n2) {
+  return node_compare((node) n1, (node) n2);
+}
+
+int __node_hash(void *n) {
+  return node_hash((node) n);
+}
+
+int __node_equal(void *n1, void *n2) {
+  return node_equal((node) n1, (node) n2);
+}
+
 void setup_start_and_goal(int dimension, int positions[]) {
   int *board = malloc(sizeof(int) * dimension * dimension);
   for (int i = 0; i < dimension * dimension - 1; i++)
@@ -53,19 +65,19 @@ list reconstruct_path(map came_from, node current) {
 
 list a_star_search(node start, node goal) {
   /* the set of nodes already evaluated */
-  set closed_set = hashset_methods.create(NULL, &node_hash, &node_equal);
+  set closed_set = hashset_methods.create(NULL, &__node_hash, &__node_equal);
   if (!closed_set)
     return NULL;
   
   /* priority queue of tentative nodes to be evaluated, compared by total_distance */
-  pqueue open_pqueue = heappqueue_methods.create(&node_compare);
+  pqueue open_pqueue = heappqueue_methods.create(&__node_compare);
   if (!open_pqueue) {
     hashset_methods.free(closed_set);
     return NULL;
   }
 
   /* set of unevaluated items. This will maintain the same items as the pqueue */
-  set open_set = hashset_methods.create(NULL, &node_hash, &node_equal);
+  set open_set = hashset_methods.create(NULL, &__node_hash, &__node_equal);
   if (!open_set) {
     hashset_methods.free(closed_set);
     heappqueue_methods.free(open_pqueue);
@@ -73,7 +85,7 @@ list a_star_search(node start, node goal) {
   }
 
   /* the map of navigated nodes */
-  map came_from = hashmap_methods.create(NULL, &node_hash, &node_equal, -1);
+  map came_from = hashmap_methods.create(NULL, &__node_hash, &__node_equal, -1);
   if (!came_from) {
     hashset_methods.free(closed_set);
     heappqueue_methods.free(open_pqueue);
