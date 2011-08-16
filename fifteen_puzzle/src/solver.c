@@ -40,6 +40,7 @@ void solve(int verbose, int max, int dimension, int positions[]) {
 			printf(", ");
 	}
 	printf("]\n");
+	setup_start_and_goal(dimension, positions);
 }
 
 /* parse the command line arguments and call solve with the parameters */

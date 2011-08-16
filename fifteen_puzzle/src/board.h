@@ -23,6 +23,9 @@ enum board_directions {
   RIGHT
 };
 
+node node_create_from_board(int dimension, int board[]);
+node node_create_goal(int dimension, int board[]);
+node node_create_start(int dimension, int board[]);
 node node_create_in_direction(node, board_directions);
 void node_free(node);
 
@@ -35,6 +38,6 @@ int node_distance(node, node);
 int node_heuristic(node, node);
 int node_total_distance(node);
 
-void print_node(node);
+void node_print(node);
 
 #endif

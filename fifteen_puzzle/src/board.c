@@ -67,6 +67,8 @@ node node_create_from_board(int dimension, int board[]) {
 		free(current);
 		return NULL;
 	}
+	for (int i = 0; i < dimension * dimension; i++)
+	  current->board[i] = board[i];
 	current->distance_so_far = 0;
 	current->heuristic = 0;
 	current->total_distance = 0;
@@ -84,17 +86,17 @@ node node_create_goal(int dimension, int board[]) {
 }
 
 node node_create_start(int dimension, int board[]) {
-	node current = node_create_from_board(dimension, board);
-	if (!current)
+	node start = node_create_from_board(dimension, board);
+	if (!start)
 		return NULL;
-	current->distance_so_far = 0;
-	current->heuristic = node_heuristic(current, GOAL);
-	if (current->heuristic < 0) {
-		free(current);
+	start->distance_so_far = 0;
+	start->heuristic = node_heuristic(start, GOAL);
+	if (start->heuristic < 0) {
+		free(start);
 		return NULL;
 	}
-	current->total_distance = current->distance_so_far + current->heuristic;
-	return current;
+	start->total_distance = start->distance_so_far + start->heuristic;
+	return start;
 }
 
 void node_free(node n) {
@@ -179,7 +181,7 @@ list node_get_neighbors(node current) {
 	return NULL;
 }
 
-void print_node(node n) {
+void node_print(node n) {
 	if (!n)
 		return;
 	if (!n->board)
