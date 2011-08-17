@@ -8,18 +8,19 @@
 #include "../../lib/src/linkedlist.h"
 
 int VERBOSE;
+heuristic_metric HEURISTIC;
 
 /* 
- * usage: solver [--help] [--verbose] [--max <int>] <dim> <pos 1> <pos 2> ... <pos dimension * dimension>
+ * usage: solver [--help] [--verbose] [--heuristic <hamming | manhttan>] <dim> <pos 1> <pos 2> ... <pos dimension * dimension>
  */
 void print_help(int help, char *progname) {
   if (help) {
-    printf("usage: %s [--help] [--verbose] [--max <int>] <dim> <pos 1> <pos 2> ... <pos dim * dim>\n", progname);
+    printf("usage: %s [--help] [--verbose] [--heuristic <hamming | manhttan>] <dim> <pos 1> <pos 2> ... <pos dim * dim>\n", progname);
     printf("\n");
     printf("arguments summary:\n");
     printf("\t--help\t\tDisplays this help text.\n");
     printf("\t--verbose\tDisplays verbose output when solving. This includes a GUI printout and the value of the distance metric.\n");
-    printf("\t--max <int>\tMaximum number of moves to step through when solving.\n");
+    printf("\t--heuristic <hamming | manhattan>\tHeuristic metric to use for the A* search. Manhattan is default.\n");
     printf("\t<dim>\t\tDimension of the square board. If the dimension is n, then we have an n x n board.\n");
     printf("\t<pos k>\t\tNumber at position k, where starting from 1, we count left to right, up to down. Put a 0 to mark the empty spot.\n");
   } else {
@@ -35,11 +36,12 @@ int is_positive(char *s) {
   return 1;
 }
 
-void solve(int verbose, int max, int dimension, int positions[]) {
+void solve(int verbose, heuristic_metric heuristic, int dimension, int positions[]) {
   VERBOSE = verbose;
+	HEURISTIC = heuristic;
   if (VERBOSE) {
     printf("verbose: %d\n", verbose);
-    printf("max: %d\n", max);
+    printf("heuristic <HAMMING: %d | MANHATTAN: %d>: %d\n", HAMMING, MANHATTAN, HEURISTIC);
     printf("dimension: %d\n", dimension);
     printf("positions: [");
     for (int i = 0; i < dimension * dimension; i++) {
@@ -86,7 +88,7 @@ int main(int argc, char *argv[]) {
   /* initialize optional arguments to default values */
   int help = 0;
   int verbose = 0;
-  int max = 100;
+	heuristic_metric heuristic = MANHATTAN;
   int dimension = 0;
   
   /* skip argv[0] == program name */
@@ -111,21 +113,26 @@ int main(int argc, char *argv[]) {
       continue;
     }
     
-    /* check if --max <int> option is passed */
-    if (strncmp("--max", argv[i], 6) == 0) {
+    /* check if --heuristic <hamming | manhattan> option is passed */
+    if (strncmp("--heuristic", argv[i], 6) == 0) {
       if (i + 1 >= argc) {
-        printf("[ERROR] Must specify <int> for '--max <int>'\n");
+        printf("[ERROR] Must specify <hamming | manhattan> for '--heuristic'\n");
         print_help(help, argv[0]);
         return 1;
       }
-      if (!is_positive(argv[i+1]) || atoi(argv[i+1]) <= 0) {
-        printf("[ERROR] Max must be a positive integer for '--max <int>'\n");
+			if (strncmp("hamming", argv[i+1], 8) == 0) {
+				heuristic = HAMMING;
+				i++;
+				continue;
+			} else if (strncmp("manhattan", argv[i+1], 10) == 0) {
+				heuristic = MANHATTAN;
+				i++;
+				continue;
+			} else {
+        printf("[ERROR] Heuristic must be either 'hamming' or 'manhattan'\n");
         print_help(help, argv[0]);
-        return 1;
-      }
-      max = atoi(argv[i+1]);
-      i++;
-      continue;
+        return 1;				
+			}
     }
     
     /* make sure dimension is passed in */
@@ -179,6 +186,6 @@ int main(int argc, char *argv[]) {
   }
   
   /* call the solver using the parameters */
-  solve(verbose, max, dimension, positions);
+  solve(verbose, heuristic, dimension, positions);
   return 0;
 }

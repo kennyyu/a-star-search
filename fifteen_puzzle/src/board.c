@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "board.h"
+#include "options.h"
 #include "../../lib/src/linkedlist.h"
 
 int node_compare(node n1, node n2) {
@@ -45,8 +46,8 @@ int node_equal(node n1, node n2) {
   return 1;
 }
 
-/* we use the hamming distance: number of blocks in wrong position */
-int node_heuristic(node current, node goal) {
+/* hamming distance: number of blocks in wrong position */
+int node_heuristic_hamming(node current, node goal) {
   if (!current || !goal)
     return -1;
   if (current->dimension != goal->dimension)
@@ -60,6 +61,42 @@ int node_heuristic(node current, node goal) {
       distance++;
   }
   return distance;
+}
+
+/* manhattan distance: distance each block from goal block */
+int node_heuristic_manhattan(node current, node goal) {
+  if (!current || !goal)
+    return -1;
+  if (current->dimension != goal->dimension)
+    return -2;
+  if (!current->board || !goal->board)
+    return -1;
+
+	int distance = 0;
+	int current_position, current_row, current_col;
+	int goal_position, goal_row, goal_col;
+	for (int i = 1; i < current->dimension * current->dimension; i++) {
+		for (int j = 0; j < current->dimension * current->dimension; j++) {
+			if (current->board[j] == i)
+				current_position = j;
+			if (goal->board[j] == i)
+				goal_position = j;
+		}
+		current_row = current_position / current->dimension;
+		current_col = current_position % current->dimension;
+		goal_row = goal_position / goal->dimension;
+		goal_col = goal_position % goal->dimension;
+		
+		distance += (current_row > goal_row) ? current_row - goal_row : goal_row - current_row;
+		distance += (current_col > goal_col) ? current_col - goal_col : goal_col - current_col;
+	}
+	return distance;
+}
+
+int node_heuristic(node current, node goal) {
+	if (HEURISTIC == HAMMING)
+		return node_heuristic_hamming(current, goal);
+	return node_heuristic_manhattan(current, goal);
 }
 
 int node_distance(node n1, node n2) {
