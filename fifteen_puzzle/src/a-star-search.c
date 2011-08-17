@@ -108,9 +108,6 @@ list a_star_search(node start, node goal) {
       printf("------------------------------------------\n");
       printf("minimum:\n");
       node_print(minimum);
-      printf("distance so far: %d\n", minimum->distance_so_far);
-      printf("heuristic: %d\n", minimum->heuristic);
-      printf("total_distance: %d\n", minimum->total_distance);
       printf("\n");
     }
 
@@ -162,9 +159,6 @@ list a_star_search(node start, node goal) {
         if (VERBOSE) {
           printf("neighbor:\n");
           node_print(neighbor);
-          printf("distance so far: %d\n", neighbor->distance_so_far);
-          printf("heuristic: %d\n", neighbor->heuristic);
-          printf("total_distance: %d\n", neighbor->total_distance);
           printf("\n");
         }
       }

@@ -40,5 +40,6 @@ int node_heuristic(node, node);
 int node_total_distance(node);
 
 void node_print(node);
+void node_print_move(node, node);
 
 #endif

@@ -56,14 +56,29 @@ void solve(int verbose, int max, int dimension, int positions[]) {
     printf("NO SOLUTION\n");
     return;
   }
-  printf("SOLUTION:\n");
 
-  while (!linkedlist_methods.is_empty(solution)) {
-    printf("steps left: %d\n\n", linkedlist_methods.size(solution));
-    node current = (node) linkedlist_methods.remove_first(solution);
-    node_print(current);
-  }
-  printf("SOLVED\n");
+	if (VERBOSE) {
+		printf("SOLUTION:\n");
+  	while (!linkedlist_methods.is_empty(solution)) {
+			printf("steps left: %d\n\n", linkedlist_methods.size(solution));
+    	node current = (node) linkedlist_methods.remove_first(solution);
+    	node_print(current);
+  	}
+  	printf("SOLVED\n");
+	} else {
+		if (linkedlist_methods.size(solution) == 1)
+			return;
+			
+		node previous = NULL; 
+		node current = linkedlist_methods.remove_first(solution);
+		while (!linkedlist_methods.is_empty(solution)) {
+			previous = current;
+			current = linkedlist_methods.remove_first(solution);
+			node_print_move(previous, current);
+			printf(" ");
+		}
+		printf("\n");
+	}
 }
 
 /* parse the command line arguments and call solve with the parameters */

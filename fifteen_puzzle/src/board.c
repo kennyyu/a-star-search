@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #include "board.h"
-#include "options.h"
 #include "../../lib/src/linkedlist.h"
 
 int node_compare(node n1, node n2) {
@@ -209,9 +208,22 @@ void node_print(node n) {
         printf("\n");
     }
   }
-  if (VERBOSE) {
-    printf("distance so far: %d\n", n->distance_so_far);
-    printf("heuristic: %d\n", n->heuristic);
-    printf("total distance: %d\n", n->total_distance);
-  }
+
+  printf("distance so far: %d\n", n->distance_so_far);
+  printf("heuristic: %d\n", n->heuristic);
+  printf("total distance: %d\n", n->total_distance);
+}
+
+void node_print_move(node previous, node current) {
+	if (!previous || !current)
+		return;
+	if (!previous->board || !current->board)
+		return;
+	for (int i = 0; i < previous->dimension * previous->dimension; i++) {
+		if (previous->board[i] != current->board[i]) {
+			int move = (previous->board[i]) ? previous->board[i] : current->board[i];
+			printf("%d", move);
+			break;
+		}
+	}
 }
