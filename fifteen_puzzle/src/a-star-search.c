@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "a-star-search.h"
+#include "options.h"
 #include "../../lib/src/hashmap.h"
 #include "../../lib/src/hashset.h"
 #include "../../lib/src/heappriorityqueue.h"
@@ -37,11 +38,13 @@ void setup_start_and_goal(int dimension, int positions[]) {
   if (!START)
     return;
   
-  printf("START:\n");
-  node_print(START);
-  printf("\n");
-  printf("GOAL:\n");
-  node_print(GOAL);
+  if (VERBOSE) {
+    printf("START:\n");
+    node_print(START);
+    printf("\n");
+    printf("GOAL:\n");
+    node_print(GOAL);
+  }
 }
 
 void reconstruct_path_helper(map came_from, node current, list path) {
@@ -101,16 +104,20 @@ list a_star_search(node start, node goal) {
     node minimum = (node) heappqueue_methods.dequeue(open_pqueue);
     hashset_methods.remove(open_set, minimum);
 
-    printf("------------------------------------------\n");
-    printf("minimum:\n");
-    node_print(minimum);
-    printf("distance so far: %d\n", minimum->distance_so_far);
-    printf("heuristic: %d\n", minimum->heuristic);
-    printf("total_distance: %d\n", minimum->total_distance);
-    printf("\n");
+    if (VERBOSE) {
+      printf("------------------------------------------\n");
+      printf("minimum:\n");
+      node_print(minimum);
+      printf("distance so far: %d\n", minimum->distance_so_far);
+      printf("heuristic: %d\n", minimum->heuristic);
+      printf("total_distance: %d\n", minimum->total_distance);
+      printf("\n");
+    }
 
     /* we've reached our goal */    
     if (node_equal(minimum, goal) == 1) {
+      GOAL->distance_so_far = minimum->distance_so_far;
+      GOAL->total_distance = GOAL->distance_so_far;
       list solution = reconstruct_path(came_from, goal);
       return solution;
     }
@@ -125,39 +132,41 @@ list a_star_search(node start, node goal) {
       node neighbor = (node) linkedlist_methods.remove_first(neighbors);
 
       if (hashset_methods.contains(closed_set, neighbor))
-	continue;
+        continue;
       int tentative_g_score = minimum->distance_so_far 
-	+ node_distance(minimum, neighbor);
+        + node_distance(minimum, neighbor);
       int tentative_is_better;
       
       if (!hashset_methods.contains(open_set, neighbor)) {
-	/* add to the open set and priority queue */
-	neighbor->distance_so_far = tentative_g_score;
-	neighbor->heuristic = node_heuristic(neighbor, GOAL);
-	neighbor->total_distance = neighbor->distance_so_far + neighbor->heuristic;
+        /* add to the open set and priority queue */
+        neighbor->distance_so_far = tentative_g_score;
+        neighbor->heuristic = node_heuristic(neighbor, GOAL);
+        neighbor->total_distance = neighbor->distance_so_far + neighbor->heuristic;
 
-	heappqueue_methods.enqueue(open_pqueue, neighbor);
-	hashset_methods.add(open_set, neighbor);
-	tentative_is_better = 1;
+        heappqueue_methods.enqueue(open_pqueue, neighbor);
+        hashset_methods.add(open_set, neighbor);
+        tentative_is_better = 1;
       } else if (tentative_g_score < neighbor->distance_so_far) {
-	tentative_is_better = 1;
+        tentative_is_better = 1;
       } else {
-	tentative_is_better = 0;
+        tentative_is_better = 0;
       }
 
       if (tentative_is_better) {
-	/* if the tentative score is better, update scores and parent */
-	hashmap_methods.add(came_from, neighbor, minimum);
-	neighbor->distance_so_far = tentative_g_score;
-	neighbor->heuristic = node_heuristic(neighbor, GOAL);
-	neighbor->total_distance = neighbor->distance_so_far + neighbor->heuristic;
+        /* if the tentative score is better, update scores and parent */
+        hashmap_methods.add(came_from, neighbor, minimum);
+        neighbor->distance_so_far = tentative_g_score;
+        neighbor->heuristic = node_heuristic(neighbor, GOAL);
+        neighbor->total_distance = neighbor->distance_so_far + neighbor->heuristic;
 
-	printf("neighbor:\n");
-	node_print(neighbor);
-	printf("distance so far: %d\n", neighbor->distance_so_far);
-	printf("heuristic: %d\n", neighbor->heuristic);
-	printf("total_distance: %d\n", neighbor->total_distance);
-	printf("\n");
+        if (VERBOSE) {
+          printf("neighbor:\n");
+          node_print(neighbor);
+          printf("distance so far: %d\n", neighbor->distance_so_far);
+          printf("heuristic: %d\n", neighbor->heuristic);
+          printf("total_distance: %d\n", neighbor->total_distance);
+          printf("\n");
+        }
       }
     }
 
