@@ -1,5 +1,5 @@
 LIB = lib
-APP = fifteen_puzzle 
+APP = fifteen_puzzle
 
 all: $(LIB) $(APP)
 	$(MAKE) --directory=$(LIB) all
