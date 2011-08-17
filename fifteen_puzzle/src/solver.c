@@ -18,11 +18,11 @@ void print_help(int help, char *progname) {
     printf("usage: %s [--help] [--verbose] [--heuristic <hamming | manhttan>] <dim> <pos 1> <pos 2> ... <pos dim * dim>\n", progname);
     printf("\n");
     printf("arguments summary:\n");
-    printf("\t--help\t\tDisplays this help text.\n");
-    printf("\t--verbose\tDisplays verbose output when solving. This includes a GUI printout and the value of the distance metric.\n");
+    printf("\t--help\t\t\t\t\tDisplays this help text.\n");
+    printf("\t--verbose\t\t\t\tDisplays verbose output when solving. This includes a GUI printout and the value of the distance metric.\n");
     printf("\t--heuristic <hamming | manhattan>\tHeuristic metric to use for the A* search. Manhattan is default.\n");
-    printf("\t<dim>\t\tDimension of the square board. If the dimension is n, then we have an n x n board.\n");
-    printf("\t<pos k>\t\tNumber at position k, where starting from 1, we count left to right, up to down. Put a 0 to mark the empty spot.\n");
+    printf("\t<dim>\t\t\t\t\tDimension of the square board. If the dimension is n, then we have an n x n board.\n");
+    printf("\t<pos k>\t\t\t\t\tNumber at position k, where starting from 1, we count left to right, up to down. Put a 0 to mark the empty spot.\n");
   } else {
     printf("Try %s --help for usage\n", progname);
   }
@@ -38,7 +38,7 @@ int is_positive(char *s) {
 
 void solve(int verbose, heuristic_metric heuristic, int dimension, int positions[]) {
   VERBOSE = verbose;
-	HEURISTIC = heuristic;
+  HEURISTIC = heuristic;
   if (VERBOSE) {
     printf("verbose: %d\n", verbose);
     printf("heuristic <HAMMING: %d | MANHATTAN: %d>: %d\n", HAMMING, MANHATTAN, HEURISTIC);
@@ -59,28 +59,28 @@ void solve(int verbose, heuristic_metric heuristic, int dimension, int positions
     return;
   }
 
-	if (VERBOSE) {
-		printf("SOLUTION:\n");
-  	while (!linkedlist_methods.is_empty(solution)) {
-			printf("steps left: %d\n\n", linkedlist_methods.size(solution));
-    	node current = (node) linkedlist_methods.remove_first(solution);
-    	node_print(current);
-  	}
-  	printf("SOLVED\n");
-	} else {
-		if (linkedlist_methods.size(solution) == 1)
-			return;
-			
-		node previous = NULL; 
-		node current = linkedlist_methods.remove_first(solution);
-		while (!linkedlist_methods.is_empty(solution)) {
-			previous = current;
-			current = linkedlist_methods.remove_first(solution);
-			node_print_move(previous, current);
-			printf(" ");
-		}
-		printf("\n");
-	}
+  if (VERBOSE) {
+    printf("SOLUTION:\n");
+    while (!linkedlist_methods.is_empty(solution)) {
+      printf("steps left: %d\n\n", linkedlist_methods.size(solution));
+      node current = (node) linkedlist_methods.remove_first(solution);
+      node_print(current);
+    }
+    printf("SOLVED\n");
+  } else {
+    if (linkedlist_methods.size(solution) == 1)
+      return;
+      
+    node previous = NULL; 
+    node current = linkedlist_methods.remove_first(solution);
+    while (!linkedlist_methods.is_empty(solution)) {
+      previous = current;
+      current = linkedlist_methods.remove_first(solution);
+      node_print_move(previous, current);
+      printf(" ");
+    }
+    printf("\n");
+  }
 }
 
 /* parse the command line arguments and call solve with the parameters */
@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
   /* initialize optional arguments to default values */
   int help = 0;
   int verbose = 0;
-	heuristic_metric heuristic = MANHATTAN;
+  heuristic_metric heuristic = MANHATTAN;
   int dimension = 0;
   
   /* skip argv[0] == program name */
@@ -120,19 +120,19 @@ int main(int argc, char *argv[]) {
         print_help(help, argv[0]);
         return 1;
       }
-			if (strncmp("hamming", argv[i+1], 8) == 0) {
-				heuristic = HAMMING;
-				i++;
-				continue;
-			} else if (strncmp("manhattan", argv[i+1], 10) == 0) {
-				heuristic = MANHATTAN;
-				i++;
-				continue;
-			} else {
+      if (strncmp("hamming", argv[i+1], 8) == 0) {
+        heuristic = HAMMING;
+        i++;
+        continue;
+      } else if (strncmp("manhattan", argv[i+1], 10) == 0) {
+        heuristic = MANHATTAN;
+        i++;
+        continue;
+      } else {
         printf("[ERROR] Heuristic must be either 'hamming' or 'manhattan'\n");
         print_help(help, argv[0]);
-        return 1;				
-			}
+        return 1;       
+      }
     }
     
     /* make sure dimension is passed in */

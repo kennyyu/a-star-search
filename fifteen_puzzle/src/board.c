@@ -72,31 +72,31 @@ int node_heuristic_manhattan(node current, node goal) {
   if (!current->board || !goal->board)
     return -1;
 
-	int distance = 0;
-	int current_position, current_row, current_col;
-	int goal_position, goal_row, goal_col;
-	for (int i = 1; i < current->dimension * current->dimension; i++) {
-		for (int j = 0; j < current->dimension * current->dimension; j++) {
-			if (current->board[j] == i)
-				current_position = j;
-			if (goal->board[j] == i)
-				goal_position = j;
-		}
-		current_row = current_position / current->dimension;
-		current_col = current_position % current->dimension;
-		goal_row = goal_position / goal->dimension;
-		goal_col = goal_position % goal->dimension;
-		
-		distance += (current_row > goal_row) ? current_row - goal_row : goal_row - current_row;
-		distance += (current_col > goal_col) ? current_col - goal_col : goal_col - current_col;
-	}
-	return distance;
+  int distance = 0;
+  int current_position, current_row, current_col;
+  int goal_position, goal_row, goal_col;
+  for (int i = 1; i < current->dimension * current->dimension; i++) {
+    for (int j = 0; j < current->dimension * current->dimension; j++) {
+      if (current->board[j] == i)
+        current_position = j;
+      if (goal->board[j] == i)
+        goal_position = j;
+    }
+    current_row = current_position / current->dimension;
+    current_col = current_position % current->dimension;
+    goal_row = goal_position / goal->dimension;
+    goal_col = goal_position % goal->dimension;
+    
+    distance += (current_row > goal_row) ? current_row - goal_row : goal_row - current_row;
+    distance += (current_col > goal_col) ? current_col - goal_col : goal_col - current_col;
+  }
+  return distance;
 }
 
 int node_heuristic(node current, node goal) {
-	if (HEURISTIC == HAMMING)
-		return node_heuristic_hamming(current, goal);
-	return node_heuristic_manhattan(current, goal);
+  if (HEURISTIC == HAMMING)
+    return node_heuristic_hamming(current, goal);
+  return node_heuristic_manhattan(current, goal);
 }
 
 int node_distance(node n1, node n2) {
@@ -252,15 +252,15 @@ void node_print(node n) {
 }
 
 void node_print_move(node previous, node current) {
-	if (!previous || !current)
-		return;
-	if (!previous->board || !current->board)
-		return;
-	for (int i = 0; i < previous->dimension * previous->dimension; i++) {
-		if (previous->board[i] != current->board[i]) {
-			int move = (previous->board[i]) ? previous->board[i] : current->board[i];
-			printf("%d", move);
-			break;
-		}
-	}
+  if (!previous || !current)
+    return;
+  if (!previous->board || !current->board)
+    return;
+  for (int i = 0; i < previous->dimension * previous->dimension; i++) {
+    if (previous->board[i] != current->board[i]) {
+      int move = (previous->board[i]) ? previous->board[i] : current->board[i];
+      printf("%d", move);
+      break;
+    }
+  }
 }
