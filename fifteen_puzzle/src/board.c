@@ -6,6 +6,51 @@
 #include "options.h"
 #include "../../lib/src/linkedlist.h"
 
+
+/*
+ * Solvability formula taken from:
+ * http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
+ *
+ * A grid is solvable if:
+ *    a. The grid width is odd, and the number of inversions is even.
+ *    b. The grid width is even, the blank is on an even row from the bottom
+ *       (bottom == 1), and the number of inversions is odd.
+ *    c. The grid width is even, the blank is on an odd row from the bottom
+ *       (bottom == 1), and the number of inversions is even.
+ */
+int node_is_solvable(node n) {
+  if (!n)
+    return -1;
+  if (!n->board)
+    return -2;
+  
+  int inversions = 0;
+  int blank_position = 0;
+  /* i will be current number, j will iterate across array */
+  for (int i = 0; i < n->dimension * n->dimension; i++) {
+    for (int j = i + 1; j < n->dimension * n->dimension; j++) {
+      if (n->board[i] == 0) {
+	blank_position = i;
+	break; // don't check for inversions on 0
+      }
+      if (n->board[j] == 0)
+	continue; // 0 gives no inversions
+      if (n->board[i] > n->board[j])
+	inversions++;
+    }
+  }
+  int blank_row = blank_position / n->dimension;
+
+  if (VERBOSE) {
+    printf("\n");
+    printf("number of inversions: %d\n", inversions);
+    printf("blank on row from bottom: %d\n", n->dimension - blank_row);
+  }
+
+  return ( (n->dimension % 2 == 1) && (inversions % 2 == 0) )
+    || ( (n->dimension % 2 == 0) && (blank_row % 2 != inversions % 2) );
+}
+
 int node_compare(node n1, node n2) {
   return n1->heuristic - n2->heuristic;
 }

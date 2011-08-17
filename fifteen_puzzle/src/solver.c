@@ -40,22 +40,21 @@ void solve(int verbose, heuristic_metric heuristic, int dimension, int positions
   VERBOSE = verbose;
   HEURISTIC = heuristic;
   if (VERBOSE) {
-    printf("verbose: %d\n", verbose);
     printf("heuristic <HAMMING: %d | MANHATTAN: %d>: %d\n", HAMMING, MANHATTAN, HEURISTIC);
     printf("dimension: %d\n", dimension);
-    printf("positions: [");
-    for (int i = 0; i < dimension * dimension; i++) {
-      printf("%d", positions[i]);
-      if (i + 1 < dimension * dimension)
-        printf(", ");
-    }
-    printf("]\n\n");
+    printf("\n");
   }
+
   setup_start_and_goal(dimension, positions);
+  if (!node_is_solvable(START)) {
+    printf("NO SOLUTION\n");
+    return;
+  }
+
   list solution = a_star_search(START, GOAL);
 
   if (!solution) {
-    printf("NO SOLUTION\n");
+    printf("ERROR OCCURRED\n");
     return;
   }
 
@@ -68,9 +67,13 @@ void solve(int verbose, heuristic_metric heuristic, int dimension, int positions
     }
     printf("SOLVED\n");
   } else {
-    if (linkedlist_methods.size(solution) == 1)
+    if (linkedlist_methods.size(solution) == 1) {
+      /* START == GOAL */
+      printf("0\n");
       return;
-      
+    }
+
+    /* print out the tile that moves */
     node previous = NULL; 
     node current = linkedlist_methods.remove_first(solution);
     while (!linkedlist_methods.is_empty(solution)) {

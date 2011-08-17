@@ -29,6 +29,7 @@ node node_create_start(int, int[]);
 node node_create_in_direction(node, board_directions);
 void node_free(node);
 
+int node_is_solvable(node);
 int node_compare(node, node);
 int node_hash(node);
 int node_equal(node, node);
