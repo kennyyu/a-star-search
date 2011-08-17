@@ -28,11 +28,11 @@ int node_is_solvable(node n) {
   int blank_position = 0;
   /* i will be current number, j will iterate across array */
   for (int i = 0; i < n->dimension * n->dimension; i++) {
+    if (n->board[i] == 0) {
+      blank_position = i;
+      continue; // don't check for inversions on 0
+    }
     for (int j = i + 1; j < n->dimension * n->dimension; j++) {
-      if (n->board[i] == 0) {
-	blank_position = i;
-	break; // don't check for inversions on 0
-      }
       if (n->board[j] == 0)
 	continue; // 0 gives no inversions
       if (n->board[i] > n->board[j])
