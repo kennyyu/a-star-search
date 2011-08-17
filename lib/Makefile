@@ -7,7 +7,7 @@ all: $(SOURCE) $(TESTS)
 
 check: $(TESTS)
 	$(MAKE) --silent --directory=$(TESTS) check
-	
+
 clean:
 	$(MAKE) --directory=$(SOURCE) clean
 	$(MAKE) --directory=$(TESTS) clean

@@ -8,11 +8,20 @@ LIBINCLUDES = $(LIBRARY)/*.h
 INCLUDES = $(PROGINCLUDES) $(LIBINCLUDES)
 PROGRAM = solver
 
+ifndef V
+        QUIET_CC        = @echo '   ' CC $@;
+        QUIET_AR        = @echo '   ' AR $@;
+        QUIET_LINK      = @echo '   ' LINK $@;
+        QUIET_GEN       = @echo '   ' GEN $@;
+        QUIET_RM        = @echo '   ' RM  $@;
+        QUIET_OBJCPY    = @echo '   ' OBJCPY $@;
+endif
+
 %.o : %.c $(INCLUDES)
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(QUIET_CC) $(CC) $(CFLAGS) -c -o $@ $<
 
 solver : $(OBJECTS) $(LIBRARY)/*.o
-	$(CC) $(CFLAGS) -o $@ $+
+	$(QUIET_GEN) $(CC) $(CFLAGS) -o $@ $+
 
 all: $(PROGRAM)
 

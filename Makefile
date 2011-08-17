@@ -7,7 +7,7 @@ all: $(LIB) $(APP)
 
 libcheck: $(TESTS)
 	$(MAKE) --silent --directory=$(LIB) check
-	
+
 clean:
 	$(MAKE) --directory=$(LIB) clean
 	$(MAKE) --directory=$(APP) clean
