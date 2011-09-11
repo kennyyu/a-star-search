@@ -4,25 +4,15 @@ This is collection of C library data structures and a solution for the [fifteen 
 
 TODO
 ====
-*   A* Search
-    
-    *	Add verbose printing options
-
-    *	Add color printing
-    
-    *	Use parity to check solvability
-
 *   Library:
 
-    *   Clean up source code, add better comments. Wiki?
+    *   Better comments, standard format
     
-    *   Algorithms (Sorts, Graph algorithms)
-
-*   Documentation
+*   Fifteen Puzzle:
     
-    *   Find an automatic C documentation generator, or manually add docs
+    *   Must free memory allocated by the a-star-search
     
-    *   Or write a script and use regular expressions to parse
+    *   Must write unit tests for the solver
 
 INSTALL
 =======
@@ -51,6 +41,19 @@ INSTALL
     When compiling:
 
         $ gcc -o hello hello.c ../lib/src/*.o
+
+USAGE
+=====
+On the command line in the directory with the solver executable, run it with:
+   $ ./solver [--help] [--verbose] [--heuristic <hamming | manhattan>] <dim> <pos 1> <pos 2> ... <pos dim * dim>
+
+Running solver with the --help flag will print this screen:
+   $ arguments summary:
+   $      --help                                        Displays this help text.
+   $      --verbose                                     Displays verbose output when solving. This includes a GUI printout and the value of the distance metric.
+   $      --heuristic <hamming | manhattan>             Heuristic metric to use for the A* search. Manhattan is default.
+   $      <dim>                                         Dimension of the square board. If the dimension is n, then we have an n x n board.
+   $      <pos k>                                       Number at position k, where starting from 1, we count left to right, up to down. Put a 0 to mark the empty spot.
 
 SOURCE
 ======
@@ -124,11 +127,11 @@ REFERENCES
 *   http://forums.devshed.com/c-programming-42/dereference-void-pointer-229122.html
 
 #### Printing with color
-*	http://cc.byexamples.com/2007/01/20/print-color-string-without-ncurses/
+*   http://cc.byexamples.com/2007/01/20/print-color-string-without-ncurses/
 
 #### C Command Line Options
-*	Argtable library: http://argtable.sourceforge.net/example/index.html
-*	http://www.cs.caltech.edu/courses/cs11/material/c/mike/misc/cmdline_args.html
+*   Argtable library: http://argtable.sourceforge.net/example/index.html
+*   http://www.cs.caltech.edu/courses/cs11/material/c/mike/misc/cmdline_args.html
 
 #### Fifteen Puzzle Parity
-*    http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
+*   http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html

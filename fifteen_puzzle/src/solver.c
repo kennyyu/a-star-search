@@ -11,11 +11,11 @@ int VERBOSE;
 heuristic_metric HEURISTIC;
 
 /* 
- * usage: solver [--help] [--verbose] [--heuristic <hamming | manhttan>] <dim> <pos 1> <pos 2> ... <pos dimension * dimension>
+ * usage: solver [--help] [--verbose] [--heuristic <hamming | manhattan>] <dim> <pos 1> <pos 2> ... <pos dimension * dimension>
  */
 void print_help(int help, char *progname) {
   if (help) {
-    printf("usage: %s [--help] [--verbose] [--heuristic <hamming | manhttan>] <dim> <pos 1> <pos 2> ... <pos dim * dim>\n", progname);
+    printf("usage: %s [--help] [--verbose] [--heuristic <hamming | manhattan>] <dim> <pos 1> <pos 2> ... <pos dim * dim>\n", progname);
     printf("\n");
     printf("arguments summary:\n");
     printf("\t--help\t\t\t\t\tDisplays this help text.\n");

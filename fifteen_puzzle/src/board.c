@@ -273,6 +273,26 @@ list node_get_neighbors(node current) {
   return NULL;
 }
 
+void node_move_tile(node current, int tile) {
+	if (!current)
+		return;
+	if (!current->board)
+		return;
+	if (tile < 0 || tile > current->dimension * current->dimension)
+		return;
+	
+	int tile_position;
+	int empty_position;
+	for (int i = 0; i < current->dimension * current->dimension; i++) {
+		if (current->board[i] == tile)
+			tile_position = i;
+		if (current->board[i] == 0)
+			empty_position = i;
+	}
+	current->board[empty_position] = tile;
+	current->board[tile_position] = 0;
+}
+
 void node_print(node n) {
   if (!n)
     return;

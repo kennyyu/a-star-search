@@ -34,6 +34,7 @@ int node_compare(node, node);
 int node_hash(node);
 int node_equal(node, node);
 list node_get_neighbors(node);
+void node_move_tile(node, int);
 
 int node_distance_so_far(node);
 int node_distance(node, node);
