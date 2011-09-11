@@ -135,3 +135,5 @@ REFERENCES
 
 #### Fifteen Puzzle Parity
 *   http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
+*   http://www.policyalmanac.org/games/aStarTutorial.htm
+
