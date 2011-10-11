@@ -45,9 +45,11 @@ INSTALL
 USAGE
 =====
 On the command line in the directory with the solver executable, run it with:
-      $ ./solver [--help] [--verbose] [--heuristic <hamming | manhattan>] <dim> <pos 1> <pos 2> ... <pos dim * dim>
+
+   $ ./solver [--help] [--verbose] [--heuristic <hamming | manhattan>] <dim> <pos 1> <pos 2> ... <pos dim * dim>
 
 Running solver with the --help flag will print this screen:
+
 	   $ arguments summary:
 	   $      --help                                        Displays this help text.
 	   $      --verbose                                     Displays verbose output when solving. This includes a GUI printout and the value of the distance metric.
