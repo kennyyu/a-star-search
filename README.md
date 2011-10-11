@@ -46,16 +46,16 @@ USAGE
 =====
 On the command line in the directory with the solver executable, run it with:
 
-   $ ./solver [--help] [--verbose] [--heuristic <hamming | manhattan>] <dim> <pos 1> <pos 2> ... <pos dim * dim>
+      $ ./solver [--help] [--verbose] [--heuristic <hamming | manhattan>] <dim> <pos 1> <pos 2> ... <pos dim * dim>
 
 Running solver with the --help flag will print this screen:
 
-	   $ arguments summary:
-	   $      --help                                        Displays this help text.
-	   $      --verbose                                     Displays verbose output when solving. This includes a GUI printout and the value of the distance metric.
-	   $      --heuristic <hamming | manhattan>             Heuristic metric to use for the A* search. Manhattan is default.
-	   $      <dim>                                         Dimension of the square board. If the dimension is n, then we have an n x n board.
-	   $      <pos k>                                       Number at position k, where starting from 1, we count left to right, up to down. Put a 0 to mark the empty spot.
+	   arguments summary:
+	         --help                                        Displays this help text.
+	         --verbose                                     Displays verbose output when solving. This includes a GUI printout and the value of the distance metric.
+	         --heuristic <hamming | manhattan>             Heuristic metric to use for the A* search. Manhattan is default.
+	         <dim>                                         Dimension of the square board. If the dimension is n, then we have an n x n board.
+	         <pos k>                                       Number at position k, where starting from 1, we count left to right, up to down. Put a 0 to mark the empty spot.
 
 SOURCE
 ======
